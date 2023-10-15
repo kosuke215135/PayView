@@ -1,0 +1,20 @@
+body{
+background:white
+}
+
+.altText {
+    text-align: center;
+}
+
+div.shop {
+    width: 16em;
+    padding: 0.5em 1em;
+    margin: 1em auto; /*画面の中央に寄せる*/
+    font-weight: bold;
+    color: #b8860b;/*文字色*/
+    background: #FFF;
+    border: solid 3px #b8860b;/*線*/
+    border-radius: 10px;/*角の丸み*/
+    text-align:center; /*テキストを中央に寄せる*/
+    cursor : pointer; /*マウスオーバーした際に、カーソルを指マークにする*/
+}
