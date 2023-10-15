@@ -90,11 +90,19 @@ function main() {
     // 以前の画像をクリアする
     shopDetail.innerHTML = '';
 
-    const shopName = document.createElement("h2");
+    //店名を表示
+    const shopName = document.createElement("h1");
     shopName.innerHTML = shopName_str;
     shopName.classList.add("shopName");
     shopDetail.appendChild(shopName);
 
+    //"使用できる決済サービス一覧"と表示する
+    const settlementHeading = document.createElement("h3");
+    settlementHeading.innerHTML = "使用できる決済サービス等一覧";
+    settlementHeading.classList.add("shopName");
+    shopDetail.appendChild(settlementHeading);
+
+    //決済サービス一覧を表示
     const paymentService = document.createElement("div");
     paymentService.innerHTML = shopSettlement_str;
     shopDetail.appendChild(paymentService);

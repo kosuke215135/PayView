@@ -5,3 +5,7 @@ body{
 .altText {
     text-align: center;
 }
+
+.shopName {
+    color: #b8860b;/*文字色*/
+}
