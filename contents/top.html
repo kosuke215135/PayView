@@ -4,6 +4,8 @@
     <meta charset="UTF-8"> 
     <link rel="icon" type="image/png" href="../image/icon.png">
     <link rel="stylesheet" href="style_top.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
     <title>PayView</title>
     <style>
       /* すべての画像のスタイル */
@@ -17,19 +19,57 @@
         width: 30%; /* 幅を50%に設定 */
       }
     </style>
-</head>
+
 <header>
-    <img src="../image/logo.jpg" alt="payview" width="500" height="250">
-    <div class="altText">
-        <p class="alt">現在地から利用する店舗を調べてお店の決済サービスを確認でき、<br>
-            そのアプリに飛ぶことができます</p>
-    </div>
+    <!-- ロゴの画像挿入 -->
+    <img src="../image/logo.jpg" alt="payview" class="logo">
+
+    <!-- タイトル -->
+    <div class="title">Search Shop List</div>
 </header>
 
 <body>
+  <!-- 横のグレーカラーの線 -->
+  <div class="verticalLine1"></div>
+  <div class="verticalLine2"></div>
+  <!-- ライン -->
+  <hr class="line">
+
+  <!-- 検索窓 -->
+  <img src="../image/kensaku.jpeg" class="searchImage">
+  <div class="searchWindow"></div>
+  <div class="search" src="https://via.placeholder.com/30x30">検索</div>
+  
+  <!-- カテゴリ -->
+  <div class="categoryBox1"></div>
+  <div class="category1">カテゴリ1</div>
+  <div class="categoryBox2"></div>
+  <div class="category2">カテゴリ2</div>
+  <div class="categoryBox3"></div>
+  <div class="category3">カテゴリ3</div>
+  <div class="categoryBox4"></div>
+  <div class="category4">カテゴリ4</div>
+  <div class="categoryBox5"></div>
+  <div class="category5">カテゴリ5</div>
+  <div class="categoryBox6"></div>
+  <div class="category6">カテゴリ6</div>
+
+  <!-- お店のスライドを入れる枠 -->
+  <div class="slideFlame"></div>
+
+  <!-- お店のスライド -->
+  <div class="slideBox"></div>
+  <div class="slideLine"></div>
+  <div class="storeName">お店の名前</div>
+  <div class="location"><span class="genzaiti">現在地から〜</span><span class="km">km</span></div>
+  <div class="payment">現金、auPay、d払い、PayPay、楽天Pay、etc</div>
+
   <main>
-    <div id="shopList"></div>
+  <!-- ショップリスト -->
+
+  <!-- <div id="shopList"></div>
   </main>
-  <script type="text/javascript" src="./top.js"></script>
+  <script type="text/javascript" src="./top.js"></script> -->
+
 </body>
 </html>
