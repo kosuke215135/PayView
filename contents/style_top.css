@@ -244,31 +244,34 @@
 }
 
 .slideFlame{
-    width: 703px;
+    width: 680px;
     height: 453px;
     left: 288px;
     top: 277px;
     position: absolute;
     background: white;
-    border: 2px black solid
+    border: 2px black solid;
+    overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+    border: 1px solid #000;      /* わかりやすくボーダーを引く */
 }
 
 .slideBox{
     width: 614px;
     height: 146px;
-    left: 333px;
-    top: 286px;
-    position: absolute;
+    left: 19px;
+    top: 9px;
     background: #F6F6F6;
-    border: 2px black solid
+    border: 2px black solid;
+    padding: 0.5em 1em;
+    margin: 1em auto; /*画面の中央に寄せる*/
 }
 
 .slideLine{
     width: 565px;
     height: 0px;
-    left: 924px;
-    top: 378.99px;
-    position: absolute;
+    left: 593px;
+    top: 85px;
+    position:relative;
     border-top: 2px solid #000;
     transform: rotate(-180deg);
     transform-origin: 0 0;
@@ -277,23 +280,23 @@
 .storeName{
     width: 441px;
     height: 23px;
-    left: 375px;
-    top: 303px;
-    position: absolute;
+    left: 42px;
+    top: 17px;
     color: black;
     font-size: 20px;
     font-family: Noto Serif JP;
     font-weight: 900;
     text-transform: uppercase;
-    word-wrap: break-word
+    word-wrap: break-word;
+    position:relative;
 }
 
 .location{
     width: 441px;
     height: 20px;
-    left: 375px;
-    top: 340px;
-    position: absolute
+    left: 42px;
+    top: 25px;
+    position:relative;
 }
 
 .genzaiti{
@@ -316,9 +319,9 @@
 .payment{
     width: 549px;
     height: 46px;
-    left: 375px;
-    top: 391px;
-    position: absolute;
+    left: 42px;
+    top: 40px;
+    position:relative;
     color: black;
     font-size: 16px;
     font-family: Noto Serif JP;

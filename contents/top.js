@@ -56,18 +56,45 @@ function getCsv(filename){
 
 
 function loadShopNames(csvArray, contents_url) {
-    const shopList = document.getElementById("shopList");
+    const shopList = document.getElementsByClassName("slideFlame");
 
     // 以前の内容をクリアする
     shopList.innerHTML = '';
 
     for (let i=1; i < csvArray.length; i++){
-        const shopName = document.createElement("div");
-        shopName.innerHTML = csvArray[i][1];
-        shopName.classList.add("shop");
-        shopList.appendChild(shopName);
+        const slideBox = document.createElement("div");
+        slideBox.classList.add("slideBox");
+        const slideLine = document.createElement("div");
+        slideLine.classList.add("slideLine");
+        const shopLocation = document.createElement("div");
+        shopLocation.classList.add("location");
+        const genzaiti = document.createElement("span");
+        genzaiti.innerHTML = "現在地から〜";
+        genzaiti.classList.add("genzaiti");
+        const km = document.createElement("span");
+        km.innerHTML = "km";
+        km.classList.add("km");
+        shopLocation.appendChild(genzaiti);
+        shopLocation.appendChild(km);
+        const storeName = document.createElement("span");
+        storeName.innerHTML = csvArray[i][1];
+        storeName.classList.add("storeName");
+        const payment = document.createElement("div");
+        payment_str = csvArray[i][4].replace(/\n/, ''); //なぜか改行が含まれるケースが見受けられたので正規表現で排除.
+        if (payment_str.length > 80) {
+            payment_str = payment_str.slice(0,80) + "...";
+        }
+        console.log(payment_str);
+        payment.innerHTML = payment_str;
+        payment.classList.add("payment");
 
-        shopName.addEventListener('click', () => {
+        slideBox.appendChild(slideLine);
+        slideBox.appendChild(storeName);
+        slideBox.appendChild(shopLocation);
+        slideBox.appendChild(payment);
+        shopList[0].appendChild(slideBox); //[0]を付ける理由は"DOM"で調べて.
+
+        slideBox.addEventListener('click', () => {
             window.location.href = contents_url + "detail.html" + "?shopNum=" + csvArray[i][0];  // リンク先のURLを設定
         });
     }
