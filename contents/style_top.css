@@ -264,6 +264,7 @@
     border: 2px black solid;
     padding: 0.5em 1em;
     margin: 1em auto; /*画面の中央に寄せる*/
+    cursor:pointer;
 }
 
 .slideLine{
@@ -326,8 +327,9 @@
     font-size: 16px;
     font-family: Noto Serif JP;
     font-weight: 400;
-    word-wrap: break-word
+    word-break: break-all;
 }
+
 
 body{
 background:white

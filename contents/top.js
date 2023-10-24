@@ -80,9 +80,10 @@ function loadShopNames(csvArray, contents_url) {
         storeName.innerHTML = csvArray[i][1];
         storeName.classList.add("storeName");
         const payment = document.createElement("div");
-        payment_str = csvArray[i][4].replace(/\n/, ''); //なぜか改行が含まれるケースが見受けられたので正規表現で排除.
-        if (payment_str.length > 80) {
-            payment_str = payment_str.slice(0,80) + "...";
+        payment_str = csvArray[i][4];
+        console.log(payment_str);      
+        if (payment_str.length > 100) {
+            payment_str = payment_str.slice(0,100) + "...";
         }
         console.log(payment_str);
         payment.innerHTML = payment_str;
@@ -103,7 +104,6 @@ function loadShopNames(csvArray, contents_url) {
 
 function main() {
     let csvArray = getCsv("./shop.csv");
-
     // top.htmlのurlを獲得
     var top_url = location.href;
     var contents_url  = top_url.slice( 0, -8 ); 

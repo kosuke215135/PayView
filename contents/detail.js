@@ -58,6 +58,7 @@ function getCsv(filename){
 //urlからクエリを得る関数
 function getUrlQueries() {
     var queryStr = window.location.search.slice(1);  // 文頭?を除外
+    console.log(queryStr);
         queries = {};
         
     // クエリがない場合は空のオブジェクトを返す
@@ -74,6 +75,14 @@ function getUrlQueries() {
     return queries;
 }
 
+function pushButton(){
+    var queryStr = window.location.search;//クエリの文字列を取得
+    var now_url = location.href;
+    //　現在のurlから(クエリの文字列の長さ+"detail.html"という文字列の長さ)分を引く
+    var root_url = now_url.slice(0,-(queryStr.length+11));
+    console.log(root_url);
+    location.href = root_url + "top.html";
+}
 
 function main() {
     
