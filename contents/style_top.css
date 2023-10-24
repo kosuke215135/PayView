@@ -1,9 +1,338 @@
-body{
-background:white
+.logo{
+    width: 197.50px;
+    height: 80px;
+    left: 103px;
+    top: 30px;
+    position: absolute
 }
 
-.altText {
+.title{
+    width: 517px;
+    height: 65px;
+    left: 332px;
+    top: 67px;
+    position: absolute;
     text-align: center;
+    color: black;
+    font-size: 36px;
+    font-family: Source Serif Pro;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.verticalLine1{
+    width: 40px;
+    height: 2641px;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+    background: #CDCDCD
+}
+
+.verticalLine2{
+    width: 37px;
+    height: 2641px;
+    left: 1243px;
+    top: 0px;
+    position: absolute;
+    background: #CDCDCD
+}
+
+.line{
+    width: 1080px;
+    height: 0px;
+    left: 1180px;
+    top: 150px;
+    position: absolute;
+    border-top: 2px solid #000;
+    transform: rotate(180deg);
+    transform-origin: 0 0;
+}
+
+.searchImage{
+    width: 30px;
+    height: 30px;
+    left: 902px;
+    top: 72px;
+    position: absolute
+}
+
+.searchWindow{
+    width: 170px;
+    height: 45px;
+    left: 1010px;
+    top: 63px;
+    position: absolute;
+    background: #F6F6F6;
+}
+
+.search{
+    width: 55px;
+    height: 45px;
+    left: 943px;
+    top: 68px;
+    position: absolute;
+    color: black;
+    font-size: 24px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox1{
+    width: 138px;
+    height: 44px;
+    left: 100px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category1{
+    width: 138px;
+    height: 44px;
+    left: 100px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox2{
+    width: 138px;
+    height: 44px;
+    left: 288px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category2{
+    width: 138px;
+    height: 44px;
+    left: 477px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox3{
+    width: 138px;
+    height: 44px;
+    left: 477px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category3{
+    width: 138px;
+    height: 44px;
+    left: 665px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox4{
+    width: 138px;
+    height: 44px;
+    left: 665px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category4{
+    width: 138px;
+    height: 44px;
+    left: 854px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox5{
+    width: 138px;
+    height: 44px;
+    left: 853px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category5{
+    width: 138px;
+    height: 44px;
+    left: 1042px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.categoryBox6{
+    width: 138px;
+    height: 44px;
+    left: 1042px;
+    top: 192px;
+    position: absolute;
+    mix-blend-mode: darken;
+    background: #F4F4F4;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border: 1px black solid
+}
+
+.category6{
+    width: 138px;
+    height: 44px;
+    left: 288px;
+    top: 198px;
+    position: absolute;
+    text-align: center;
+    color: black;
+    font-size: 20.67px;
+    font-family: Noto Serif JP;
+    font-weight: 600;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.slideFlame{
+    width: 680px;
+    height: 453px;
+    left: 288px;
+    top: 277px;
+    position: absolute;
+    background: white;
+    border: 2px black solid;
+    overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+    border: 1px solid #000;      /* わかりやすくボーダーを引く */
+}
+
+.slideBox{
+    width: 614px;
+    height: 146px;
+    left: 19px;
+    top: 9px;
+    background: #F6F6F6;
+    border: 2px black solid;
+    padding: 0.5em 1em;
+    margin: 1em auto; /*画面の中央に寄せる*/
+    cursor:pointer;
+}
+
+.slideLine{
+    width: 565px;
+    height: 0px;
+    left: 593px;
+    top: 85px;
+    position:relative;
+    border-top: 2px solid #000;
+    transform: rotate(-180deg);
+    transform-origin: 0 0;
+}
+
+.storeName{
+    width: 441px;
+    height: 23px;
+    left: 42px;
+    top: 17px;
+    color: black;
+    font-size: 20px;
+    font-family: Noto Serif JP;
+    font-weight: 900;
+    text-transform: uppercase;
+    word-wrap: break-word;
+    position:relative;
+}
+
+.location{
+    width: 441px;
+    height: 20px;
+    left: 42px;
+    top: 25px;
+    position:relative;
+}
+
+.genzaiti{
+    color: black;
+    font-size: 16px;
+    font-family: Noto Serif JP;
+    font-weight: 400;
+    text-transform: uppercase;
+    word-wrap: break-word
+}
+
+.km{
+    color: black;
+    font-size: 16px;
+    font-family: Noto Serif JP;
+    font-weight: 400;
+    word-wrap: break-word
+}
+
+.payment{
+    width: 549px;
+    height: 46px;
+    left: 42px;
+    top: 40px;
+    position:relative;
+    color: black;
+    font-size: 16px;
+    font-family: Noto Serif JP;
+    font-weight: 400;
+    word-break: break-all;
+}
+
+
+body{
+background:white
 }
 
 div.shop {

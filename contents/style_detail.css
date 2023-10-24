@@ -9,3 +9,8 @@ body{
 .shopName {
     color: #b8860b;/*文字色*/
 }
+
+.backbutton {
+    margin: 10px auto; /*中央に寄せる*/
+    cursor:pointer;
+}
