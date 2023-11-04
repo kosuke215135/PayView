@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="../image/icon.png">
-    <link rel="stylesheet" href="style_detail.css">
+    <link rel="icon" type="image/png" href="../static/icon.png">
+    <link rel="stylesheet" href="./static/style_detail.css">
     <title>PayView</title>
     <style>
       /* すべての画像のスタイル */
@@ -21,9 +21,12 @@
 
 <body>
   <main>
-    <div id="shopDetail"></div>
-    <button class="backbutton" onclick="pushButton()" type="button">戻る</button>
+    <div id="shopDetail">
+        <h1 class="shopName">{{ shop_detail[1] }}</h1>
+        <h3 class="shopName">使用できる決済サービス等一覧</h3>
+        <div>{{ shop_detail[4] }}</div>
+    </div>
+    <button class="backbutton" onclick="location.href='./'" type="button">戻る</button>
   </main>
-  <script type="text/javascript" src="./detail.js"></script>
 </body>
 </html>
