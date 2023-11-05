@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="../static/icon.png">
-    <link rel="stylesheet" href="./static/style_detail.css">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style_detail.css")}}">
     <title>PayView</title>
     <style>
       /* すべての画像のスタイル */
@@ -26,7 +26,7 @@
         <h3 class="shopName">使用できる決済サービス等一覧</h3>
         <div>{{ shop_detail[4] }}</div>
     </div>
-    <button class="backbutton" onclick="location.href='./'" type="button">戻る</button>
+    <button class="backbutton" onclick="location.href='{{ url_for('top')}}'" type="button">戻る</button>
   </main>
 </body>
 </html>

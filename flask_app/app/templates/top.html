@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="../static/icon.png">
-    <link rel="stylesheet" href="./static/style_top.css">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style_top.css")}}">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
     <title>PayView</title>
@@ -22,7 +22,7 @@
 
 <header>
     <!-- ロゴの画像挿入 -->
-    <img src="../static/logo.jpg" alt="payview" class="logo">
+    <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
 
     <!-- タイトル -->
     <div class="title">Search Shop List</div>
@@ -58,7 +58,7 @@
   <div class="slideFlame">
       <!-- お店のスライド -->
       {% for i in range(1, shops | length ) %} <!--Jinja2では配列の長さを list | length で取得できる-->
-      <div class="slideBox" onclick="location.href='{{ "./detail?shop_id="+ (i | string)}}'">
+      <div class="slideBox" onclick="location.href='{{ url_for('detail', shop_id=(shops[i][0] | int))}}'">
           <div class="slideLine"></div>
           <div class="storeName">{{ shops[i][1] }}</div>
           <div class="location"><span class="genzaiti">現在地から〜</span><span class="km">km</span></div>
