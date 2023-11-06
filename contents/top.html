@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PayView">
     <link rel="icon" type="image/png" href="../image/icon.png">
     <link rel="stylesheet" href="style_top.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;400;700&display=swap" rel="stylesheet"> 
     <title>PayView</title>
     <style>
       /* すべての画像のスタイル */
@@ -13,12 +18,13 @@
         display: block; /* 画像をブロック要素として扱う */
         margin: auto;    /* 画像を中央に配置 */
       }
-
       /* 特定の画像のスタイル */
       .custom-image {
         width: 30%; /* 幅を50%に設定 */
       }
+
     </style>
+</head>
 
 <header>
     <!-- ロゴの画像挿入 -->
@@ -30,8 +36,9 @@
 
 <body>
   <!-- 横のグレーカラーの線 -->
-  <div class="verticalLine1"></div>
-  <div class="verticalLine2"></div>
+  <!-- <div class="verticalLine1"></div>
+  <div class="verticalLine2"></div> -->
+
   <!-- ライン -->
   <hr class="line">
 
@@ -41,30 +48,16 @@
   <div class="search" src="https://via.placeholder.com/30x30">検索</div>
   
   <!-- カテゴリ -->
-  <div class="categoryBox1"></div>
-  <div class="category1">カテゴリ1</div>
-  <div class="categoryBox2"></div>
-  <div class="category2">カテゴリ2</div>
-  <div class="categoryBox3"></div>
-  <div class="category3">カテゴリ3</div>
-  <div class="categoryBox4"></div>
-  <div class="category4">カテゴリ4</div>
-  <div class="categoryBox5"></div>
-  <div class="category5">カテゴリ5</div>
-  <div class="categoryBox6"></div>
-  <div class="category6">カテゴリ6</div>
+  <div class="category">カテゴリ</div>
+
+  <!-- Google Maps APIを使って、地図を表示させる。 -->
+  <!-- リクエストに API キーを追加する -->
+  <div id="map"></div>
+  <script src="map.js"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgVJBWiiCC8qEXIvLcLeOatB1jG6oewnE&libraries=places&callback=initMap&solution_channel=GMP_codelabs_simplestorelocator_v1_a"></script>
 
   <!-- お店のスライドを入れる枠 -->
-  <div class="slideFlame">
-  </div>
-
-  <main>
-  <!-- ショップリスト -->
-
-  <!-- <div id="shopList"></div>
-  </main>
-  -->
-  <script type="text/javascript" src="./top.js"></script> 
-
+  <div class="slideFlame"></div>
+  <script type="text/javascript" src="./top.js"></script>
 </body>
 </html>

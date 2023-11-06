@@ -21,7 +21,7 @@
     word-wrap: break-word
 }
 
-.verticalLine1{
+/* .verticalLine1{
     width: 40px;
     height: 2641px;
     left: 0px;
@@ -37,7 +37,7 @@
     top: 0px;
     position: absolute;
     background: #CDCDCD
-}
+} */
 
 .line{
     width: 1080px;
@@ -45,7 +45,7 @@
     left: 1180px;
     top: 150px;
     position: absolute;
-    border-top: 2px solid #000;
+    border-top: 0.5px solid #000;
     transform: rotate(180deg);
     transform-origin: 0 0;
 }
@@ -81,255 +81,117 @@
     word-wrap: break-word
 }
 
-.categoryBox1{
+.category{
     width: 138px;
-    height: 44px;
-    left: 100px;
-    top: 192px;
-    position: absolute;
+    height: 20px;
+    left: 90px;
+    top: 180px;
+    position: relative;
     mix-blend-mode: darken;
     background: #F4F4F4;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
+    border-radius: 10px;
 
-.category1{
-    width: 138px;
-    height: 44px;
-    left: 100px;
-    top: 198px;
-    position: absolute;
     text-align: center;
+    padding: 8px 0;
     color: black;
-    font-size: 20.67px;
+    font-size: 16px;
     font-family: Noto Serif JP;
-    font-weight: 600;
     text-transform: uppercase;
     word-wrap: break-word
 }
 
-.categoryBox2{
-    width: 138px;
-    height: 44px;
-    left: 288px;
-    top: 192px;
+#map{
+    width: 765px;
+    height: 460px;
+    left: 40px;
+    top: 255px;
     position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category2{
-    width: 138px;
-    height: 44px;
-    left: 477px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox3{
-    width: 138px;
-    height: 44px;
-    left: 477px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category3{
-    width: 138px;
-    height: 44px;
-    left: 665px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox4{
-    width: 138px;
-    height: 44px;
-    left: 665px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category4{
-    width: 138px;
-    height: 44px;
-    left: 854px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox5{
-    width: 138px;
-    height: 44px;
-    left: 853px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category5{
-    width: 138px;
-    height: 44px;
-    left: 1042px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox6{
-    width: 138px;
-    height: 44px;
-    left: 1042px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category6{
-    width: 138px;
-    height: 44px;
-    left: 288px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
 }
 
 .slideFlame{
-    width: 680px;
-    height: 453px;
-    left: 288px;
-    top: 277px;
+    width: 442px;
+    height: 460px;
+    left: 803px;
+    top: 255px;
     position: absolute;
-    background: white;
-    border: 2px black solid;
-    overflow-y: scroll;          /* 縦方向にスクロール可能にする */
-    border: 1px solid #000;      /* わかりやすくボーダーを引く */
+    background: #F6F6F6;
+    border: 0.50px black solid; /* フレームの枠を作る */
+    overflow-y: scroll;           /* 縦方向にスクロール可能にする */
 }
 
 .slideBox{
-    width: 614px;
-    height: 146px;
-    left: 19px;
-    top: 9px;
-    background: #F6F6F6;
-    border: 2px black solid;
-    padding: 0.5em 1em;
-    margin: 1em auto; /*画面の中央に寄せる*/
+    width: 400px;
+    height: 161px;
+    border-bottom: 0.50px black solid;
+    margin: 0 auto; /*画面の中央に寄せる*/
     cursor:pointer;
 }
 
-.slideLine{
-    width: 565px;
-    height: 0px;
-    left: 593px;
-    top: 85px;
-    position:relative;
-    border-top: 2px solid #000;
-    transform: rotate(-180deg);
-    transform-origin: 0 0;
-}
-
 .storeName{
-    width: 441px;
+    width: 367px;
     height: 23px;
-    left: 42px;
-    top: 17px;
+    left: 16px;
+    top: 21px;
+    position: relative;
     color: black;
-    font-size: 20px;
+    font-size: 18px;
     font-family: Noto Serif JP;
-    font-weight: 900;
+    font-weight: 501;
     text-transform: uppercase;
     word-wrap: break-word;
-    position:relative;
-}
-
-.location{
-    width: 441px;
-    height: 20px;
-    left: 42px;
-    top: 25px;
-    position:relative;
 }
 
 .genzaiti{
+    width: 367px;
+    height: 20px;
+    left: 33px;
+    top: 25px;
+    position:relative;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Noto Serif JP;
     font-weight: 400;
     text-transform: uppercase;
     word-wrap: break-word
 }
 
+.slideLine{
+    width: 300px;
+    height: 0px;
+    left: 350px;
+    top: 85px;
+    position:relative;
+    border-top: 0.5px solid #000;
+    transform: rotate(180deg);
+    transform-origin: 0 0;
+}
+
 .km{
+    width: 367px;
+    height: 20px;
+    left: 42px;
+    top: 25px;
+    position:relative;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Noto Serif JP;
     font-weight: 400;
     word-wrap: break-word
 }
 
 .payment{
-    width: 549px;
+    width: 367px;
     height: 46px;
-    left: 42px;
+    left: 33px;
     top: 40px;
     position:relative;
     color: black;
-    font-size: 16px;
+    font-size: 14px;
     font-family: Noto Serif JP;
     font-weight: 400;
     word-break: break-all;
 }
-
 
 body{
 background:white
