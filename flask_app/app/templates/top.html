@@ -57,15 +57,15 @@
   <!-- お店のスライドを入れる枠 -->
   <div class="slideFlame">
       <!-- お店のスライド -->
-      {% for i in range(1, shops | length ) %} <!--Jinja2では配列の長さを list | length で取得できる-->
-      <div class="slideBox" onclick="location.href='{{ url_for('detail', shop_id=(shops[i][0] | int))}}'">
+      {% for shop_and_pay in shops_and_payments %} 
+      <div class="slideBox" onclick="location.href='{{ url_for('detail', shop_id=(shop_and_pay[0]))}}'">
           <div class="slideLine"></div>
-          <div class="storeName">{{ shops[i][1] }}</div>
+          <div class="storeName">{{ shop_and_pay[1] }}</div>
           <div class="location"><span class="genzaiti">現在地から〜</span><span class="km">km</span></div>
-          {% if ((shops[i][4] | length) < 100) %}
-            <div class="payment">{{ shops[i][4] }}</div>
+          {% if ((shop_and_pay[2] | length) < 100) %}
+            <div class="payment">{{  shop_and_pay[2] }}</div>
           {% else %}
-             <div class="payment">{{ (shops[i][4])[:100]+"..." }}</div>
+             <div class="payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
           {% endif %}
       </div>
       {% endfor %}
