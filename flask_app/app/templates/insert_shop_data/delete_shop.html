@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"> 
     <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_choose_shop.css")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_delete_shop.css")}}">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
     <title>PayView</title>
@@ -31,9 +31,13 @@
     </div>
 </header>
 <body>
-    <div class="shop_list">
-        {% for shop_id_name in shop_id_name_list %}
-        <button class="shop_button" type="button" onclick="location.href='{{ url_for("insert_shop_data.choose_payment", shop_id=shop_id_name["shop_id"])}}'">{{ shop_id_name["shop_id"]}}: {{ shop_id_name["name"]}}</button><br>
-        {% endfor %}
-    </div>
+    <h1>削除するお店を選んでください</h1>
+    <form action="{{ url_for("insert_shop_data.delete_shop") }}", method="POST">
+        <div class="shop_list">
+            {% for shop_id_name in shop_id_name_list %}
+                <input type="checkbox" class="shop_check"name="shop" value="{{ shop_id_name["shop_id"]}}"><span class="shop_name">{{ shop_id_name["name"] }}</span><br>
+            {% endfor %}
+            <input class="confirm_button" type="submit"  value="確定">
+        </div>
+    </form>
 </body>

@@ -16,6 +16,9 @@ def choose_shop():
     return render_template('insert_shop_data/choose_shop.html', shop_id_name_list=shop_id_name_list)
 
 
+def take_out_content(dict_content):
+    return dict_content["payment_id"]
+
 
 @bp.route('/choose-payment/<int:shop_id>', methods=('GET', 'POST'))
 def choose_payment(shop_id):
@@ -26,13 +29,28 @@ def choose_payment(shop_id):
         payment_id_name_list = cur.fetchall()
         cur.execute(f"SELECT * FROM shops WHERE shop_id={shop_id};")
         shop_data = cur.fetchall()
-        return render_template('insert_shop_data/choose_payment.html', payment_id_name_list=payment_id_name_list, shop_data=shop_data)
+        
+        cur.execute(f"select payment_id from can_use_services where shop_id={shop_id};")
+        can_use_pay_this_shop = cur.fetchall()
+        can_use_pay_this_shop_list = list(map(take_out_content, can_use_pay_this_shop))
+        
+        return render_template('insert_shop_data/choose_payment.html', payment_id_name_list=payment_id_name_list, shop_data=shop_data, can_use_pay_this_shop_list=can_use_pay_this_shop_list)
+
     if request.method == "POST":
         can_use_pay =request.form.getlist("payment")
-        print(shop_id)
-        print(can_use_pay)
         for i in can_use_pay:
             cur.execute(f"insert into can_use_services values ({shop_id},'{i}');")
+        db.commit()
+
+        query = f"DELETE FROM can_use_services WHERE shop_id={shop_id}" 
+        for i in range(len(can_use_pay)):
+            if i == 0:
+                query += f" and ( payment_id!='{can_use_pay[i]}' and "
+            elif i == len(can_use_pay)-1:
+                query += f" payment_id!='{can_use_pay[i]}' );"
+            else:
+                query += f" payment_id!='{can_use_pay[i]}' and "
+        cur.execute(query)
         db.commit()
     return redirect(url_for("insert_shop_data.choose_shop"))
 
@@ -87,3 +105,33 @@ def add_payment():
             error = 1
             return render_template('insert_shop_data/add_payment.html', error=error) 
         return redirect(url_for("insert_shop_data.add_payment"))
+
+
+@bp.route('/delete-shop', methods=('GET', 'POST'))
+def delete_shop():
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+    if request.method == "POST":
+        delete_shop_id_list =request.form.getlist("shop")
+        for i in delete_shop_id_list:
+            cur.execute(f"DELETE FROM can_use_services where shop_id = {i};")
+            cur.execute(f"DELETE FROM shops where shop_id = {i};")
+        db.commit()
+    cur.execute("select shop_id,name from shops;")
+    shop_id_name_list = cur.fetchall()
+    return render_template('insert_shop_data/delete_shop.html', shop_id_name_list=shop_id_name_list)
+
+
+@bp.route('/delete-payment', methods=('GET', 'POST'))
+def delete_payment():
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+    if request.method == "POST":
+        delete_payment_id_list =request.form.getlist("payment")
+        for i in delete_payment_id_list:
+            cur.execute(f"DELETE FROM can_use_services where payment_id = '{i}';")
+            cur.execute(f"DELETE FROM payment_services where payment_id = '{i}';")
+        db.commit()
+    cur.execute("select payment_id,name from payment_services;")
+    payment_id_name_list = cur.fetchall()
+    return render_template('insert_shop_data/delete_payment.html', payment_id_name_list=payment_id_name_list)

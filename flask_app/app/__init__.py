@@ -20,7 +20,6 @@ def create_app():
 
     @app.route("/")
     def top():
-        l = get_csv()
         db = get_db()
         cur = db.cursor(dictionary=True)
         query = "select * from shops;"

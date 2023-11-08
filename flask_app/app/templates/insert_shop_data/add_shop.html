@@ -22,6 +22,14 @@
     </style>
 
 <header>
+    <div>
+        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop")}}'">お店で使える決済を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.add_shop")}}'">お店を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.add_payment")}}'">決済サービスを追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.delete_shop")}}'">お店を削除するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.delete_payment")}}'">決済サービスを削除するページ</button>
+        <button onclick="location.href='{{ url_for("top")}}'">Topページ</button>
+    </div>
 </header>
 <body>
     <h2>店名と緯度、経度を入力してください</h2>

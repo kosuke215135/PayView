@@ -26,7 +26,11 @@
     <h2>「{{ shop_data[0]["name"] }}」で使用できる決済サービス</h2>
     <form action="{{ url_for("insert_shop_data.choose_payment", shop_id=shop_data[0]["shop_id"]) }}" method="POST">
         {% for payment_id_name in payment_id_name_list %}
-            <input type="checkbox" class="pay_checkbox"name="payment" value="{{ payment_id_name["payment_id"]}}"><span class="payment_name">{{ payment_id_name["name"]}}</span><br>
+        {% if payment_id_name["payment_id"] in can_use_pay_this_shop_list %}
+            <input type="checkbox" class="pay_checkbox"name="payment" value="{{ payment_id_name["payment_id"]}}" checked ><span class="payment_name">{{ payment_id_name["name"]}}</span><br>
+        {% else %}
+            <input type="checkbox" class="pay_checkbox"name="payment" value="{{ payment_id_name["payment_id"]}}" ><span class="payment_name">{{ payment_id_name["name"]}}</span><br>
+        {% endif %}
         {% endfor %}
         <input class="confirm_button" type="submit"  value="確定">
     </form>
