@@ -49,12 +49,7 @@ def choose_payment(shop_id):
 
         query = f"DELETE FROM can_use_services WHERE shop_id={shop_id}" 
         for i in range(len(can_use_pay)):
-            if i == 0:
-                query += f" and ( payment_id!='{can_use_pay[i]}' and "
-            elif i == len(can_use_pay)-1:
-                query += f" payment_id!='{can_use_pay[i]}' );"
-            else:
-                query += f" payment_id!='{can_use_pay[i]}' and "
+            query += f" and payment_id!='{can_use_pay[i]}'"
         cur.execute(query)
         db.commit()
     return redirect(url_for("insert_shop_data.choose_shop"))
@@ -89,10 +84,10 @@ def add_payment():
     if request.method == "POST":
         db = get_db()
         cur = db.cursor(dictionary=True)
-        try:
-            cur.execute("select MAX(payment_id) from payment_services;")
-            max_payment_id = cur.fetchall()[0]["MAX(payment_id)"]
-        except IndexError:
+        cur.execute("select MAX(payment_id) from payment_services;")
+        max_payment_id = cur.fetchall()[0]["MAX(payment_id)"]
+        # payment_servicesにデータが入っていないとNULLが返ってくる.
+        if max_payment_id == None:
             max_payment_id = "000P"
         max_payment_id = max_payment_id[:3]
         max_payment_id_int = int(max_payment_id)
@@ -119,7 +114,6 @@ def delete_shop():
     if request.method == "POST":
         delete_shop_id_list =request.form.getlist("shop")
         for i in delete_shop_id_list:
-            cur.execute(f"DELETE FROM can_use_services where shop_id = {i};")
             cur.execute(f"DELETE FROM shops where shop_id = {i};")
         db.commit()
     cur.execute("select shop_id,name from shops;")
@@ -134,7 +128,6 @@ def delete_payment():
     if request.method == "POST":
         delete_payment_id_list =request.form.getlist("payment")
         for i in delete_payment_id_list:
-            cur.execute(f"DELETE FROM can_use_services where payment_id = '{i}';")
             cur.execute(f"DELETE FROM payment_services where payment_id = '{i}';")
         db.commit()
     cur.execute("select payment_id,name from payment_services;")
