@@ -2,7 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-from app.db import get_db
+from db import get_db
 
 bp = Blueprint('insert_shop_data', __name__, url_prefix='/insert-shop-data')
 
@@ -16,7 +16,8 @@ def choose_shop():
     return render_template('insert_shop_data/choose_shop.html', shop_id_name_list=shop_id_name_list)
 
 
-def take_out_content(dict_content):
+
+def take_out_payment_id(dict_content):
     return dict_content["payment_id"]
 
 
@@ -32,14 +33,18 @@ def choose_payment(shop_id):
         
         cur.execute(f"select payment_id from can_use_services where shop_id={shop_id};")
         can_use_pay_this_shop = cur.fetchall()
-        can_use_pay_this_shop_list = list(map(take_out_content, can_use_pay_this_shop))
+        can_use_pay_this_shop_list = list(map(take_out_payment_id, can_use_pay_this_shop))
         
         return render_template('insert_shop_data/choose_payment.html', payment_id_name_list=payment_id_name_list, shop_data=shop_data, can_use_pay_this_shop_list=can_use_pay_this_shop_list)
 
     if request.method == "POST":
         can_use_pay =request.form.getlist("payment")
+        cur.execute(f"select payment_id from can_use_services where shop_id={shop_id}")
+        now_use_pay = cur.fetchall()
+        now_use_pay_list = list(map(take_out_payment_id, now_use_pay))
         for i in can_use_pay:
-            cur.execute(f"insert into can_use_services values ({shop_id},'{i}');")
+            if i not in now_use_pay_list:
+                cur.execute(f"insert into can_use_services values ({shop_id},'{i}');")
         db.commit()
 
         query = f"DELETE FROM can_use_services WHERE shop_id={shop_id}" 
