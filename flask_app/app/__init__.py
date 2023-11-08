@@ -2,7 +2,7 @@ from flask import Flask,render_template
 import csv
 import os
 from flask import request
-from app.db import get_db
+from db import get_db
 
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -12,10 +12,10 @@ def create_app():
     #Flaskオブジェクトの生成
     app = Flask(__name__)
 
-    from . import db
+    import db
     db.init_app(app)
 
-    from . import insert_shop_data
+    import insert_shop_data
     app.register_blueprint(insert_shop_data.bp)
 
     @app.route("/")
