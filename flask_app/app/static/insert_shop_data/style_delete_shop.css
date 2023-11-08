@@ -1,0 +1,19 @@
+
+.confirm_button{
+    width: 10em;
+    height:3em;
+    background-color: lightgreen;
+    margin : 30px ;
+    cursor: pointer;
+}
+
+.shop_check{
+    width: 20px;
+    height:20px;
+    cursor: pointer;
+    margin : 5px ;
+}
+
+.shop_name{
+    font-size: 20px;
+}

@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="../image/icon.png">
-    <link rel="stylesheet" href="style_top.css">
+    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="style_top.css")}}">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
     <title>PayView</title>
@@ -22,7 +22,7 @@
 
 <header>
     <!-- ロゴの画像挿入 -->
-    <img src="../image/logo.jpg" alt="payview" class="logo">
+    <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
 
     <!-- タイトル -->
     <div class="title">Search Shop List</div>
@@ -36,7 +36,7 @@
   <hr class="line">
 
   <!-- 検索窓 -->
-  <img src="../image/kensaku.jpeg" class="searchImage">
+  <img src="../static/kensaku.jpeg" class="searchImage">
   <div class="searchWindow"></div>
   <div class="search" src="https://via.placeholder.com/30x30">検索</div>
   
@@ -56,15 +56,22 @@
 
   <!-- お店のスライドを入れる枠 -->
   <div class="slideFlame">
+      <!-- お店のスライド -->
+      {% for shop_and_pay in shops_and_payments %} 
+      <div class="slideBox" onclick="location.href='{{ url_for('detail', shop_id=(shop_and_pay[0]))}}'">
+          <div class="slideLine"></div>
+          <div class="storeName">{{ shop_and_pay[1] }}</div>
+          <div class="location"><span class="genzaiti">現在地から〜</span><span class="km">km</span></div>
+          {% if ((shop_and_pay[2] | length) < 100) %}
+            <div class="payment">{{  shop_and_pay[2] }}</div>
+          {% else %}
+             <div class="payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
+          {% endif %}
+      </div>
+      {% endfor %}
   </div>
 
   <main>
-  <!-- ショップリスト -->
-
-  <!-- <div id="shopList"></div>
-  </main>
-  -->
-  <script type="text/javascript" src="./top.js"></script> 
 
 </body>
 </html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8"> 
+    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_add_shop.css")}}">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+    <title>PayView</title>
+    <style>
+      /* すべての画像のスタイル */
+      img {
+        display: block; /* 画像をブロック要素として扱う */
+        margin: auto;    /* 画像を中央に配置 */
+      }
+
+      /* 特定の画像のスタイル */
+      .custom-image {
+        width: 30%; /* 幅を50%に設定 */
+      }
+    </style>
+
+<header>
+    <div>
+        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop")}}'">お店で使える決済を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.add_shop")}}'">お店を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.add_payment")}}'">決済サービスを追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.delete_shop")}}'">お店を削除するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.delete_payment")}}'">決済サービスを削除するページ</button>
+        <button onclick="location.href='{{ url_for("top")}}'">Topページ</button>
+    </div>
+</header>
+<body>
+    <h2>店名と緯度、経度を入力してください</h2>
+    {% if error %}
+    <h3><font color="red">値が正しくありません。</font></h3>
+    {% endif %}
+    <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
+        <p>店名</p>
+        <input type="text" name="shop_name"></p>
+        <p>緯度</p>
+        <input type="text" name="latitude"></p>
+        <p>経度</p>
+        <input type="text" name="longitude"></p>
+        <input class="confirm_button" type="submit"  value="確定">
+    </form>
+</body>
