@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8"> 
     <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_delete_payment.css")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_delete_tag.css")}}">
     <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
     <title>PayView</title>
@@ -33,11 +33,11 @@
     </div>
 </header>
 <body>
-    <h1>削除する決済サービスを選んでください</h1>
-    <form action="{{ url_for("insert_shop_data.delete_payment") }}", method="POST">
-        <div class="payment_list">
-            {% for payment_id_name in payment_id_name_list %}
-                <input type="checkbox" class="payment_check"name="payment" value="{{ payment_id_name["payment_id"]}}"><span class="payment_name">{{ payment_id_name["name"] }}</span><br>
+    <h1>削除するタグを選んでください</h1>
+    <form action="{{ url_for("insert_shop_data.delete_tag") }}", method="POST">
+        <div class="tag_list">
+            {% for tag_id_name in tag_id_name_list %}
+                <input type="checkbox" class="tag_check"name="tag" value="{{ tag_id_name["tag_id"]}}"><span class="tag_name">{{ tag_id_name["name"] }}</span><br>
             {% endfor %}
             <input class="confirm_button" type="submit"  value="確定">
         </div>
