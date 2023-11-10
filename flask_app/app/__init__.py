@@ -18,6 +18,9 @@ def create_app():
     import insert_shop_data
     app.register_blueprint(insert_shop_data.bp)
 
+    import search_shop
+    app.register_blueprint(search_shop.bp)
+
     @app.route("/")
     def top():
         db = get_db()

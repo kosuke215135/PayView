@@ -97,9 +97,9 @@ def add_payment():
         elif len(next_payment_id) == 2:
             next_payment_id = "0" + next_payment_id
         next_payment_id += "P"
-        shop_name = request.form["payment_name"]
+        payment_name = request.form["payment_name"]
         try:
-            cur.execute(f"insert into payment_services values ('{next_payment_id}','{shop_name}');")
+            cur.execute(f"insert into payment_services values ('{next_payment_id}','{payment_name}');")
             db.commit()
         except:
             error = 1
@@ -133,3 +133,49 @@ def delete_payment():
     cur.execute("select payment_id,name from payment_services;")
     payment_id_name_list = cur.fetchall()
     return render_template('insert_shop_data/delete_payment.html', payment_id_name_list=payment_id_name_list)
+
+
+@bp.route('/add-tag', methods=('GET', 'POST'))
+def add_tag():
+    error = 0 #dbに挿入できたかどうかをチェックする
+    if request.method == "GET":
+        return render_template('insert_shop_data/add_tag.html',error=error)
+    if request.method == "POST":
+        db = get_db()
+        cur = db.cursor(dictionary=True)
+        cur.execute("select MAX(tag_id) from tags;")
+        max_tag_id = cur.fetchall()[0]["MAX(tag_id)"]
+        # payment_servicesにデータが入っていないとNULLが返ってくる.
+        if max_tag_id == None:
+            max_tag_id = "000T"
+        max_tag_id = max_tag_id[:3]
+        max_tag_id_int = int(max_tag_id)
+        next_tag_id = str(max_tag_id_int + 1)
+        if len(next_tag_id) == 1:
+            next_tag_id = "00" + next_tag_id
+        elif len(next_tag_id) == 2:
+            next_tag_id = "0" + next_tag_id
+        next_tag_id += "T"
+        tag_name = request.form["tag_name"]
+        print(f"insert into tags values ('{next_tag_id}','{tag_name}');")
+        try:
+            cur.execute(f"insert into tags values ('{next_tag_id}','{tag_name}');")
+            db.commit()
+        except:
+            error = 1
+            return render_template('insert_shop_data/add_tag.html', error=error) 
+        return redirect(url_for("insert_shop_data.add_tag"))
+
+
+@bp.route('/delete-tag', methods=('GET', 'POST'))
+def delete_tag():
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+    if request.method == "POST":
+        delete_tag_id_list =request.form.getlist("tag")
+        for i in delete_tag_id_list:
+            cur.execute(f"DELETE FROM tags where tag_id = '{i}';")
+        db.commit()
+    cur.execute("select tag_id,name from tags;")
+    tag_id_name_list = cur.fetchall()
+    return render_template('insert_shop_data/delete_tag.html', tag_id_name_list=tag_id_name_list)
