@@ -33,6 +33,7 @@
     </div>
 </header>
 <body>
+    <h2>お店を選んでください</h2>
     <div class="shop_list">
         {% for shop_id_name in shop_id_name_list %}
         <button class="shop_button" type="button" onclick="location.href='{{ url_for("insert_shop_data.choose_payment", shop_id=shop_id_name["shop_id"])}}'">{{ shop_id_name["shop_id"]}}: {{ shop_id_name["name"]}}</button><br>
