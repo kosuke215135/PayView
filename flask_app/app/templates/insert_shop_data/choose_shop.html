@@ -22,7 +22,8 @@
 
 <header>
     <div>
-        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop")}}'">お店で使える決済を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop", tag_or_payment="payment")}}'">お店で使える決済を追加するページ</button>
+        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop", tag_or_payment="tag")}}'">お店のタグを追加するページ</button>
         <button onclick="location.href='{{ url_for("insert_shop_data.add_shop")}}'">お店を追加するページ</button>
         <button onclick="location.href='{{ url_for("insert_shop_data.add_payment")}}'">決済サービスを追加するページ</button>
         <button onclick="location.href='{{ url_for("insert_shop_data.delete_shop")}}'">お店を削除するページ</button>
@@ -33,10 +34,18 @@
     </div>
 </header>
 <body>
-    <h2>お店を選んでください</h2>
+    {% if tag_or_payment == "payment" %}
+    <h2>お店で使える決済を追加するページ</h2>
+    {% else %}
+    <h2>お店のタグを追加するページ</h2>
+    {% endif %}
     <div class="shop_list">
         {% for shop_id_name in shop_id_name_list %}
+        {% if tag_or_payment == "payment" %}
         <button class="shop_button" type="button" onclick="location.href='{{ url_for("insert_shop_data.choose_payment", shop_id=shop_id_name["shop_id"])}}'">{{ shop_id_name["shop_id"]}}: {{ shop_id_name["name"]}}</button><br>
+        {% else %}
+        <button class="shop_button" type="button" onclick="location.href='{{ url_for("insert_shop_data.choose_tag", shop_id=shop_id_name["shop_id"])}}'">{{ shop_id_name["shop_id"]}}: {{ shop_id_name["name"]}}</button><br>
+        {% endif %}
         {% endfor %}
     </div>
 </body>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8"> 
+    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
+    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_choose_tag.css")}}">
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+    <title>PayView</title>
+    <style>
+      /* すべての画像のスタイル */
+      img {
+        display: block; /* 画像をブロック要素として扱う */
+        margin: auto;    /* 画像を中央に配置 */
+      }
+
+      /* 特定の画像のスタイル */
+      .custom-image {
+        width: 30%; /* 幅を50%に設定 */
+      }
+    </style>
+
+<header>
+</header>
+<body>
+    <h2>「{{ shop_data[0]["name"] }}」で使用できる決済サービス</h2>
+    <form action="{{ url_for("insert_shop_data.choose_tag", shop_id=shop_data[0]["shop_id"]) }}" method="POST">
+        {% for tag_id_name in tag_id_name_list %}
+        {% if tag_id_name["tag_id"] in assigned_tag_this_shop_list %}
+            <input type="checkbox" class="tag_checkbox"name="tag" value="{{ tag_id_name["tag_id"]}}" checked ><span class="tag_name">{{ tag_id_name["name"]}}</span><br>
+        {% else %}
+            <input type="checkbox" class="tag_checkbox"name="tag" value="{{ tag_id_name["tag_id"]}}" ><span class="tag_name">{{ tag_id_name["name"]}}</span><br>
+        {% endif %}
+        {% endfor %}
+        <input class="confirm_button" type="submit"  value="確定">
+    </form>
+</body>
