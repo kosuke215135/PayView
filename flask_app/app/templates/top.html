@@ -21,38 +21,38 @@
     </style>
 
 <header>
-    <!-- ロゴの画像挿入 -->
-    <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
+    <div class="header_div">
+        <!-- ロゴの画像挿入 --> 
+        <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
+        <!-- タイトル -->
+        <div class="title">Search Shop List</div>
+        <!-- 検索窓 -->
+        <div class="search_div">
+            <img src="{{ url_for("static", filename="kensaku.jpeg")}}" class="searchImage">
+            <div class="search" src="https://via.placeholder.com/30x30">検索</div>
+            <div class="searchWindow"></div>
+        </div>
+          <!-- ライン -->
+          <hr class="line">
+    </div>
 
-    <!-- タイトル -->
-    <div class="title">Search Shop List</div>
 </header>
 
 <body>
-  <!-- 横のグレーカラーの線 -->
-  <div class="verticalLine1"></div>
-  <div class="verticalLine2"></div>
-  <!-- ライン -->
-  <hr class="line">
-
-  <!-- 検索窓 -->
-  <img src="../static/kensaku.jpeg" class="searchImage">
-  <div class="searchWindow"></div>
-  <div class="search" src="https://via.placeholder.com/30x30">検索</div>
+  
+  {% if tag_name != None %}
+      <h3>{{ tag_name }}のタグがついているお店一覧</h3>
+  {% endif %}
   
   <!-- カテゴリ -->
-  <div class="categoryBox1"></div>
-  <div class="category1">カテゴリ1</div>
-  <div class="categoryBox2"></div>
-  <div class="category2">カテゴリ2</div>
-  <div class="categoryBox3"></div>
-  <div class="category3">カテゴリ3</div>
-  <div class="categoryBox4"></div>
-  <div class="category4">カテゴリ4</div>
-  <div class="categoryBox5"></div>
-  <div class="category5">カテゴリ5</div>
-  <div class="categoryBox6"></div>
-  <div class="category6">カテゴリ6</div>
+  <div class="tagList">
+      {% for tag_id_name in tag_id_name_list %}
+      <div class="categoryBox">
+          <span class="category">{{ tag_id_name["name"] }}</span>
+          <a href="{{ url_for( "search_shop.search_result", tag_id=tag_id_name["tag_id"] )}}"></a>
+      </div>
+      {% endfor %}
+  </div>
 
   <!-- お店のスライドを入れる枠 -->
   <div class="slideFlame">

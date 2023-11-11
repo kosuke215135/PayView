@@ -1,45 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_delete_payment.css")}}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
-    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
-    <title>PayView</title>
-    <style>
-      /* すべての画像のスタイル */
-      img {
-        display: block; /* 画像をブロック要素として扱う */
-        margin: auto;    /* 画像を中央に配置 */
-      }
-
-      /* 特定の画像のスタイル */
-      .custom-image {
-        width: 30%; /* 幅を50%に設定 */
-      }
-    </style>
-
-<header>
-    <div>
-        <button onclick="location.href='{{ url_for("insert_shop_data.choose_shop")}}'">お店で使える決済を追加するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.add_shop")}}'">お店を追加するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.add_payment")}}'">決済サービスを追加するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.delete_shop")}}'">お店を削除するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.delete_payment")}}'">決済サービスを削除するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.add_tag")}}'">タグを追加するページ</button>
-        <button onclick="location.href='{{ url_for("insert_shop_data.delete_tag")}}'">タグを削除するページ</button>
-        <button onclick="location.href='{{ url_for("top")}}'">Topページ</button>
+{% extends "insert_shop_data/insert_shop_data_template.html" %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_delete_payment.css")}}">
+{% endblock %}
+{% block body %}
+<h1>削除する決済サービスを選んでください</h1>
+<form action="{{ url_for("insert_shop_data.delete_payment") }}", method="POST">
+    <div class="payment_list">
+        {% for payment_id_name in payment_id_name_list %}
+            <input type="checkbox" class="payment_check"name="payment" value="{{ payment_id_name["payment_id"]}}"><span class="payment_name">{{ payment_id_name["name"] }}</span><br>
+        {% endfor %}
+        <input class="confirm_button" type="submit"  value="確定">
     </div>
-</header>
-<body>
-    <h1>削除する決済サービスを選んでください</h1>
-    <form action="{{ url_for("insert_shop_data.delete_payment") }}", method="POST">
-        <div class="payment_list">
-            {% for payment_id_name in payment_id_name_list %}
-                <input type="checkbox" class="payment_check"name="payment" value="{{ payment_id_name["payment_id"]}}"><span class="payment_name">{{ payment_id_name["name"] }}</span><br>
-            {% endfor %}
-            <input class="confirm_button" type="submit"  value="確定">
-        </div>
-    </form>
-</body>
+</form>
+{% endblock %}

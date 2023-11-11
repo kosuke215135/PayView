@@ -1,16 +1,23 @@
+.header_div{
+    width: 1000px;
+    height: 150px;
+    position: relative;
+    margin: 0 auto;
+}
+
 .logo{
-    width: 197.50px;
-    height: 80px;
-    left: 103px;
-    top: 30px;
-    position: absolute
+    width: 200px;
+    height 80px;
+    left: 0px;
+    top: 20px;
+    position: absolute;
 }
 
 .title{
     width: 517px;
     height: 65px;
-    left: 332px;
-    top: 67px;
+    top: 60px;
+    left: 200px;
     position: absolute;
     text-align: center;
     color: black;
@@ -18,60 +25,41 @@
     font-family: Source Serif Pro;
     font-weight: 600;
     text-transform: uppercase;
-    word-wrap: break-word
+    word-wrap: break-word;
 }
 
-.verticalLine1{
-    width: 40px;
-    height: 2641px;
-    left: 0px;
-    top: 0px;
-    position: absolute;
-    background: #CDCDCD
-}
 
-.verticalLine2{
-    width: 37px;
-    height: 2641px;
-    left: 1243px;
-    top: 0px;
-    position: absolute;
-    background: #CDCDCD
-}
 
 .line{
-    width: 1080px;
+    width: 100%;
     height: 0px;
-    left: 1180px;
-    top: 150px;
     position: absolute;
+    top: 90%;
     border-top: 2px solid #000;
-    transform: rotate(180deg);
-    transform-origin: 0 0;
+}
+
+.search_div{
+    width: 270px;
+    height: 80px;
+    position: absolute;
+    top: 50%;
+    margin-top: -40px; /* この要素の高さの半分 */
+    right: 0px;
 }
 
 .searchImage{
     width: 30px;
     height: 30px;
-    left: 902px;
-    top: 72px;
-    position: absolute
-}
-
-.searchWindow{
-    width: 170px;
-    height: 45px;
-    left: 1010px;
-    top: 63px;
+    top: 30px;
     position: absolute;
-    background: #F6F6F6;
+    float: left;
 }
 
 .search{
     width: 55px;
     height: 45px;
-    left: 943px;
-    top: 68px;
+    top: 25px;
+    left: 35px;
     position: absolute;
     color: black;
     font-size: 24px;
@@ -79,225 +67,108 @@
     font-weight: 600;
     text-transform: uppercase;
     word-wrap: break-word
+    float: left;
 }
 
-.categoryBox1{
-    width: 138px;
-    height: 44px;
-    left: 100px;
-    top: 192px;
+.searchWindow{
+    width: 170px;
+    height: 45px;
+    top: 22px;
+    left: 95px;
     position: absolute;
+    background: #F6F6F6;
+    float: left;
+}
+
+
+.tagList{
+    height: 90px;
+    width: 1000px;
+    position: relative;
+    margin: 0 auto;
+    display: flex; /* 要素をFlexコンテナとして定義する */
+    list-style: none; /* リストのスタイルを無効にする */
+}
+
+.categoryBox{
+    width: 138px;
+    height: 38px;
     mix-blend-mode: darken;
     background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
+    border: 1px black solid;
+    position: relative;
+    text-align: center;
+    padding: 5px 0;
+    margin: 20px;
+    cursor:pointer;
 }
 
-.category1{
-    width: 138px;
-    height: 44px;
-    left: 100px;
-    top: 198px;
+.categoryBox a {
     position: absolute;
-    text-align: center;
+    top: 0;
+    left: 0;
+    height:100%;
+    width: 100%;
+}
+
+.category{
     color: black;
     font-size: 20.67px;
     font-family: Noto Serif JP;
     font-weight: 600;
     text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox2{
-    width: 138px;
-    height: 44px;
-    left: 288px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category2{
-    width: 138px;
-    height: 44px;
-    left: 477px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox3{
-    width: 138px;
-    height: 44px;
-    left: 477px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category3{
-    width: 138px;
-    height: 44px;
-    left: 665px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox4{
-    width: 138px;
-    height: 44px;
-    left: 665px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category4{
-    width: 138px;
-    height: 44px;
-    left: 854px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox5{
-    width: 138px;
-    height: 44px;
-    left: 853px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category5{
-    width: 138px;
-    height: 44px;
-    left: 1042px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.categoryBox6{
-    width: 138px;
-    height: 44px;
-    left: 1042px;
-    top: 192px;
-    position: absolute;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border: 1px black solid
-}
-
-.category6{
-    width: 138px;
-    height: 44px;
-    left: 288px;
-    top: 198px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
+    word-wrap: break-word;
 }
 
 .slideFlame{
     width: 680px;
-    height: 453px;
-    left: 288px;
-    top: 277px;
-    position: absolute;
+    height: 550px;
     background: white;
     border: 2px black solid;
     overflow-y: scroll;          /* 縦方向にスクロール可能にする */
     border: 1px solid #000;      /* わかりやすくボーダーを引く */
+    margin: 0 auto;
 }
 
 .slideBox{
-    width: 614px;
-    height: 146px;
-    left: 19px;
-    top: 9px;
+    width: 615px;
+    height: 145px;
     background: #F6F6F6;
     border: 2px black solid;
     padding: 0.5em 1em;
     margin: 1em auto; /*画面の中央に寄せる*/
     cursor:pointer;
+    position: relative;
 }
 
 .slideLine{
-    width: 565px;
+    width: 600px;
     height: 0px;
-    left: 593px;
-    top: 85px;
-    position:relative;
+    top:  60%;
     border-top: 2px solid #000;
-    transform: rotate(-180deg);
-    transform-origin: 0 0;
+    position: absolute;
 }
 
 .storeName{
-    width: 441px;
-    height: 23px;
-    left: 42px;
-    top: 17px;
+    width: 440px;
+    height: 25px;
+    top: 30px;
+    left: 40px;
+    position: absolute;
     color: black;
     font-size: 20px;
     font-family: Noto Serif JP;
     font-weight: 900;
     text-transform: uppercase;
     word-wrap: break-word;
-    position:relative;
 }
 
 .location{
     width: 441px;
     height: 20px;
-    left: 42px;
-    top: 25px;
-    position:relative;
+    top: 65px;
+    left: 40px;
+    position: absolute;
 }
 
 .genzaiti{
@@ -318,11 +189,11 @@
 }
 
 .payment{
-    width: 549px;
-    height: 46px;
-    left: 42px;
-    top: 40px;
-    position:relative;
+    width: 550px;
+    height: 50px;
+    top: 100px;
+    left: 40px;
+    position: absolute;
     color: black;
     font-size: 16px;
     font-family: Noto Serif JP;

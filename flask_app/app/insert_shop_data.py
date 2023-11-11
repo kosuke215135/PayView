@@ -7,13 +7,13 @@ from db import get_db
 bp = Blueprint('insert_shop_data', __name__, url_prefix='/insert-shop-data')
 
 
-@bp.route('/choose-shop')
-def choose_shop():
+@bp.route('/choose-shop/<string:tag_or_payment>')
+def choose_shop(tag_or_payment):
     db = get_db()
     cur = db.cursor(dictionary=True)
     cur.execute("select shop_id,name from shops;")
     shop_id_name_list = cur.fetchall()
-    return render_template('insert_shop_data/choose_shop.html', shop_id_name_list=shop_id_name_list)
+    return render_template('insert_shop_data/choose_shop.html', shop_id_name_list=shop_id_name_list, tag_or_payment=tag_or_payment)
 
 
 
@@ -52,7 +52,48 @@ def choose_payment(shop_id):
             query += f" and payment_id!='{can_use_pay[i]}'"
         cur.execute(query)
         db.commit()
-    return redirect(url_for("insert_shop_data.choose_shop"))
+    return redirect(url_for("insert_shop_data.choose_shop", tag_or_payment="payment"))
+
+
+
+def take_out_tag_id(dict_content):
+    return dict_content["tag_id"]
+
+
+@bp.route('/choose-tag/<int:shop_id>', methods=('GET', 'POST'))
+def choose_tag(shop_id):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+    if request.method == "GET":
+        cur.execute("select * from tags;")
+        tag_id_name_list = cur.fetchall()
+        cur.execute(f"SELECT * FROM shops WHERE shop_id={shop_id};")
+        shop_data = cur.fetchall()
+        
+        cur.execute(f"select tag_id from allocated_tags where shop_id={shop_id};")
+        assigned_tag_this_shop = cur.fetchall()
+        assigned_tag_this_shop_list = list(map(take_out_tag_id, assigned_tag_this_shop))
+        
+        return render_template('insert_shop_data/choose_tag.html', tag_id_name_list=tag_id_name_list, shop_data=shop_data, assigned_tag_this_shop_list=assigned_tag_this_shop_list)
+
+    if request.method == "POST":
+        assigned_tag =request.form.getlist("tag")
+        cur.execute(f"select tag_id from allocated_tags where shop_id={shop_id}")
+        now_assigned_tag = cur.fetchall()
+        now_assigned_tag_list = list(map(take_out_tag_id, now_assigned_tag))
+        for i in assigned_tag:
+            if i not in now_assigned_tag_list:
+                cur.execute(f"insert into allocated_tags values ({shop_id},'{i}');")
+        db.commit()
+
+        query = f"DELETE FROM allocated_tags WHERE shop_id={shop_id}" 
+        for i in range(len(assigned_tag)):
+            query += f" and tag_id!='{assigned_tag[i]}'"
+        cur.execute(query)
+        db.commit()
+    return redirect(url_for("insert_shop_data.choose_shop", tag_or_payment="tag"))
+
+
 
 
 
@@ -179,3 +220,7 @@ def delete_tag():
     cur.execute("select tag_id,name from tags;")
     tag_id_name_list = cur.fetchall()
     return render_template('insert_shop_data/delete_tag.html', tag_id_name_list=tag_id_name_list)
+
+
+
+
