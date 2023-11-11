@@ -53,12 +53,12 @@ def create_app():
                 payments_str = payments_str + payments_name_list[l]["name"] + ", "
             shops_and_payments[i].append(payments_str)
 
-            #タグを追加する.
-            tag_query = "select * from tags;"
-            cur.execute(tag_query)
-            tag_id_name_list = cur.fetchall()[:5]
+        #タグを追加する.
+        tag_query = "select * from tags;"
+        cur.execute(tag_query)
+        tag_id_name_list = cur.fetchall()[:5]
 
-            tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
+        tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
 
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
