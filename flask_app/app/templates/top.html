@@ -23,7 +23,9 @@
 <header>
     <div class="header_div">
         <!-- ロゴの画像挿入 --> 
-        <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
+	<a href="{{ url_for("top") }}">
+	    <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
+	</a>
         <!-- タイトル -->
         <div class="title">Search Shop List</div>
         <!-- 検索窓 -->
