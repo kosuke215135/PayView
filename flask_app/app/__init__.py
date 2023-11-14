@@ -1,8 +1,8 @@
 from flask import Flask,render_template
-import csv
 import os
 from flask import request
 from db import get_db
+import random
 
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
@@ -56,7 +56,9 @@ def create_app():
         #タグを追加する.
         tag_query = "select * from tags;"
         cur.execute(tag_query)
-        tag_id_name_list = cur.fetchall()[:5]
+        tag_id_name_list = cur.fetchall()
+        random.shuffle(tag_id_name_list) #ランダムに表示する
+        tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
         tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
 

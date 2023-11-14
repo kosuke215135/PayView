@@ -3,6 +3,7 @@ from flask import (
 )
 
 from db import get_db
+import random
 
 bp = Blueprint('search_shop', __name__, url_prefix='/search-shop')
 
@@ -43,8 +44,9 @@ def search_result(tag_id):
     #タグを追加する.
     tag_query = "select * from tags;"
     cur.execute(tag_query)
-    #表示するタグが5個までなので、その対応.
-    tag_id_name_list = cur.fetchall()[:5]
+    tag_id_name_list = cur.fetchall()
+    random.shuffle(tag_id_name_list) #ランダムに表示する
+    tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
     #タグ名を取得する
     cur.execute(f"select name from tags where tag_id = '{tag_id}'")
