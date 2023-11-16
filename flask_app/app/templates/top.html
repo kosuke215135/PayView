@@ -1,79 +1,91 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8"> 
-    <link rel="icon" type="image/png" href="{{url_for('static', filename="icon.png")}}">
-    <link rel="stylesheet" href="{{ url_for("static", filename="style_top.css")}}">
-    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
-    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
-    <title>PayView</title>
-    <style>
-      /* すべての画像のスタイル */
-      img {
-        display: block; /* 画像をブロック要素として扱う */
-        margin: auto;    /* 画像を中央に配置 */
-      }
+  <meta charset="UTF-8"> 
+  <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_top.css')}}">
+  <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+  <title>PayView</title>
+  <style>
+    /* すべての画像のスタイル */
+    img {
+      display: block; /* 画像をブロック要素として扱う */
+      margin: auto;    /* 画像を中央に配置 */
+    }
 
-      /* 特定の画像のスタイル */
-      .custom-image {
-        width: 30%; /* 幅を50%に設定 */
-      }
-    </style>
-
+    /* 特定の画像のスタイル */
+    .custom-image {
+      width: 30%; /* 幅を50%に設定 */
+    }
+  </style>
+  {# bootstrap setting #}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <!-- 画像の大きさを取得 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
 <header>
-    <div class="header_div">
-        <!-- ロゴの画像挿入 --> 
-	<a href="{{ url_for("top") }}">
-	    <img src="{{ url_for("static", filename="logo.jpg")}}" alt="payview" class="logo">
-	</a>
-        <!-- タイトル -->
-        <div class="title">Search Shop List</div>
-        <!-- 検索窓 -->
-        <div class="search_div">
-            <img src="{{ url_for("static", filename="kensaku.jpeg")}}" class="searchImage">
-            <div class="search" src="https://via.placeholder.com/30x30">検索</div>
-            <div class="searchWindow"></div>
-        </div>
-          <!-- ライン -->
-          <hr class="line">
+  <div class="header_div">
+    <!-- ロゴの画像挿入 --> 
+    <a href="{{ url_for('top') }}">
+      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+    </a>
+    <!-- タイトル -->
+    <div class="title">Search Shop List</div>
+    <!-- 検索窓 -->
+    <div class="search_div">
+      <img src="{{ url_for('static', filename='kensaku.jpeg')}}" class="searchImage">
+      <div class="search" src="https://via.placeholder.com/30x30">検索</div>
+      <div class="searchWindow"></div>
     </div>
-
-</header>
-
-<body>
+    <!-- ライン -->
+    <hr class="line">
+  </div>
   
+  {# ====スマホ用のヘッダー==== #}
+  <div class="header_div_phone">
+    <!-- ロゴの画像挿入 --> 
+    <a href="{{ url_for('top') }}">
+      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+    </a>
+    <!-- タイトル -->
+    <div class="title">Search Shop List</div>
+    <!-- ライン -->
+    <hr class="line">
+  </div>
+  {# ====スマホ用のヘッダー==== #}
+</header>
+<body>
   {% if tag_name != None %}
-      <h3>{{ tag_name }}のタグがついているお店一覧</h3>
+      <div class="alert alert-warning search-alert" role="alert">{{ tag_name }}のタグがついているお店一覧</div>
   {% endif %}
   
   <!-- カテゴリ -->
   <div class="tagList">
-      {% for tag_id_name in tag_id_name_list %}
-      <div class="categoryBox">
-          <span class="category">{{ tag_id_name["name"] }}</span>
-          <a href="{{ url_for( "search_shop.search_result", tag_id=tag_id_name["tag_id"] )}}"></a>
-      </div>
-      {% endfor %}
+    {% for tag_id_name in tag_id_name_list %}
+      <a class="btn btn-warning categoryBox" href="{{ url_for( 'search_shop.search_result', tag_id=tag_id_name['tag_id'] )}}" role="button">{{ tag_id_name["name"] }}</a>
+    {% endfor %}
   </div>
 
   <!-- お店のスライドを入れる枠 -->
   <div class="slideFlame">
       <!-- お店のスライド -->
       {% for shop_and_pay in shops_and_payments %} 
-      <div class="slideBox" onclick="location.href='{{ url_for('detail', shop_id=(shop_and_pay[0]))}}'">
-          <div class="slideLine"></div>
-          <div class="storeName">{{ shop_and_pay[1] }}</div>
-          <div class="location"><span class="genzaiti">現在地から〜</span><span class="km">km</span></div>
-          {% if ((shop_and_pay[2] | length) < 100) %}
-            <div class="payment">{{  shop_and_pay[2] }}</div>
-          {% else %}
-             <div class="payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
-          {% endif %}
-      </div>
+        <div class="card slideBox">
+          <span class="card-header location bg-warning-subtle">現在地から~km</span>	
+          <div class="card-body">
+            <div class="card-title storeName">{{ shop_and_pay[1] }}</div>
+            {% if ((shop_and_pay[2] | length) < 100) %}
+              <div class="card-text payment">{{  shop_and_pay[2] }}</div>
+            {% else %}
+              <div class="card-text payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
+            {% endif %}
+          </div>
+          <a href="{{ url_for('detail', shop_id=(shop_and_pay[0]))}}" class="stretched-link"></a>
+        </div>
       {% endfor %}
   </div>
-
-  <main>
-
+  {# bootstrap setting #}
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

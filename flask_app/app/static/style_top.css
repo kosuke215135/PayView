@@ -1,220 +1,240 @@
-.header_div{
-    width: 1000px;
-    height: 150px;
-    position: relative;
-    margin: 0 auto;
+/* 以下スマホの表示 */
+@media (max-width: 480px) {
+    .header_div{
+        display:none;
+    }
+
+    .header_div_phone{
+        width: 100%;
+        height: 50px;
+        position: relative;
+    }
+
+    .logo{
+        width: 100px;
+        height: 40px;
+        margin: 10px;
+        position: absolute;
+    }
+
+    .title{
+        top: 15px;
+        left: 140px;
+        position: absolute;
+        text-align: center;
+        color: black;
+        font-size: 20px;
+        font-family: Source Serif Pro;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .line{
+        width: 100%;
+        height: 0px;
+        position: absolute;
+        top: 90%;
+        border-top: 2px solid #000;
+    }
+
+    .search-alert{
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    .tagList{
+        width: 100%;
+        position: relative;
+        margin: 20px auto 15px;
+        display: flex; /* 要素をFlexコンテナとして定義する */
+        flex-wrap: wrap;
+    }
+
+    .categoryBox{
+        mix-blend-mode: darken;
+        background: #F4F4F4;
+        border: 1px black solid;
+        position: relative;
+        text-align: center;
+        cursor:pointer;
+        margin: 5px 5px;
+    }
+
+    .slideFlame{
+        width: 100%;
+        height: 550px;
+        background: white;
+        border: 2px black solid;
+        overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+        border: 1px solid #000;      /* わかりやすくボーダーを引く */
+        margin: 0 auto;
+    }
+
+    .slideBox{
+        width: 100%;
+        height: 145px;
+        margin: 5px auto; /*画面の中央に寄せる*/
+        cursor:pointer;
+    }
+
+    .location{
+        font-size:15px;
+        color:gray;
+    }
+
+    .storeName{
+        color: black;
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
 }
 
-.logo{
-    width: 200px;
-    height 80px;
-    left: 0px;
-    top: 20px;
-    position: absolute;
+/* =====以下 pcの表示===== */
+@media (min-width: 481px) {
+
+    .header_div_phone{
+        display:none;
+    }
+    
+    .header_div{
+        width: 1000px;
+        height: 150px;
+        position: relative;
+        margin: 0 auto;
+    }
+
+    .logo{
+        width: 200px;
+        height: 80px;
+        left: 0px;
+        top: 20px;
+        position: absolute;
+    }
+
+    .title{
+        width: 517px;
+        height: 65px;
+        top: 60px;
+        left: 200px;
+        position: absolute;
+        text-align: center;
+        color: black;
+        font-size: 36px;
+        font-family: Source Serif Pro;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .line{
+        width: 100%;
+        height: 0px;
+        position: absolute;
+        top: 90%;
+        border-top: 2px solid #000;
+    }
+
+    .search_div{
+        width: 270px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        margin-top: -40px; /* この要素の高さの半分 */
+        right: 0px;
+    }
+
+    .searchImage{
+        width: 30px;
+        height: 30px;
+        top: 30px;
+        position: absolute;
+        float: left;
+    }
+
+    .search{
+        width: 55px;
+        height: 45px;
+        top: 25px;
+        left: 35px;
+        position: absolute;
+        color: black;
+        font-size: 24px;
+        font-family: Noto Serif JP;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        float: left;
+    }
+
+    .searchWindow{
+        width: 170px;
+        height: 45px;
+        top: 22px;
+        left: 95px;
+        position: absolute;
+        background: #F6F6F6;
+        float: left;
+    }
+
+    .search-alert{
+        width: 1000px;
+        margin: 20px auto;
+    }
+
+    .tagList{
+        height: 90px;
+        width: 1000px;
+        position: relative;
+        margin: 0 auto;
+        display: flex; /* 要素をFlexコンテナとして定義する */
+        list-style: none; /* リストのスタイルを無効にする */
+    }
+
+    .categoryBox{
+        width: 138px;
+        height: 38px;
+        mix-blend-mode: darken;
+        background: #F4F4F4;
+        border: 1px black solid;
+        position: relative;
+        text-align: center;
+        padding: 5px 0;
+        margin: 20px;
+        cursor:pointer;
+    }
+
+    .slideFlame{
+        width: 680px;
+        height: 550px;
+        background: white;
+        border: 2px black solid;
+        overflow-y: scroll;          /* 縦方向にスクロール可能にする */
+        border: 1px solid #000;      /* わかりやすくボーダーを引く */
+        margin: 0 auto;
+    }
+
+    .slideBox{
+        width: 650px;
+        height: 145px;
+        /* background: #F6F6F6; */
+        /* border: 2px black solid; */
+        /* padding: 0.5em 1em; */
+        margin: 1em auto; /*画面の中央に寄せる*/
+        cursor:pointer;
+        /* position: relative; */
+    }
+
+    .storeName{
+        color: black;
+        font-size: 20px;
+        font-weight: 700;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
 }
-
-.title{
-    width: 517px;
-    height: 65px;
-    top: 60px;
-    left: 200px;
-    position: absolute;
-    text-align: center;
-    color: black;
-    font-size: 36px;
-    font-family: Source Serif Pro;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word;
-}
-
-
-
-.line{
-    width: 100%;
-    height: 0px;
-    position: absolute;
-    top: 90%;
-    border-top: 2px solid #000;
-}
-
-.search_div{
-    width: 270px;
-    height: 80px;
-    position: absolute;
-    top: 50%;
-    margin-top: -40px; /* この要素の高さの半分 */
-    right: 0px;
-}
-
-.searchImage{
-    width: 30px;
-    height: 30px;
-    top: 30px;
-    position: absolute;
-    float: left;
-}
-
-.search{
-    width: 55px;
-    height: 45px;
-    top: 25px;
-    left: 35px;
-    position: absolute;
-    color: black;
-    font-size: 24px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word
-    float: left;
-}
-
-.searchWindow{
-    width: 170px;
-    height: 45px;
-    top: 22px;
-    left: 95px;
-    position: absolute;
-    background: #F6F6F6;
-    float: left;
-}
-
-
-.tagList{
-    height: 90px;
-    width: 1000px;
-    position: relative;
-    margin: 0 auto;
-    display: flex; /* 要素をFlexコンテナとして定義する */
-    list-style: none; /* リストのスタイルを無効にする */
-}
-
-.categoryBox{
-    width: 138px;
-    height: 38px;
-    mix-blend-mode: darken;
-    background: #F4F4F4;
-    border: 1px black solid;
-    position: relative;
-    text-align: center;
-    padding: 5px 0;
-    margin: 20px;
-    cursor:pointer;
-}
-
-.categoryBox a {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height:100%;
-    width: 100%;
-}
-
-.category{
-    color: black;
-    font-size: 20.67px;
-    font-family: Noto Serif JP;
-    font-weight: 600;
-    text-transform: uppercase;
-    word-wrap: break-word;
-}
-
-.slideFlame{
-    width: 680px;
-    height: 550px;
-    background: white;
-    border: 2px black solid;
-    overflow-y: scroll;          /* 縦方向にスクロール可能にする */
-    border: 1px solid #000;      /* わかりやすくボーダーを引く */
-    margin: 0 auto;
-}
-
-.slideBox{
-    width: 615px;
-    height: 145px;
-    background: #F6F6F6;
-    border: 2px black solid;
-    padding: 0.5em 1em;
-    margin: 1em auto; /*画面の中央に寄せる*/
-    cursor:pointer;
-    position: relative;
-}
-
-.slideLine{
-    width: 600px;
-    height: 0px;
-    top:  60%;
-    border-top: 2px solid #000;
-    position: absolute;
-}
-
-.storeName{
-    width: 440px;
-    height: 25px;
-    top: 30px;
-    left: 40px;
-    position: absolute;
-    color: black;
-    font-size: 20px;
-    font-family: Noto Serif JP;
-    font-weight: 900;
-    text-transform: uppercase;
-    word-wrap: break-word;
-}
-
-.location{
-    width: 441px;
-    height: 20px;
-    top: 65px;
-    left: 40px;
-    position: absolute;
-}
-
-.genzaiti{
-    color: black;
-    font-size: 16px;
-    font-family: Noto Serif JP;
-    font-weight: 400;
-    text-transform: uppercase;
-    word-wrap: break-word
-}
-
-.km{
-    color: black;
-    font-size: 16px;
-    font-family: Noto Serif JP;
-    font-weight: 400;
-    word-wrap: break-word
-}
-
-.payment{
-    width: 550px;
-    height: 50px;
-    top: 100px;
-    left: 40px;
-    position: absolute;
-    color: black;
-    font-size: 16px;
-    font-family: Noto Serif JP;
-    font-weight: 400;
-    word-break: break-all;
-}
-
-
-body{
-background:white
-}
-
-div.shop {
-    width: 16em;
-    padding: 0.5em 1em;
-    margin: 1em auto; /*画面の中央に寄せる*/
-    font-weight: bold;
-    color: #b8860b;/*文字色*/
-    background: #FFF;
-    border: solid 3px #b8860b;/*線*/
-    border-radius: 10px;/*角の丸み*/
-    text-align:center; /*テキストを中央に寄せる*/
-    cursor : pointer; /*マウスオーバーした際に、カーソルを指マークにする*/
-}
+/* =====以上pcの表示====== */
