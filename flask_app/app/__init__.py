@@ -83,13 +83,7 @@ def create_app():
         """
         cur.execute(join_query)
         payments_name_list = cur.fetchall() 
-        payments_str = ""
-        for i in range(len(payments_name_list)):
-            if i == len(payments_name_list)-1:
-                payments_str = payments_str + payments_name_list[i]["name"]
-                continue
-            payments_str = payments_str + payments_name_list[i]["name"] + ", "
-        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_str])
+        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list])
 
     return app
 

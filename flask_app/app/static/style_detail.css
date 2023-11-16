@@ -1,16 +1,203 @@
-body{
-    background:white
+/* 以下スマホの表示 */
+@media (max-width: 480px) {
+
+    .header_div{
+        display:none;
+    }
+
+    .header_div_phone{
+        width: 100%;
+        height: 50px;
+        position: relative;
+    }
+
+    .logo{
+        width: 100px;
+        height: 40px;
+        margin: 10px;
+        position: absolute;
+    }
+
+    .title{
+        top: 15px;
+        left: 140px;
+        position: absolute;
+        text-align: center;
+        color: black;
+        font-size: 20px;
+        font-family: Source Serif Pro;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .line{
+        width: 100%;
+        height: 0px;
+        position: absolute;
+        top: 90%;
+        border-top: 2px solid #000;
+    }
+
+    .shopName {
+        width: 1000px;
+        margin: 30px auto 0;
+        font-family: Noto Serif JP;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .usePymentsStr{
+        width: 1000px;
+        margin: 20px auto; 
+    }
+
+    .paymentList{
+        width: 100%;
+        margin: 20px auto;
+        display: flex; /* 要素をFlexコンテナとして定義する */
+        flex-wrap: wrap;
+    }
+
+    .paymentBadge{
+        border-radius: 40px; /* 角を丸くする */
+        background-color: rgb(40, 127, 233);
+        border: none;
+        margin: 2px 2px;
+        padding: 5px 15px;
+        color: #fff;
+    }
+
+    .paymentBadge:hover{
+        background-color: rgb(14, 111, 230); 
+    }
+
+    .backbutton {
+        margin-top: 200px;
+        text-align: center;
+    }
+}
+/* =====以下 pcの表示===== */
+@media (min-width: 481px) {
+
+    .header_div_phone{
+        display:none;
     }
     
-.altText {
-    text-align: center;
-}
+    .header_div{
+        width: 1000px;
+        height: 150px;
+        position: relative;
+        margin: 0 auto;
+    }
 
-.shopName {
-    color: #b8860b;/*文字色*/
-}
+    .logo{
+        width: 200px;
+        height: 80px;
+        left: 0px;
+        top: 20px;
+        position: absolute;
+    }
 
-.backbutton {
-    margin: 10px auto; /*中央に寄せる*/
-    cursor:pointer;
+    .title{
+        width: 517px;
+        height: 65px;
+        top: 60px;
+        left: 200px;
+        position: absolute;
+        text-align: center;
+        color: black;
+        font-size: 36px;
+        font-family: Source Serif Pro;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .line{
+        width: 100%;
+        height: 0px;
+        position: absolute;
+        top: 90%;
+        border-top: 2px solid #000;
+    }
+
+    .search_div{
+        width: 270px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        margin-top: -40px; /* この要素の高さの半分 */
+        right: 0px;
+    }
+
+    .searchImage{
+        width: 30px;
+        height: 30px;
+        top: 30px;
+        position: absolute;
+        float: left;
+    }
+
+    .search{
+        width: 55px;
+        height: 45px;
+        top: 25px;
+        left: 35px;
+        position: absolute;
+        color: black;
+        font-size: 24px;
+        font-family: Noto Serif JP;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        float: left;
+    }
+
+    .searchWindow{
+        width: 170px;
+        height: 45px;
+        top: 22px;
+        left: 95px;
+        position: absolute;
+        background: #F6F6F6;
+        float: left;
+    }
+
+    .shopName {
+        width: 1000px;
+        margin: 20px auto;
+        font-family: Noto Serif JP;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    .usePymentsStr{
+        width: 1000px;
+        margin: 20px auto; 
+    }
+
+    .paymentList{
+        width: 1000px;
+        margin: 20px auto;
+    }
+
+    .paymentBadge{
+        border-radius: 40px; /* 角を丸くする */
+        background-color: rgb(40, 127, 233);
+        border: none;
+        padding: 5px 15px;
+        color: #fff;
+    }
+
+    .paymentBadge:hover{
+        background-color: rgb(14, 111, 230); 
+    }
+
+    .backbutton {
+        margin-top: 200px;
+        text-align: center;
+    }
 }
