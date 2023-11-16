@@ -40,8 +40,8 @@
     }
 
     .shopName {
-        width: 1000px;
-        margin: 30px auto 0;
+        width: 100%;
+        margin: 30px 10px 0;
         font-family: Noto Serif JP;
         font-weight: 600;
         text-transform: uppercase;
@@ -49,12 +49,12 @@
     }
 
     .usePymentsStr{
-        width: 1000px;
-        margin: 20px auto; 
+        width: 210px;
+        margin: 20px 10px; 
     }
 
     .paymentList{
-        width: 100%;
+        width: 95%;
         margin: 20px auto;
         display: flex; /* 要素をFlexコンテナとして定義する */
         flex-wrap: wrap;
