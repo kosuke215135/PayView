@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="{{ url_for("static", filename="insert_shop_data/style_choose_tag.css")}}">
 {% endblock %}
 {% block body %}
-    <h2>「{{ shop_data[0]["name"] }}」で使用できる決済サービス</h2>
+    <h2>「{{ shop_data[0]["name"] }}」と結びつけるタグ</h2>
     <form action="{{ url_for("insert_shop_data.choose_tag", shop_id=shop_data[0]["shop_id"]) }}" method="POST">
         {% for tag_id_name in tag_id_name_list %}
         {% if tag_id_name["tag_id"] in assigned_tag_this_shop_list %}
