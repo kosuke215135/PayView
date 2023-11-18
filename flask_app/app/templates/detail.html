@@ -61,9 +61,15 @@
     <div class="usePymentsStr">使用できる決済サービス等一覧</div>
     <div class="paymentList">
       {% for payment_name in shop_detail[2] %}
-        <button class="paymentBadge">
-          {{ payment_name["name"] }}
-        </button>
+        {% if payment_name["name"] == "PayPay" %}
+          <button class="paymentBadge" onclick="location.href='paypay://'">
+            {{ payment_name["name"] }}
+          </button>
+        {% else %}
+          <button class="paymentBadge">
+            {{ payment_name["name"] }}
+          </button>
+        {% endif %}
       {% endfor %}
     </div>
   </div>
