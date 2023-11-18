@@ -190,6 +190,7 @@
         border: none;
         padding: 5px 15px;
         color: #fff;
+        margin: 2px 2px;
     }
 
     .paymentBadge:hover{
