@@ -56,6 +56,25 @@
   {# ====スマホ用のヘッダー==== #}
 </header>
 <body>
+  <script>
+    const getMobileOS = () => {
+      const ua = navigator.userAgent
+      if (/android/i.test(ua)) {
+        return "Android"
+      }
+      else if ((/iPad|iPhone|iPod/.test(ua)) 
+          || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+        return "iOS"
+      }
+    
+      return "Other"
+    }
+    var os = getMobileOS();
+    console.log(os);
+    {% set device_type = os  %}
+  </script>
+
+  <h1>{{device_type}}</h1>
   {% if tag_name != None %}
       <div class="alert alert-warning search-alert" role="alert">{{ tag_name }}のタグがついているお店一覧</div>
   {% endif %}
