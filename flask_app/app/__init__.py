@@ -65,8 +65,8 @@ def create_app():
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
 
-    @app.route("/detail/<int:shop_id>")
-    def detail(shop_id):
+    @app.route("/detail/<string:os>/<int:shop_id>")
+    def detail(os, shop_id):
         db = get_db()
         cur = db.cursor(dictionary=True)
         query = f"select * from shops where shop_id = {shop_id};"
