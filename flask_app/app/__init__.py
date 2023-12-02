@@ -74,11 +74,18 @@ def create_app():
         shop_name = cur.fetchall()[0]["name"]
         join_query = f"""
             select 
-            payment_services.name 
+            payment_services.payment_id,
+            payment_services.name,
+            payment_schemes.iOS_scheme,
+            payment_schemes.Android_scheme
             from can_use_services 
             inner join 
             payment_services 
             on can_use_services.payment_id = payment_services.payment_id 
+            LEFT OUTER JOIN
+            payment_schemes
+            on
+            can_use_services.payment_id = payment_schemes.payment_id
             where can_use_services.shop_id = {shop_id} 
         """
         cur.execute(join_query)
