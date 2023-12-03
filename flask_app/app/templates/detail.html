@@ -60,16 +60,16 @@
     <h1 class="shopName">{{ shop_detail[1] }}</h1>
     <div class="usePymentsStr">使用できる決済サービス等一覧</div>
     <div class="paymentList">
-      {% for payment_name in shop_detail[2] %}
-        {% if payment_name["name"] == "PayPay" %}
-          <button class="paymentBadge" onclick="location.href='paypay://'">
-            {{ payment_name["name"] }}
-          </button>
-        {% else %}
-          <button class="paymentBadge">
-            {{ payment_name["name"] }}
-          </button>
-        {% endif %}
+      {% for name, scheme in shop_detail[3] %}
+          {% if scheme is not none %}
+            <button class="paymentBadge" onclick="location.href='{{ scheme }}'">
+            {{ name }}
+            </button>         
+          {% else %}
+            <button class="paymentBadge">
+              {{ name }}
+            </button>
+          {% endif %}
       {% endfor %}
     </div>
   </div>

@@ -89,8 +89,30 @@ def create_app():
             where can_use_services.shop_id = {shop_id} 
         """
         cur.execute(join_query)
-        payments_name_list = cur.fetchall() 
-        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list])
+        payments_name_list = cur.fetchall()
+
+        scheme_data = []
+        for payment in payments_name_list:
+            scheme_list=[]
+            if os == "iOS":
+                if payment["iOS_scheme"] != "":
+                    scheme_list = [payment["name"], payment["iOS_scheme"]]
+                    scheme_data.append(scheme_list)
+                else:
+                    scheme_list = [payment["name"], None]
+                    scheme_data.append(scheme_list)
+            elif os == "Android":
+                if payment["Android_scheme"] != "":
+                    scheme_list = [payment["name"], payment["Android_scheme"]]
+                    scheme_data.append(scheme_list)
+                else:
+                    scheme_list = [payment["name"], None]
+                    scheme_data.append(scheme_list)
+            else:
+                scheme_list = [payment["name"], None]
+                scheme_data.append(scheme_list)
+
+        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list, scheme_data])
 
     return app
 
