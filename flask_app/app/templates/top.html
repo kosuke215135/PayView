@@ -56,6 +56,24 @@
   {# ====スマホ用のヘッダー==== #}
 </header>
 <body>
+  <script>
+    function getMobileOS(shop_id){
+      const ua = navigator.userAgent
+      var os = "Other"
+      if (/android/i.test(ua)) {
+        os = "Android"
+      }
+      else if ((/iPad|iPhone|iPod/.test(ua)) 
+          || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+        os = "iOS"
+      }
+      const SCRIPT_ROOT = {{ request.script_root|tojson }}
+      console.log(os);
+      window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
+    }
+  </script>
+
+  <h1>{{device_type}}</h1>
   {% if tag_name != None %}
       <div class="alert alert-warning search-alert" role="alert">{{ tag_name }}のタグがついているお店一覧</div>
   {% endif %}
@@ -81,7 +99,7 @@
               <div class="card-text payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
             {% endif %}
           </div>
-          <a href="{{ url_for('detail', shop_id=(shop_and_pay[0]))}}" class="stretched-link"></a>
+          <a onclick="getMobileOS({{ shop_and_pay[0] }})" href="#" class="stretched-link"></a>
         </div>
       {% endfor %}
   </div>

@@ -65,8 +65,8 @@ def create_app():
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
 
-    @app.route("/detail/<int:shop_id>")
-    def detail(shop_id):
+    @app.route("/detail/<string:os>/<int:shop_id>")
+    def detail(os, shop_id):
         db = get_db()
         cur = db.cursor(dictionary=True)
         query = f"select * from shops where shop_id = {shop_id};"
@@ -74,16 +74,45 @@ def create_app():
         shop_name = cur.fetchall()[0]["name"]
         join_query = f"""
             select 
-            payment_services.name 
+            payment_services.payment_id,
+            payment_services.name,
+            payment_schemes.iOS_scheme,
+            payment_schemes.Android_scheme
             from can_use_services 
             inner join 
             payment_services 
             on can_use_services.payment_id = payment_services.payment_id 
+            LEFT OUTER JOIN
+            payment_schemes
+            on
+            can_use_services.payment_id = payment_schemes.payment_id
             where can_use_services.shop_id = {shop_id} 
         """
         cur.execute(join_query)
-        payments_name_list = cur.fetchall() 
-        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list])
+        payments_name_list = cur.fetchall()
+
+        scheme_data = []
+        for payment in payments_name_list:
+            scheme_list=[]
+            if os == "iOS":
+                if payment["iOS_scheme"] != "":
+                    scheme_list = [payment["name"], payment["iOS_scheme"]]
+                    scheme_data.append(scheme_list)
+                else:
+                    scheme_list = [payment["name"], None]
+                    scheme_data.append(scheme_list)
+            elif os == "Android":
+                if payment["Android_scheme"] != "":
+                    scheme_list = [payment["name"], payment["Android_scheme"]]
+                    scheme_data.append(scheme_list)
+                else:
+                    scheme_list = [payment["name"], None]
+                    scheme_data.append(scheme_list)
+            else:
+                scheme_list = [payment["name"], None]
+                scheme_data.append(scheme_list)
+
+        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list, scheme_data])
 
     return app
 
