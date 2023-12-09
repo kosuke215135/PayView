@@ -20,7 +20,14 @@ def create_app():
 
     import search_shop
     app.register_blueprint(search_shop.bp)
-
+    
+    # jsからhttp経由のPOST方式で、現在地のデータを受け取る。 by kouya
+    @app.route('/send-location', methods=['POST'])
+    def receive_location():
+        location_data = request.json
+        print(f'present location is {location_data}')
+        return {"status": "success"}
+    
     @app.route("/")
     def top():
         db = get_db()
@@ -29,9 +36,13 @@ def create_app():
         cur.execute(query)
         shops = cur.fetchall()
         shops_and_payments = []
+        latitude_longitude_list = []
         for shop_dict in shops:
             shop_list = [shop_dict["shop_id"], shop_dict["name"]]
+            latitude_longitude = [shop_dict["latitude"], shop_dict["longitude"]]
+            print(f'{shop_dict["name"]} store location is {shop_dict["latitude"]}, {shop_dict["longitude"]}')
             shops_and_payments.append(shop_list)
+            latitude_longitude_list.append(latitude_longitude)
         for i in range(len(shops_and_payments)):
             shop_id = shops_and_payments[i][0]
             join_query = f"""
