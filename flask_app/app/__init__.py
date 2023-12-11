@@ -55,13 +55,17 @@ def create_app():
         diff = distance * degree_per_kilometer  # 指定された距離を角度に変換
         return {'n': lat + diff, 'e': lng + diff, 's': lat - diff, 'w': lng - diff}
 
-    # jsからhttp経由のPOST方式で、現在地のデータを受け取る。 by kouya
-    @app.route('/send-location', methods=['POST'])
-    def receive_location():
-        location_data = request.json
-        user_latitude = location_data["latitude"]
-        user_longitude = location_data["longitude"]
-        
+    
+    @app.route("/")
+    def loading():
+        return render_template("loading.html")
+
+
+    # jsからhttp経由のPOST方式で、現在地のデータを受け取る。
+    @app.route("/top", methods=['POST'])
+    def top():
+        user_latitude = float(request.form["latitude"])
+        user_longitude = float(request.form["longitude"])
         
         result = get_distanced_lat_lng(user_latitude, user_longitude, 3)
         n = str(result["n"])
@@ -75,32 +79,16 @@ def create_app():
         query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
         cur.execute(query)
         shops = cur.fetchall()
-        
-        latitude_longitude_list = []
-        for shop_dict in shops:
-            latitude_longitude = [shop_dict["latitude"], shop_dict["longitude"]]
-            latitude_longitude_list.append(latitude_longitude)
-        
-        distance_list = []
-        # 距離を出す
-        for latitude_longitude in latitude_longitude_list:
-            store_latitude = latitude_longitude[0]
-            store_longitude = latitude_longitude[1]
-            distance = location_distance(user_latitude, user_longitude, store_latitude, store_longitude)
-            distance_list.append(distance)
-        return render_template("top.html", distance_list=distance_list)
-    
-    @app.route("/")
-    def top():
-        db = get_db()
-        cur = db.cursor(dictionary=True)
-        query = "select * from shops;"
-        cur.execute(query)
-        shops = cur.fetchall()
+
         shops_and_payments = []
         for shop_dict in shops:
-            shop_list = [shop_dict["shop_id"], shop_dict["name"]]
+            distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
             shops_and_payments.append(shop_list)
+
+        # 距離(distance)でソートする
+        shops_and_payments.sort(key=lambda x: x[2])
+
         for i in range(len(shops_and_payments)):
             shop_id = shops_and_payments[i][0]
             join_query = f"""
@@ -130,7 +118,6 @@ def create_app():
         tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
         tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
-
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
 
