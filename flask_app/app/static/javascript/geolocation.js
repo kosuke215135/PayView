@@ -1,26 +1,23 @@
 // jsで現在地の位置情報（緯度経度）を取得する。 by kouya
 
-window.onload = function() {
-    if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            post("/top", {latitude: position.coords.latitude, longitude: position.coords.longitude});
-        });
-    } else {
-        alert("Geolocation is not supported by this browser.");
-    }
+function post_position(path) {
+  if ("geolocation" in navigator) {
+      console.log("execute post_position")
+      navigator.geolocation.getCurrentPosition(
+        // 成功時のコールバック関数
+        function(position) {
+          post(path, {latitude: position.coords.latitude, longitude: position.coords.longitude});
+        },
+        // 失敗時のコールバック関数
+        function(error) {
+          // エラーメッセージを表示するか、適切な処理を行う
+          console.error("位置情報の取得に失敗しました:", error.message);
+        }
+      );
+  } else {
+    alert("Geolocation is not supported by this browser.");
+  }
 };
-
-// // 緯度経度の変数をFlaskへhttp経由のPOST形式で送信する。
-// function sendLocationToServer(latitude, longitude) {
-//     fetch('/top', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({latitude: latitude, longitude: longitude})
-//     })
-// }
-
 
 /**
  * sends a request to the specified url from a form. this will change the window location.
@@ -50,4 +47,12 @@ function post(path, params, method='post') {
 
   document.body.appendChild(form);
   form.submit();
+}
+
+function call_post(position) {
+  post("/top", {latitude: position.coords.latitude, longitude: position.coords.longitude});
+}
+
+function fail(error){
+ window.alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
 }

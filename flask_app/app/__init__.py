@@ -4,8 +4,7 @@ from flask import request
 from db import get_db
 import random
 from datetime import timedelta #時間情報を用いるため
-import math
-
+from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -21,40 +20,6 @@ def create_app():
 
     import search_shop
     app.register_blueprint(search_shop.bp)
-    
-
-    # 現在地からお店まで〜kmか出力する関数
-    def location_distance(user_latitude, user_longitude, store_latitude, store_longitude):
-        # 地球の半径（キロメートル）
-        R = 6371.0
-
-        # 緯度経度をラジアンに変換
-        lat1 = math.radians(user_latitude)
-        lon1 = math.radians(user_longitude)
-        lat2 = math.radians(store_latitude)
-        lon2 = math.radians(store_longitude)
-
-        # 緯度と経度の差
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
-
-        # ハーヴァーサイン公式
-        a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-
-        # 距離
-        distance = R * c
-
-        return distance
-    
-    def get_distanced_lat_lng(lat, lng, distance):
-        R = math.pi / 180  # 円周率をラジアンに変換
-        earth_radius = 6371  # 地球の半径（キロメートル）
-        kilometer_per_degree = R * earth_radius  # 1度あたりのキロメートル
-        degree_per_kilometer = 1 / kilometer_per_degree  # 1キロメートルあたりの度
-        diff = distance * degree_per_kilometer  # 指定された距離を角度に変換
-        return {'n': lat + diff, 'e': lng + diff, 's': lat - diff, 'w': lng - diff}
-
     
     @app.route("/")
     def loading():
@@ -89,6 +54,9 @@ def create_app():
         # 距離(distance)でソートする
         shops_and_payments.sort(key=lambda x: x[2])
 
+        #見やすいようにkmかmに変換する
+        shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
         for i in range(len(shops_and_payments)):
             shop_id = shops_and_payments[i][0]
             join_query = f"""
@@ -118,6 +86,7 @@ def create_app():
         tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
         tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
+        print("execute top()")
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
 

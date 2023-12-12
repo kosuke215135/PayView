@@ -21,12 +21,12 @@
     }
   </style>
   {# 位置情報を取得する geolocation.jsを追加 by kouya#}
-  <script src="../static/javascript/geolocation.js"></script>
+  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
   {# bootstrap setting #}
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<body>
+<body onload="post_position('/top')">
   <h1>loading...</h1>
 </body>
 </html>
