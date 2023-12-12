@@ -27,7 +27,7 @@
 <header>
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('top') }}">
+    <a href="{{ url_for('loading') }}">
       <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
     </a>
     <!-- タイトル -->
@@ -45,7 +45,7 @@
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('top') }}">
+    <a href="{{ url_for('loading') }}">
       <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
     </a>
     <!-- タイトル -->
@@ -54,6 +54,7 @@
     <hr class="line">
   </div>
   {# ====スマホ用のヘッダー==== #}
+    <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
 <body>
   <script>
@@ -81,22 +82,21 @@
   <!-- カテゴリ -->
   <div class="tagList">
     {% for tag_id_name in tag_id_name_list %}
-      <a class="btn btn-warning categoryBox" href="{{ url_for( 'search_shop.search_result', tag_id=tag_id_name['tag_id'] )}}" role="button">{{ tag_id_name["name"] }}</a>
+      <a class="btn btn-warning categoryBox" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">{{ tag_id_name["name"] }}</a>
     {% endfor %}
   </div>
-
   <!-- お店のスライドを入れる枠 -->
   <div class="slideFlame">
       <!-- お店のスライド -->
       {% for shop_and_pay in shops_and_payments %} 
         <div class="card slideBox">
-          <span class="card-header location bg-warning-subtle">現在地から~km</span>	
+          <span class="card-header location bg-warning-subtle">現在地から {{ shop_and_pay[2] }}</span>	
           <div class="card-body">
             <div class="card-title storeName">{{ shop_and_pay[1] }}</div>
-            {% if ((shop_and_pay[2] | length) < 100) %}
-              <div class="card-text payment">{{  shop_and_pay[2] }}</div>
+            {% if ((shop_and_pay[3] | length) < 100) %}
+              <div class="card-text payment">{{  shop_and_pay[3] }}</div>
             {% else %}
-              <div class="card-text payment">{{ (shop_and_pay[2])[:100]+"..." }}</div>
+              <div class="card-text payment">{{ (shop_and_pay[3])[:100]+"..." }}</div>
             {% endif %}
           </div>
           <a onclick="getMobileOS({{ shop_and_pay[0] }})" href="#" class="stretched-link"></a>

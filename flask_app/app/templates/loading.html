@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"> 
+  <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_top.css')}}">
+  <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
+  <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+  <title>PayView</title>
+  <style>
+    /* すべての画像のスタイル */
+    img {
+      display: block; /* 画像をブロック要素として扱う */
+      margin: auto;    /* 画像を中央に配置 */
+    }
+
+    /* 特定の画像のスタイル */
+    .custom-image {
+      width: 30%; /* 幅を50%に設定 */
+    }
+  </style>
+  {# 位置情報を取得する geolocation.jsを追加 by kouya#}
+  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
+  {# bootstrap setting #}
+  <!-- 画像の大きさを取得 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body onload="post_position('/top')">
+  <h1>loading...</h1>
+</body>
+</html>

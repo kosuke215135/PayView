@@ -1,10 +1,10 @@
-from flask import Flask,render_template
+from flask import Flask, render_template, session
 import os
 from flask import request
 from db import get_db
 import random
-
-
+from datetime import timedelta #時間情報を用いるため
+from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
 
@@ -20,18 +20,43 @@ def create_app():
 
     import search_shop
     app.register_blueprint(search_shop.bp)
-
+    
     @app.route("/")
+    def loading():
+        return render_template("loading.html")
+
+
+    # jsからhttp経由のPOST方式で、現在地のデータを受け取る。
+    @app.route("/top", methods=['POST'])
     def top():
+        user_latitude = float(request.form["latitude"])
+        user_longitude = float(request.form["longitude"])
+        
+        result = get_distanced_lat_lng(user_latitude, user_longitude, 3)
+        n = str(result["n"])
+        e = str(result["e"])
+        s = str(result["s"])
+        w = str(result["w"])
+                
+        # 3km以内のお店だけをデータベースから指定
         db = get_db()
         cur = db.cursor(dictionary=True)
-        query = "select * from shops;"
+        query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
         cur.execute(query)
         shops = cur.fetchall()
+
         shops_and_payments = []
         for shop_dict in shops:
-            shop_list = [shop_dict["shop_id"], shop_dict["name"]]
+            distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
             shops_and_payments.append(shop_list)
+
+        # 距離(distance)でソートする
+        shops_and_payments.sort(key=lambda x: x[2])
+
+        #見やすいようにkmかmに変換する
+        shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
         for i in range(len(shops_and_payments)):
             shop_id = shops_and_payments[i][0]
             join_query = f"""
@@ -61,7 +86,7 @@ def create_app():
         tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
         tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
-
+        print("execute top()")
         return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name)
 
 
