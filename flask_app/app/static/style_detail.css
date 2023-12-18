@@ -179,7 +179,7 @@
     left: -200px;
     background: #2d2d2d;
     position: absolute;
-    transition: all .15s ease-Out;
+    transition: all .2s ease-Out;
     bottom: 0;
     }
     #button-2:hover #slide {
