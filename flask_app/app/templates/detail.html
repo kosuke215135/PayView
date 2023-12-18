@@ -58,87 +58,85 @@
 </header>
 <body>
   <div id="shopDetail">
-    <h1 class="shopName">{{ shop_detail[1] }}
+    <h1 class="shopName">{{ shop_detail[1] }}</h1>
     <div class="usePymentsStr">使用できる決済サービス等一覧</div>
-    </h1>
+    {# test
+    <div class="button_flex">
+      <div class="button" id="button-2" ontouchstart = "">
+        <div id="slide"></div>
+        <a class="a_tag" href="https://google.com">test</a>
+      </div>
+    </div>
+    #}
     {# クレジットカード #}
     <div class="credit_flex">
       <span class="credit_text">クレジットカード</span>
       <span class="credit_image"></span>
     </div>
     {% set credit_list = ['American Express', 'Cedyna', 'DCカード', 'Diners Club', 'Discover', 'iD', 'd払い', 'J-Debit', 'JACCS', 'JCB', 'Mastercard', 'MUFG CARD/三菱UFJカード', 'NICOSカード', 'OCSカード', 'SAISON CARD', 'セブンカード', 'TS CUBIC', 'UCカード', 'UnionPay/銀聯', 'Visa'] %}
-    <section class="portfolio-experiment">
+    <div class="button_flex">
       {% for name, scheme in shop_detail[3] %}
         {# nameにクレジット決済があったら処理 #}
         {% if name in credit_list %}
           {% if scheme is not none %}
-              <a href="{{ scheme }}">
-                  <span class="text">{{ name }}</span>
-                  <span class="line -right"></span>
-                  <span class="line -top"></span>
-                  <span class="line -left"></span>
-                  <span class="line -bottom"></span>
-              </a>
+            <div class="button" id="button-2" ontouchstart = "">
+              <div id="slide"></div>
+              <a href="{{scheme}}">{{name}}</a>
+            </div>
           {% else %}
-              <a>
-                  <span class="text">{{ name }}</span>
-              </a>
+            <div class="button">
+              <a>{{name}}</a>
+            </div>
           {% endif %}
         {% endif %}
       {% endfor %}
-    </section>
+    </div>
     {# バーコード・QRコード決済 #}
     <div class="barcode_flex">
       <span class="barcode_text">バーコード・QRコード決済</span>
       <span class="barcode_image"></span>
     </div>
     {% set credit_list = ['AEON Pay', 'Alipay/支付宝', 'Alipay+', 'atone', 'au PAY', 'COIN+', 'EPOS PAY', 'FamiPay', 'iD', 'J-Coin Pay', 'K PLUS', 'LINE Pay', 'Lu Vit Pay', 'OKI Pay', 'PayPay', 'Payどん', 'QUOカードPay', 'Smart Code', 'WeChat Pay/微信支付', 'ゆうちょPay', 'メルペイ', '楽天ペイ', '銀行Pay'] %}
-    <section class="portfolio-experiment">
+    <div class="button_flex">
       {% for name, scheme in shop_detail[3] %}
         {# nameにクレジット決済があったら処理 #}
         {% if name in credit_list %}
           {% if scheme is not none %}
-              <a href="{{ scheme }}">
-                  <span class="text">{{ name }}</span>
-                  <span class="line -right"></span>
-                  <span class="line -top"></span>
-                  <span class="line -left"></span>
-                  <span class="line -bottom"></span>
-              </a>
+            <div class="button" id="button-2" ontouchstart = "">
+              <div id="slide"></div>
+              <a href="{{scheme}}">{{name}}</a>
+            </div>
           {% else %}
-              <a>
-                  <span class="text">{{ name }}</span>
-              </a>
+            <div class="button">
+              <a>{{name}}</a>
+            </div>
           {% endif %}
         {% endif %}
       {% endfor %}
-    </section>
+    </div>
     {# 電子マネー #}
     <div class="electronic_money_flex">
       <span class="electronic_money_text">電子マネー</span>
       <span class="electronic_money_image"></span>
     </div>
     {% set credit_list = ['ANA Pay', 'Apple Pay', 'Edyカード', 'Google Pay', 'nanaco', 'QUICPay', 'QUICPay+', 'WAONカード', 'はまPay', 'サンエーEdyカード', 'ユニカード', 'ララPay', '楽天Edy', 'ICOCA', 'Kitaca', 'manaca', 'nimoca', 'PASMO', 'PiTaPa', 'SUGOCA', 'Suica', 'T-money', 'TOICA', 'はやかけん'] %}
-    <section class="portfolio-experiment">
+    <div class="button_flex">
       {% for name, scheme in shop_detail[3] %}
         {# nameにクレジット決済があったら処理 #}
         {% if name in credit_list %}
           {% if scheme is not none %}
-              <a href="{{ scheme }}">
-                  <span class="text">{{ name }}</span>
-                  <span class="line -right"></span>
-                  <span class="line -top"></span>
-                  <span class="line -left"></span>
-                  <span class="line -bottom"></span>
-              </a>
+            <div class="button" id="button-2" ontouchstart = "">
+              <div id="slide"></div>
+              <a href="{{scheme}}">{{name}}</a>
+            </div>
           {% else %}
-              <a>
-                  <span class="text">{{ name }}</span>
-              </a>
+            <div class="button">
+              <a>{{name}}</a>
+            </div>
           {% endif %}
         {% endif %}
       {% endfor %}
-    </section>
+    </div>
   </div>
   <div class="backbutton">
     <button class="btn btn-secondary" onclick="history.back()" type="button">戻る</button>
