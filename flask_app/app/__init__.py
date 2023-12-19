@@ -7,6 +7,11 @@ from datetime import timedelta #時間情報を用いるため
 from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
+BARCODE_GROUP = "02PG"
+CREDIT_GROUP = "03PG"
+ELECTRONIC_MONEY_GROUP = "04PG"
+TRANSPORTATION_GROUP = "05PG"
+
 
 def create_app():
     #Flaskオブジェクトの生成
@@ -101,6 +106,7 @@ def create_app():
             select 
             payment_services.payment_id,
             payment_services.name,
+            payment_services.payment_group,
             payment_schemes.iOS_scheme,
             payment_schemes.Android_scheme
             from can_use_services 
@@ -121,23 +127,31 @@ def create_app():
             scheme_list=[]
             if os == "iOS":
                 if payment["iOS_scheme"] != "":
-                    scheme_list = [payment["name"], payment["iOS_scheme"]]
-                    scheme_data.append(scheme_list)
+                    scheme_list = [payment["name"], payment["iOS_scheme"], payment["payment_group"]]
                 else:
-                    scheme_list = [payment["name"], None]
-                    scheme_data.append(scheme_list)
+                    scheme_list = [payment["name"], None, payment["payment_group"]]
             elif os == "Android":
                 if payment["Android_scheme"] != "":
-                    scheme_list = [payment["name"], payment["Android_scheme"]]
-                    scheme_data.append(scheme_list)
+                    scheme_list = [payment["name"], payment["Android_scheme"], payment["payment_group"]]
                 else:
-                    scheme_list = [payment["name"], None]
-                    scheme_data.append(scheme_list)
+                    scheme_list = [payment["name"], None, payment["payment_group"]]
             else:
-                scheme_list = [payment["name"], None]
-                scheme_data.append(scheme_list)
+                scheme_list = [payment["name"], None, payment["payment_group"]]
+            scheme_data.append(scheme_list)
 
-        return render_template("detail.html", shop_detail=[shop_id, shop_name, payments_name_list, scheme_data])
+        barcode_payments = []
+        credit_payments = []
+        electronic_money_payments = []
+        for pay_scheme in scheme_data:
+            payment_group = pay_scheme[2]
+            if payment_group == BARCODE_GROUP:
+                barcode_payments.append(pay_scheme)
+            elif payment_group == CREDIT_GROUP:
+                credit_payments.append(pay_scheme)
+            elif payment_group == ELECTRONIC_MONEY_GROUP or payment_group == TRANSPORTATION_GROUP:
+                electronic_money_payments.append(pay_scheme)
+
+        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments)
 
     return app
 
