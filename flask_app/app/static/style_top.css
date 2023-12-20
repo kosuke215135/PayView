@@ -6,7 +6,7 @@
 
     .header_div_phone{
         width: 100%;
-        height: 50px;
+        height: 90px;
         position: relative;
     }
 
@@ -27,6 +27,19 @@
         font-family: Source Serif Pro;
         font-weight: 600;
         text-transform: uppercase;
+        word-wrap: break-word;
+    }
+
+    p.explanation{
+        top: 53px;
+        left: 5px;
+        position: absolute;
+        text-align: center;
+        color: black;
+        font-size: 7px;
+        font-family: Source Serif Pro;
+        font-weight: 400;
+        /* text-transform: uppercase; */
         word-wrap: break-word;
     }
 
@@ -129,6 +142,20 @@
         text-transform: uppercase;
         word-wrap: break-word;
     }
+
+    p.explanation {
+        top:103px;
+        left: 150px;
+        position: absolute;
+        text-align: center;
+        color: #333333;
+        font-size: 15px;
+        font-family: Source Serif Pro;
+        font-weight: 400;
+        /* text-transform: uppercase; */
+        word-wrap: break-word;
+    }
+    
 
     .line{
         width: 100%;
