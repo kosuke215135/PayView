@@ -1,5 +1,8 @@
 /* 以下スマホの表示 */
 @media (max-width: 480px) {
+    .background{
+        background-color: #fffaf7;
+    }
 
     .header_div{
         display:none;
@@ -198,7 +201,10 @@
 }
 /* =====以下 pcの表示===== */
 @media (min-width: 481px) {
-
+    .background{
+        background-color: #fffaf7;
+    }
+    
     .header_div_phone{
         display:none;
     }

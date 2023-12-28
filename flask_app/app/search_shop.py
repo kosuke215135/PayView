@@ -63,8 +63,6 @@ def search_result(tag_id):
     tag_query = "select * from tags;"
     cur.execute(tag_query)
     tag_id_name_list = cur.fetchall()
-    random.shuffle(tag_id_name_list) #ランダムに表示する
-    tag_id_name_list = tag_id_name_list[:6] #先頭の6個までを表示
 
     #タグ名を取得する
     cur.execute(f"select name from tags where tag_id = '{tag_id}'")

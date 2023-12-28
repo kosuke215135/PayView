@@ -1,143 +1,256 @@
 /* 以下スマホの表示 */
 @media (max-width: 480px) {
+    .background{
+        background-color: #fffaf7;
+    }
+
     .header_div{
         display:none;
     }
 
     .header_div_phone{
-        width: 100%;
-        height: 50px;
-        position: relative;
+        height: 70px;
+        margin: 20px;
     }
 
     .logo{
         width: 100px;
         height: 40px;
-        margin: 10px;
         position: absolute;
     }
 
     .title{
-        top: 15px;
-        left: 140px;
-        position: absolute;
-        text-align: center;
-        color: black;
-        font-size: 20px;
+        width: 100%;
+        height: 65px;
+        color: #333333;
+        font-size: 26px;
         font-family: Source Serif Pro;
         font-weight: 600;
         text-transform: uppercase;
         word-wrap: break-word;
-    }
-
-    .line{
-        width: 100%;
-        height: 0px;
+        top: 80px;
         position: absolute;
-        top: 90%;
-        border-top: 2px solid #000;
     }
 
-    .search-alert{
-        width: 95%;
-        margin: 20px auto;
+    /* ハンバーガーメニュー */
+    .menu-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        height: 60px;
+        width: 60px;
+        justify-content: center;
+        align-items: center;
+        z-index: 90;
     }
-
-    .tagList{
+    .menu-btn span,
+    .menu-btn span:before,
+    .menu-btn span:after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 25px;
+        border-radius: 3px;
+        background-color: #333333;
+        position: absolute;
+    }
+    .menu-btn span:before {
+        bottom: 8px;
+    }
+    .menu-btn span:after {
+        top: 8px;
+    }
+    #menu-btn-check:checked ~ .menu-btn span {
+        background-color: rgba(255, 255, 255, 0);/*メニューオープン時は真ん中の線を透明にする*/
+    }
+    #menu-btn-check:checked ~ .menu-btn span::before {
+        bottom: 0;
+        transform: rotate(45deg);
+    }
+    #menu-btn-check:checked ~ .menu-btn span::after {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+    .menu-content {
+        border-top: solid 5px #5d627b;
+        box-sizing: border-box;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
         width: 100%;
-        position: relative;
-        margin: 20px auto 15px;
-        display: flex; /* 要素をFlexコンテナとして定義する */
-        flex-wrap: wrap;
+        height: 60vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 80;
+        background-color: #fffaf7;
+        opacity: 0;
+        transition: opacity 0.3s;
+        overflow-y: scroll; /* スクロールを可能にする */
+        pointer-events: none; /* デフォルトでポインターイベントを無効にする */
+        transition: opacity 0.3s, pointer-events 0.3s; /* pointer-events にもトランジションを追加 */
+    }
+    #menu-btn-check:checked ~ .menu-content {
+        opacity: 1; /* メニューを不透明にする */
+        pointer-events: auto; /* メニューが表示された時にポインターイベントを有効にする */
     }
 
-    .categoryBox{
-        mix-blend-mode: darken;
-        background: #F4F4F4;
-        border: 1px black solid;
+    .category_frame_box{
+        display: none;
+    }
+    /* カテゴリの枠（見出し） */
+    .category_frame_box_phone{
+        height: 1000px;
+        margin: 60px 20px 0 20px;
+    }
+    /* カテゴリの見出し */
+    .category_head_phone{
+        width: 380px;
+        height: 40px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 26px;
+        color: 333333;
+        position: absolute;
+    }
+    .category_head_phone::after{
         position: relative;
-        text-align: center;
-        cursor:pointer;
-        margin: 5px 5px;
+        content: " ";
+        display: block;
+        top: 3px;
+        border-bottom: solid 3px #FED121;
+        width: 30%;
     }
 
-    .slideFlame{
+    /* カテゴリ（タグ）の枠 */
+    .category_frame_phone{
+        top: 120px;
+        position: absolute;
+    }
+    /* タグのテキスト（折りたたみメニューじゃないやつ） */
+    .tag_content_phone{
+        font-size: 14px;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin: 10px 0;
+        color: #333333;
+    }
+    .under_line_phone{
+        position:relative;
+    }
+    .under_line_phone::after {
+        content: '';
+        position: absolute;
+        bottom: -9px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .2s;
+    }
+    .tag_content_phone:active .under_line_phone::after {
         width: 100%;
-        height: 550px;
-        background: white;
-        border: 2px black solid;
-        overflow-y: scroll;          /* 縦方向にスクロール可能にする */
-        border: 1px solid #000;      /* わかりやすくボーダーを引く */
+    }
+
+    /* 折りたたみメニュー */
+    .fold_tag_phone-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag_phone-label {
+        width: 270px;
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin: 13px 0px;
+    }
+    .fold_tag_phone-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+
+    .fold_tag_phone-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.7s, max-height 0.7s;
+        width: 230px;
         margin: 0 auto;
+        word-break: break-all;
     }
-
-    .slideBox{
+    .fold_tag_phone-content p {
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+    }
+    .fold_tag_phone-under_line{
+        position:relative;
+    }
+    .fold_tag_phone-under_line::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .3s;
+    }
+    .fold_tag_phone-content p:active .fold_tag_phone-under_line::after {
         width: 100%;
-        height: 145px;
-        margin: 5px auto; /*画面の中央に寄せる*/
-        cursor:pointer;
     }
-
-    .location{
-        font-size:15px;
-        color:gray;
+    .fold_tag_phone-check:checked + .fold_tag_phone-label + .fold_tag_phone-content {
+        max-height: 500px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
     }
-
-    .storeName{
-        color: black;
-        font-size: 20px;
-        font-weight: 700;
-        text-transform: uppercase;
-        word-wrap: break-word;
-    }
-
-}
-
-/* =====以下 pcの表示===== */
-@media (min-width: 481px) {
-
-    .header_div_phone{
-        display:none;
+    .fold_tag_phone-check:checked + .fold_tag_phone-label::after {
+        transform: rotate(180deg);
     }
     
-    .header_div{
-        width: 1000px;
-        height: 150px;
-        position: relative;
-        margin: 0 auto;
+    /* ライン */
+    .line{
+        height: 0px;
+        border-top: 2px solid #333333;
+        margin-top: 70px;
     }
 
-    .logo{
-        width: 200px;
-        height: 80px;
-        left: 0px;
-        top: 20px;
+    /* タグのアラート */
+    .tag-alert{
+        font-size: 12px;
+        color: #333333;
+        margin: 10px 20px;
+    }
+
+    /* メニュー欄 */
+    .menu_map{
+        font-family: Noto Serif JP;
+        font-size: 20px;
+        top: 110px;
+        left: 10px;
         position: absolute;
     }
-
-    .title{
-        width: 517px;
-        height: 65px;
-        top: 60px;
+    .menu_toukou{
+        top: 110px;
         left: 200px;
         position: absolute;
-        text-align: center;
-        color: black;
-        font-size: 36px;
-        font-family: Source Serif Pro;
-        font-weight: 600;
-        text-transform: uppercase;
-        word-wrap: break-word;
     }
-
-    .line{
-        width: 100%;
-        height: 0px;
+    .menu_how_to{
+        top: 110px;
+        left: 390px;
         position: absolute;
-        top: 90%;
-        border-top: 2px solid #000;
     }
-
+    /* 検索欄 */
     .search_div{
         width: 270px;
         height: 80px;
@@ -146,7 +259,6 @@
         margin-top: -40px; /* この要素の高さの半分 */
         right: 0px;
     }
-
     .searchImage{
         width: 30px;
         height: 30px;
@@ -154,14 +266,13 @@
         position: absolute;
         float: left;
     }
-
     .search{
         width: 55px;
         height: 45px;
         top: 25px;
         left: 35px;
         position: absolute;
-        color: black;
+        color: 333333;
         font-size: 24px;
         font-family: Noto Serif JP;
         font-weight: 600;
@@ -169,7 +280,6 @@
         word-wrap: break-word;
         float: left;
     }
-
     .searchWindow{
         width: 170px;
         height: 45px;
@@ -180,61 +290,333 @@
         float: left;
     }
 
-    .search-alert{
-        width: 1000px;
-        margin: 20px auto;
+    /* お店のスライドを入れる欄 */
+    .shop_frame_box{
+        height: 100%;
+        margin: 60px 20px 0px 20px;
     }
-
-    .tagList{
-        height: 90px;
-        width: 1000px;
-        position: relative;
-        margin: 0 auto;
-        display: flex; /* 要素をFlexコンテナとして定義する */
-        list-style: none; /* リストのスタイルを無効にする */
+    /* お店のスライド枠の装飾 */
+    .shop_frame {
+        border: solid 3px #FED121;
+        padding: 0.25em 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        margin: 20px 5px;
     }
-
-    .categoryBox{
-        width: 138px;
-        height: 38px;
-        mix-blend-mode: darken;
-        background: #F4F4F4;
-        border: 1px black solid;
-        position: relative;
-        text-align: center;
-        padding: 5px 0;
-        margin: 20px;
-        cursor:pointer;
+    .shop_frame:active{
+        background: #f5f5f5;
     }
-
-    .slideFlame{
-        width: 680px;
-        height: 550px;
-        background: white;
-        border: 2px black solid;
-        overflow-y: scroll;          /* 縦方向にスクロール可能にする */
-        border: 1px solid #000;      /* わかりやすくボーダーを引く */
-        margin: 0 auto;
-    }
-
-    .slideBox{
-        width: 650px;
-        height: 145px;
-        /* background: #F6F6F6; */
-        /* border: 2px black solid; */
-        /* padding: 0.5em 1em; */
-        margin: 1em auto; /*画面の中央に寄せる*/
-        cursor:pointer;
-        /* position: relative; */
-    }
-
+    /* お店の名前 */
     .storeName{
-        color: black;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 700;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
         text-transform: uppercase;
         word-wrap: break-word;
+        margin-top: 5px;
+        color: #333333;
+    }
+    /* お店の距離テキスト */
+    .located{
+        font-size: 12px;
+        font-family: Inter;
+        font-weight: 600;
+        word-wrap: break-word;
+        color: #333333;
+    }
+    .payments{
+        font-size: 12px;
+        color: #333333;
+    }
+}
+
+/* =====以下 pcの表示===== */
+@media (min-width: 481px) {
+    .background{
+        background-color: #fffaf7;
+    }
+    
+    .header_div_phone{
+        display:none;
+    }
+    
+    .header_div{
+        width: 850px;
+        max-width: 100%;
+        height: 200px;
+        margin: 30px 0px 0px 80px;
     }
 
+    .logo{
+        width: 190px;
+        height: 70px;
+        position: absolute;
+    }
+
+    .title{
+        color: #333333;
+        font-size: 36px;
+        font-family: Source Serif Pro;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        top: 135px;
+        position: absolute;
+    }
+
+    .line{
+        height: 0px;
+        border-top: 2px solid #333333;
+        top: 150px;
+        position: relative;
+    }
+
+    /* メニュー欄 */
+    .menu_map{
+        font-family: Noto Serif JP;
+        font-size: 20px;
+        top: 110px;
+        left: 10px;
+        position: absolute;
+    }
+    .menu_toukou{
+        top: 110px;
+        left: 200px;
+        position: absolute;
+    }
+    .menu_how_to{
+        top: 110px;
+        left: 390px;
+        position: absolute;
+    }
+    /* 検索欄 */
+    .search_div{
+        width: 270px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        margin-top: -40px; /* この要素の高さの半分 */
+        right: 0px;
+    }
+    .searchImage{
+        width: 30px;
+        height: 30px;
+        top: 30px;
+        position: absolute;
+        float: left;
+    }
+    .search{
+        width: 55px;
+        height: 45px;
+        top: 25px;
+        left: 35px;
+        position: absolute;
+        color: 333333;
+        font-size: 24px;
+        font-family: Noto Serif JP;
+        font-weight: 600;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        float: left;
+    }
+    .searchWindow{
+        width: 170px;
+        height: 45px;
+        top: 22px;
+        left: 95px;
+        position: absolute;
+        background: #F6F6F6;
+        float: left;
+    }
+
+
+    /* タグを押した時のアラート */
+    .tag-alert{
+        font-size: 16px;
+        color: #333333;
+        margin: 40px 0px 10px 0px;
+    }
+    
+    /* お店のスライドを入れる欄 */
+    .shop_frame_box{
+        width: 850px;
+        max-width: 100%;
+        height: 100%;
+        margin: -50px 0px 0px 80px;
+        float: left;
+    }
+    /* お店のスライド枠の装飾 */
+    .shop_frame {
+        margin: 30px 10px;
+        width: 330px;
+        height: 200px;
+        border: solid 3px #FED121;
+        float: left;
+        position: relative;
+        padding: 0.25em 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .shop_frame:active{
+        background: #f5f5f5;
+    }
+    /* お店の名前 */
+    .storeName{
+        font-size: 20px;
+        font-weight: 700;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 5px;
+        color: #333333;
+    }
+    /* お店の距離テキスト */
+    .located{
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 600;
+        word-wrap: break-word;
+        color: #333333;
+    }
+    .payments{
+        font-size: 16px;
+        color: #333333;
+    }
+
+    /* カテゴリの枠（見出し） */
+    .category_frame_box_phone{
+        display: none;
+    }
+    /* カテゴリの枠（見出し） */
+    .category_frame_box{
+        width: 280px;
+        max-width: 100%;
+        height: 100%;
+        margin: 0px 10px 0 auto;
+        display: flex;
+        align-items: stretch;
+    }
+    /* カテゴリの見出し */
+    .category_head{
+        width: 280px;
+        height: 40px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 26px;
+        color: #333333;
+        position: absolute;
+    }
+    .category_head::after{
+        position: relative;
+        content: " ";
+        display: block;
+        top: 3px;
+        border-bottom: solid 3px #FED121;
+        width: 30%;
+    }
+
+    /* カテゴリ（タグ）の枠 */
+    .category_frame{
+        top: 60px;
+        position: relative;
+    }
+    /* タグのテキスト（折りたたみメニューじゃないやつ） */
+    .tag_content{
+        font-size: 14px;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin: 10px 0;
+        color: #333333;
+    }
+    .under_line{
+        position:relative;
+    }
+    .under_line::after {
+        content: '';
+        position: absolute;
+        bottom: -9px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .2s;
+    }
+    .tag_content:active .under_line::after {
+        width: 100%;
+    }
+
+    /* 折りたたみメニュー */
+    @keyframes bounce {
+        0% { height: 0; opacity: 0; }
+        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
+        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
+    }
+    .fold_tag-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag-label {
+        width: 270px;
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin: 13px 0px;
+    }
+    .fold_tag-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+    .fold_tag-content {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.7s, max-height 0.7s;
+        width: 230px;
+        margin: 0 auto;
+        word-break: break-all;
+    }
+    .fold_tag-content p {
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+    }
+    .fold_tag-under_line{
+        position:relative;
+    }
+    .fold_tag-under_line::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .3s;
+    }
+    .fold_tag-content p:active .fold_tag-under_line::after {
+        width: 100%;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content {
+        /* チェックされたとき：表示 */
+        max-height: 500px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label::after {
+        transform: rotate(180deg);
+    }
 }
 /* =====以上pcの表示====== */
