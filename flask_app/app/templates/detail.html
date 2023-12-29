@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style_detail.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+  {# 検索窓の虫眼鏡のフォントを使用するため以下のフォントを追加 #}
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
   <title>PayView</title>
   <style>
     /* すべての画像のスタイル */
@@ -31,9 +34,20 @@
   {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('loading') }}">
-      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
+    <a href="{{ url_for('top') }}">
+      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
     </a>
+    <!-- タイトル -->
+    <div class="title">Shop Detail</div>
+    <!-- 検索窓 -->
+    <div class="search_div">
+      <form class="search_container" action="{{ url_for('search_shop.text_search')}}" method="POST">
+        <input type="text" name="search_strings" placeholder="キーワードを入力">
+        <input type="submit" value="&#xf002">
+      </form>
+    </div>
+    <!-- ライン -->
+    <hr class="line">
   </div>
   
   {# ====スマホ用のヘッダー==== #}
