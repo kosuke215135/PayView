@@ -5,6 +5,7 @@ from calculation_location import location_distance, get_distanced_lat_lng,conver
 from db import get_db
 import random
 import MeCab
+import neologdn
 
 bp = Blueprint('search_shop', __name__, url_prefix='/search-shop')
 
@@ -12,6 +13,153 @@ BARCODE_GROUP = "02PG"
 CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
 TRANSPORTATION_GROUP = "05PG"
+# 検索で使用する品詞を記述
+USE_PART_OF_SPEECH = ["名詞", "動詞", "形容詞", "副詞"]
+# 検索結果がこれ以下の件数である場合少ないと判断する
+MIN_NUM_SEARCH_RESULTS = 0
+
+# 形態素解析の結果をlistにして返す関数
+def mecab_list(text):
+    tagger = MeCab.Tagger("-Ochasen")
+    tagger.parse('')
+    node = tagger.parseToNode(text)
+    word_class = []
+    while node:
+        word = node.surface
+        wclass = node.feature.split(',')
+        if wclass[0] != u'BOS/EOS':
+            if wclass[6] == None:
+                word_class.append((word,wclass[0],wclass[1],wclass[2],""))
+            else:
+                word_class.append((word,wclass[0],wclass[1],wclass[2],wclass[6]))
+        node = node.next
+    return word_class
+
+
+# 類似語や省略形が含まれていれば、検索に適しているワードを返す
+# その紐づけはsynonymsテーブルで行われている
+def search_synonym(search_strings_list):
+    db = get_db()
+    cur = db.cursor(dictionary=True) 
+    return_list = []
+    for i in range(len(search_strings_list)):
+        query = f"select * from synonyms  "
+        tmp_list = []
+        
+        for j in range(len(search_strings_list[i])):
+            if j == 0:
+                query += f" where synonym='{search_strings_list[i][j]}' "
+            else:
+                query += f" or synonym='{search_strings_list[i][j]}' "
+            # 検索したままのワードも入れておく
+            tmp_list.append(search_strings_list[i][j])
+
+        cur.execute(query)
+        sql_result_list = cur.fetchall()
+        for j in range(len(sql_result_list)):
+            tmp_list.append(sql_result_list[j]["original_word"])
+        
+        return_list.append(tmp_list)
+
+    return return_list
+
+
+# 検索するためのsqlを発行する関数(n-gram)
+# 二重リストを受け取り3つの文字列を返す
+def create_sql_search_n_gram(search_strings_list, operator="and"):
+
+    query_to_shops = "select * from shops "
+    query_to_payment_services = "select * from payment_services "
+    query_to_tags = "select * from tags "
+    query_common_part = ""
+
+    print(search_strings_list)
+    for i in range(len(search_strings_list)):
+        if i == 0:
+            query_common_part += " where "
+        else:
+            query_common_part += f" {operator} "
+            
+        for j in range(len(search_strings_list[i])):
+            #最初のクエリであれば以下を追加する
+            if j == 0:
+                query_common_part += " match (name) against (' "
+
+            search_string = search_strings_list[i][j]
+            query_common_part += search_string
+
+            #最後のクエリであれば以下を追加する
+            if j == len(search_strings_list[i]) - 1:
+                query_common_part += " ' in boolean mode) "
+
+    query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
+    return query_to_shops, query_to_payment_services, query_to_tags
+
+
+# like句での検索をを行うsqlを発行する関数
+def create_sql_search_like(search_words):
+    query_to_shops = "select * from shops "
+    query_to_payment_services = "select * from payment_services "
+    query_to_tags = "select * from tags "
+    query_common_part = ""
+    
+    for i in range(len(search_words)):
+        if i == 0:
+            query_common_part += " where "
+        else:
+            query_common_part += " and "
+        query_common_part += f" name like '%{search_words[i]}%' "
+    
+    query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
+    return query_to_shops, query_to_payment_services, query_to_tags
+
+
+# 検索を実行する関数
+def execut_sql_search(query_to_shops, query_to_payment_services, query_to_tags):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    #検索ワードに関連するお店を調べる
+    print(query_to_shops)
+    cur.execute(query_to_shops)
+    search_result_shops = cur.fetchall()
+
+    #検索ワードに関連する決済サービスを調べる
+    cur.execute(query_to_payment_services)
+    search_result_payment_services = cur.fetchall()
+
+    # 検索でヒットした決済サービスが使用できるお店を調べる
+    for search_result_payment_service in search_result_payment_services:
+        payment_id = search_result_payment_service["payment_id"]
+        tmp_query = f"select * from shops inner join can_use_services on shops.shop_id = can_use_services.shop_id where can_use_services.payment_id='{payment_id}' "
+        cur.execute(tmp_query)
+        search_result_shops += cur.fetchall()
+
+    #検索ワードに関連するタグを調べる
+    cur.execute(query_to_tags)
+    search_result_tags = cur.fetchall()
+
+    # 検索でヒットしたタグがつけられているお店を調べる
+    for search_result_tag in search_result_tags:
+        tag_id = search_result_tag["tag_id"]
+        tmp_query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id='{tag_id}' "
+        cur.execute(tmp_query)
+        search_result_shops += cur.fetchall()
+    
+    return search_result_shops
+
+#リスト内の辞書の重複を削除する関数
+def get_unique_list(seq):
+    already_append_shop_id = []
+    not_duplication = []
+    for dic in seq:
+        if dic["shop_id"] in already_append_shop_id:
+            continue
+        else:
+            already_append_shop_id.append(dic["shop_id"])
+            not_duplication.append(dic)
+    return not_duplication
+
 
 @bp.route('/search-result/<string:tag_id>')
 def search_result(tag_id):
@@ -101,34 +249,71 @@ def search_result(tag_id):
 
 @bp.route('/search-result/text-search', methods=['POST'])
 def text_search():
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
     #Cookieからユーザーの現在地を取得
     user_latitude = session.get("user_latitude")
     user_longitude = session.get("user_longitude") 
 
-    wakati = MeCab.Tagger("-Owakati")
-
     # htmlから検索を掛ける文字列を取得する
+    # 半角スペースや全角スペースごとに区切る
     search_strings = request.form["search_strings"]
-    search_strings_list = wakati.parse(search_strings).split()
+    search_words = search_strings.split()
+
+    # neologdnで検索ワードの前処理を行う
+    for i in range(len(search_words)):
+        search_words[i] = neologdn.normalize(search_words[i])
+
+    #検索ワードを分かち書きしたものをそれぞれlistとして保持する2重リスト
+    search_strings_list = []
     
-    query = "select * from shops"
+    for search_word in search_words:
+        # 検索ワードごとに形態素解析を行う
+        morpheme_list = mecab_list(search_word)
+        tmp_list = []
+        for morpheme in morpheme_list:
+            part_of_speech = morpheme[1]
+            # 分かち書きした単語の品詞によって、検索で使用するかどうか判定する
+            if part_of_speech in USE_PART_OF_SPEECH:
+                tmp_list.append(morpheme[0])
+        # 検索に使える品詞がない場合はcontinue
+        if len(tmp_list) == 0:
+            continue
+        search_strings_list.append(tmp_list)
 
-    for i in range(len(search_strings_list)):
-        if i == 0:
-            query += f" where MATCH (name) AGAINST ('{search_strings_list[i]}')" 
-        else:
-            query += f" and MATCH (name) AGAINST ('{search_strings_list[i]}')" 
+    print(search_strings_list)
+    # 検索に使えるwordが無い場合は結果を空にしておく 
+    # 距離の検索と文字列検索を兼ねているため、文字列が何も入力されていない場合は距離だけの絞り込みを行う
+    if (len(search_strings_list) == 0) and (search_strings != ''):
+        search_result_shops = []
+    else:
+        # 類似語や省略形があれば、検索に適した単語も検索リストに加える
+        search_strings_list = search_synonym(search_strings_list)
+        # 検索を行うためにsqlを発行する
+        query_to_shops, query_to_payment_services, query_to_tags = create_sql_search_n_gram(search_strings_list)
+        # 検索を行う
+        search_result_shops = execut_sql_search(query_to_shops, query_to_payment_services, query_to_tags)
 
+        # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
+        if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
+            like_query_to_shops, like_query_to_payment_services, like_query_to_tags = create_sql_search_like(search_words)
+            search_result_shops += execut_sql_search(like_query_to_shops, like_query_to_payment_services, like_query_to_tags)
 
-    db = get_db()
-    cur = db.cursor(dictionary=True)
-    cur.execute(query)
-    shops = cur.fetchall()
+        # まだ検索件数が極端に少ない場合,OR検索を行う
+        if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
+            or_query_to_shops, or_query_to_payment_services, or_query_to_tags = create_sql_search_n_gram(search_strings_list, operator="or")
+            search_result_shops += execut_sql_search(or_query_to_shops, or_query_to_payment_services, or_query_to_tags)
+
+    # 検索結果の重複を削除
+    search_result_shops = get_unique_list(search_result_shops)
+    
     shops_and_payments = []
-    for shop_dict in shops:
+    for shop_dict in search_result_shops:
         distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
+    
 
     # 距離(distance)でソートする
     shops_and_payments.sort(key=lambda x: x[2])
