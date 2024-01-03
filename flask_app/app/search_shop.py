@@ -65,25 +65,20 @@ def search_synonym(search_strings_list):
 
 
 # 検索するためのsqlを発行する関数(n-gram)
-# 二重リストを受け取り3つの文字列を返す
-def create_sql_search_n_gram(search_strings_list, operator="and"):
+def create_sql_search_n_gram(search_strings_list):
 
-    query_to_shops = "select * from shops "
-    query_to_payment_services = "select * from payment_services "
-    query_to_tags = "select * from tags "
-    query_common_part = ""
+    query_every_search_word = []
 
     print(search_strings_list)
     for i in range(len(search_strings_list)):
-        if i == 0:
-            query_common_part += " where "
-        else:
-            query_common_part += f" {operator} "
-            
+        query_to_shops = "select * from shops "
+        query_to_payment_services = "select * from payment_services "
+        query_to_tags = "select * from tags "
+        query_common_part = ""
         for j in range(len(search_strings_list[i])):
             #最初のクエリであれば以下を追加する
             if j == 0:
-                query_common_part += " match (name) against (' "
+                query_common_part += " where match (name) against (' "
 
             search_string = search_strings_list[i][j]
             query_common_part += search_string
@@ -91,60 +86,79 @@ def create_sql_search_n_gram(search_strings_list, operator="and"):
             #最後のクエリであれば以下を追加する
             if j == len(search_strings_list[i]) - 1:
                 query_common_part += " ' in boolean mode) "
-
-    query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
-    return query_to_shops, query_to_payment_services, query_to_tags
+        query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
+        query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
+        
+    return query_every_search_word
 
 
 # like句での検索をを行うsqlを発行する関数
 def create_sql_search_like(search_words):
-    query_to_shops = "select * from shops "
-    query_to_payment_services = "select * from payment_services "
-    query_to_tags = "select * from tags "
-    query_common_part = ""
-    
+    query_every_search_word = []
+
     for i in range(len(search_words)):
-        if i == 0:
-            query_common_part += " where "
-        else:
-            query_common_part += " and "
-        query_common_part += f" name like '%{search_words[i]}%' "
-    
-    query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
-    return query_to_shops, query_to_payment_services, query_to_tags
+        query_to_shops = "select * from shops "
+        query_to_payment_services = "select * from payment_services "
+        query_to_tags = "select * from tags "
+
+        query_common_part = f" where name like '%{search_words[i]}%' "
+
+        query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
+        query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
+        
+    return query_every_search_word
 
 
 # 検索を実行する関数
-def execut_sql_search(query_to_shops, query_to_payment_services, query_to_tags):
+def execut_sql_search(query_every_search_word):
+    """
+    Args:
+        query_every_search_word [[str]]: 各TableへのSQLが格納されたリストが検索ワードごとに格納されている
+    
+    Returns:
+        [{str: x}]: 店の情報を格納しているリスト 
+    """
     db = get_db()
     cur = db.cursor(dictionary=True)
 
-    #検索ワードに関連するお店を調べる
-    print(query_to_shops)
-    cur.execute(query_to_shops)
-    search_result_shops = cur.fetchall()
+    result_every_search_word = []
 
-    #検索ワードに関連する決済サービスを調べる
-    cur.execute(query_to_payment_services)
-    search_result_payment_services = cur.fetchall()
+    for query in query_every_search_word:
+        # 各Tableへのクエリを取り出す
+        query_to_shops = query[0]
+        query_to_payment_services = query[1]
+        query_to_tags = query[2]
 
-    # 検索でヒットした決済サービスが使用できるお店を調べる
-    for search_result_payment_service in search_result_payment_services:
-        payment_id = search_result_payment_service["payment_id"]
-        tmp_query = f"select * from shops inner join can_use_services on shops.shop_id = can_use_services.shop_id where can_use_services.payment_id='{payment_id}' "
-        cur.execute(tmp_query)
-        search_result_shops += cur.fetchall()
+        #検索ワードに関連するお店を調べる
+        print(query_to_shops)
+        cur.execute(query_to_shops)
+        search_result_shops = cur.fetchall()
 
-    #検索ワードに関連するタグを調べる
-    cur.execute(query_to_tags)
-    search_result_tags = cur.fetchall()
+        #検索ワードに関連する決済サービスを調べる
+        cur.execute(query_to_payment_services)
+        search_result_payment_services = cur.fetchall()
 
-    # 検索でヒットしたタグがつけられているお店を調べる
-    for search_result_tag in search_result_tags:
-        tag_id = search_result_tag["tag_id"]
-        tmp_query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id='{tag_id}' "
-        cur.execute(tmp_query)
-        search_result_shops += cur.fetchall()
+        # 検索でヒットした決済サービスが使用できるお店を調べる
+        for search_result_payment_service in search_result_payment_services:
+            payment_id = search_result_payment_service["payment_id"]
+            tmp_query = f"select * from shops inner join can_use_services on shops.shop_id = can_use_services.shop_id where can_use_services.payment_id='{payment_id}' "
+            cur.execute(tmp_query)
+            search_result_shops += cur.fetchall()
+
+        #検索ワードに関連するタグを調べる
+        cur.execute(query_to_tags)
+        search_result_tags = cur.fetchall()
+
+        # 検索でヒットしたタグがつけられているお店を調べる
+        for search_result_tag in search_result_tags:
+            tag_id = search_result_tag["tag_id"]
+            tmp_query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id='{tag_id}' "
+            cur.execute(tmp_query)
+            search_result_shops += cur.fetchall()
+
+        result_every_search_word.append(search_result_shops)
+        
+    search_result_shops = and_search_every_search_word(result_every_search_word)
     
     return search_result_shops
 
@@ -159,6 +173,42 @@ def get_unique_list(seq):
             already_append_shop_id.append(dic["shop_id"])
             not_duplication.append(dic)
     return not_duplication
+
+
+def and_search_every_search_word(result_every_search_word):
+    """
+    Args:
+        result_every_search_word [[{str: x}]]: 検索ワードごとの検索結果を格納しているリスト
+    
+    Returns:
+        [{str: x}]: AND検索を行った後の店の情報を格納しているリスト 
+    """
+    already_append_shop_id = []
+    for result in result_every_search_word:
+        tmp_tuple = set()
+        for re in result:
+            print(re)
+            tmp_tuple.add(re["shop_id"])
+        already_append_shop_id.append(tmp_tuple)
+    
+    and_shop_id_tuple = set()
+
+    for i in range(len(already_append_shop_id)):
+        if i == 0:
+            and_shop_id_tuple |= already_append_shop_id[i]
+        else:
+            and_shop_id_tuple &= already_append_shop_id[i]
+    
+    result_and_search = []
+    for re in result_every_search_word[0]:
+        if re["shop_id"] in and_shop_id_tuple:
+            result_and_search.append(re)
+            and_shop_id_tuple.remove(re["shop_id"])
+    
+    return result_and_search
+
+
+
 
 
 @bp.route('/search-result/<string:tag_id>')
@@ -282,28 +332,29 @@ def text_search():
             continue
         search_strings_list.append(tmp_list)
 
-    print(search_strings_list)
-    # 検索に使えるwordが無い場合は結果を空にしておく 
     # 距離の検索と文字列検索を兼ねているため、文字列が何も入力されていない場合は距離だけの絞り込みを行う
-    if (len(search_strings_list) == 0) and (search_strings != ''):
+    if search_strings == '':
+        query_to_shops = "select * from shops "
+        query_to_payment_services = "select * from payment_services "
+        query_to_tags = "select * from tags "
+        query_every_search_word = [[query_to_shops, query_to_payment_services, query_to_tags]]
+        search_result_shops = execut_sql_search(query_every_search_word)
+    # 検索に使えるwordが無い場合は結果を空にしておく 
+    elif len(search_strings_list) == 0:
         search_result_shops = []
     else:
         # 類似語や省略形があれば、検索に適した単語も検索リストに加える
         search_strings_list = search_synonym(search_strings_list)
         # 検索を行うためにsqlを発行する
-        query_to_shops, query_to_payment_services, query_to_tags = create_sql_search_n_gram(search_strings_list)
+        query_every_search_word = create_sql_search_n_gram(search_strings_list)
         # 検索を行う
-        search_result_shops = execut_sql_search(query_to_shops, query_to_payment_services, query_to_tags)
+        search_result_shops = execut_sql_search(query_every_search_word)
 
         # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
         if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
-            like_query_to_shops, like_query_to_payment_services, like_query_to_tags = create_sql_search_like(search_words)
-            search_result_shops += execut_sql_search(like_query_to_shops, like_query_to_payment_services, like_query_to_tags)
+            like_query_every_search_word = create_sql_search_like(search_words)
+            search_result_shops += execut_sql_search(like_query_every_search_word)
 
-        # まだ検索件数が極端に少ない場合,OR検索を行う
-        if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
-            or_query_to_shops, or_query_to_payment_services, or_query_to_tags = create_sql_search_n_gram(search_strings_list, operator="or")
-            search_result_shops += execut_sql_search(or_query_to_shops, or_query_to_payment_services, or_query_to_tags)
 
     # 検索結果の重複を削除
     search_result_shops = get_unique_list(search_result_shops)
