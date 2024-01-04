@@ -14,12 +14,12 @@
 
     .title { 
         font-family: 'Amatic SC', cursive;
-        font-size: 20px;
+        font-size: 40px;
         color: #fff;
         margin: 0;
         padding: 0;
         position: fixed;
-        top: 65%;
+        top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -98,8 +98,7 @@
 
     #pic {
         position: fixed;
-        width: 100px;
-        height: 100px;
+        width: 200px;
         top: 40%;
         left: 49%;
         transform: translate(-50%, -50%);
@@ -126,7 +125,7 @@
         margin: 0;
         padding: 0;
         position: fixed;
-        top: 65%;
+        top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -206,7 +205,6 @@
     #pic {
         position: fixed;
         width: 200px;
-        height: 200px;
         top: 40%;
         left: 49%;
         transform: translate(-50%, -50%);

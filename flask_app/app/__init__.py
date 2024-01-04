@@ -186,8 +186,15 @@ def create_app():
         tag_query = "select * from tags;"
         cur.execute(tag_query)
         tag_id_name_list = cur.fetchall()
+        # よく使われるタグtop5
+        commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
+        tag_commonly_used_list = []
+        for tag_id_name in tag_id_name_list:
+            if tag_id_name['name'] in commonly_tag:
+                tag_id_name_list.remove(tag_id_name)
+                tag_commonly_used_list.append(tag_id_name)
 
-        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names)
+        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list)
 
     return app
 

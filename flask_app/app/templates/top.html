@@ -55,11 +55,12 @@
         <div class="category_memu_phone">Category Menu</div>
         <div class="category_menu_line_phone"></div>
         <div class="payment_service_head_phone">決済サービス</div>
+          <div class="cash_label_phone">現金</div>
           <input id="fold_tag_phone-check1" class="fold_tag_phone-check" type="checkbox">
           <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
           <div class="fold_tag_phone-content_credit">
             {% for credit_name in credit_names %}
-              <p><span class="fold_tag_phone-under_line">{{ credit_name }}</p>
+              <div class="tag_content_phone">{{ credit_name }}</div>
             {% endfor %}
           </div>
         
@@ -67,7 +68,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
           <div class="fold_tag_phone-content_barcode">
             {% for barcode_name in barcode_names %}
-              <p><span class="fold_tag_phone-under_line">{{ barcode_name }}</p>
+              <div class="tag_content_phone">{{ barcode_name }}</div>
             {% endfor %}
           </div>
         
@@ -75,7 +76,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
           <div class="fold_tag_phone-content_electronic_money">
             {% for electronic_money_name in electronic_money_names %}
-              <p><span class="fold_tag_phone-under_line">{{ electronic_money_name }}</p>
+              <div class="tag_content_phone">{{ electronic_money_name }}</div>
             {% endfor %}
           </div>
           <!-- タグ -->
@@ -83,13 +84,13 @@
           <div class="tag_commonly_used">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
             <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
-              <div class="tag_content_phone"><span class="under_line">{{ tag_commonly["name"] }}</span></div>
+              <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
             <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
-              <div class="tag_content_phone"><span class="under_line_phone">{{ tag_id_name["name"] }}</span></div>
+              <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
           <div class="tag_black"></div>
@@ -154,7 +155,7 @@
       <!-- タグのアラート -->
       <h1>{{device_type}}</h1>
       {% if tag_name != None %}
-          <div class="tag-alert">{{ tag_name }}のタグがついているお店一覧</div>
+          <div class="tag_alert">{{ tag_name }}のタグがついているお店一覧</div>
       {% endif %}
       <!-- お店のスライドを入れる欄 -->
       {% for shop_and_pay in shops_and_payments %}
@@ -175,11 +176,12 @@
     <div class="category_frame_box">
       <!-- 決済サービスのタグ -->
       <div class="payment_service_head">決済サービス</div>
+      <div class="cash_label">現金</div>
         <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
         <div class="fold_tag-content_credit">
           {% for credit_name in credit_names %}
-            <p><span class="fold_tag-under_line">{{ credit_name }}</p>
+            <div class="tag_content">{{ credit_name }}</div>
           {% endfor %}
         </div>
       
@@ -187,7 +189,7 @@
         <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
         <div class="fold_tag-content_barcode">
           {% for barcode_name in barcode_names %}
-            <p><span class="fold_tag-under_line">{{ barcode_name }}</p>
+            <div class="tag_content">{{ barcode_name }}</div>
           {% endfor %}
         </div>
       
@@ -195,7 +197,7 @@
         <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
         <div class="fold_tag-content_electronic_money">
           {% for electronic_money_name in electronic_money_names %}
-            <p><span class="fold_tag-under_line">{{ electronic_money_name }}</p>
+            <div class="tag_content">{{ electronic_money_name }}</div>
           {% endfor %}
         </div>
         <!-- タグ -->
@@ -203,20 +205,20 @@
         <div class="tag_commonly_used">よく使われるタグ Top5</div>
         {% for tag_commonly in tag_commonly_used_list %}
           <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
-            <div class="tag_content"><span class="under_line">{{ tag_commonly["name"] }}</span></div>
+            <div class="tag_content">{{ tag_commonly["name"] }}</div>
           </a>
         {% endfor %}
         <div class="normal_tag">50音順</div>
         {% for tag_id_name in tag_id_name_list %}
           <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
-            <div class="tag_content"><span class="under_line">{{ tag_id_name["name"] }}</span></div>
+            <div class="tag_content">{{ tag_id_name["name"] }}</div>
           </a>
         {% endfor %}
     </div>
   </div>
   {# ====フッター==== #}
   <footer>
-    <p>©2023 PayView All Rights Reserved.</p>
+    <p>©PayView All Rights Reserved.</p>
   </footer>
 </body>
 </html>
