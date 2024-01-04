@@ -19,44 +19,96 @@
       width: 30%; /* 幅を50%に設定 */
     }
   </style>
-  {# bootstrap setting #}
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css" media="screen">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
-<header>
+<header class="background">
+  {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('loading') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Search Shop List</div>
-    <!-- 検索窓 -->
-    <div class="search_div">
-      <img src="{{ url_for('static', filename='kensaku.jpeg')}}" class="searchImage">
-      <div class="search" src="https://via.placeholder.com/30x30">検索</div>
-      <div class="searchWindow"></div>
-    </div>
-    <!-- ライン -->
-    <hr class="line">
   </div>
   
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('loading') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Search Shop List</div>
-    <!-- ライン -->
-    <hr class="line">
+    <!-- ハンバーガーメニュー -->
+    <div class="hamburger_menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menu">
+      <!-- タグ欄 -->
+      <div class="category_frame_box_phone">
+        <!-- 決済サービスのタグ -->
+        <div class="category_memu_phone">Category Menu</div>
+        <div class="category_menu_line_phone"></div>
+        <div class="payment_service_head_phone">決済サービス</div>
+          <input id="fold_tag_phone-check1" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
+          <div class="fold_tag_phone-content_credit">
+            {% for credit_name in credit_names %}
+              <p><span class="fold_tag_phone-under_line">{{ credit_name }}</p>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag_phone-check2" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
+          <div class="fold_tag_phone-content_barcode">
+            {% for barcode_name in barcode_names %}
+              <p><span class="fold_tag_phone-under_line">{{ barcode_name }}</p>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag_phone-check3" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
+          <div class="fold_tag_phone-content_electronic_money">
+            {% for electronic_money_name in electronic_money_names %}
+              <p><span class="fold_tag_phone-under_line">{{ electronic_money_name }}</p>
+            {% endfor %}
+          </div>
+          <!-- タグ -->
+          <div class="tag_head_phone">タグ</div>
+          <div class="tag_commonly_used">よく使われるタグ Top5</div>
+          {% for tag_commonly in tag_commonly_used_list %}
+            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+              <div class="tag_content_phone"><span class="under_line">{{ tag_commonly["name"] }}</span></div>
+            </a>
+          {% endfor %}
+          <div class="normal_tag">50音順</div>
+          {% for tag_id_name in tag_id_name_list %}
+            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+              <div class="tag_content_phone"><span class="under_line_phone">{{ tag_id_name["name"] }}</span></div>
+            </a>
+          {% endfor %}
+          <div class="tag_black"></div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".hamburger_menu").click(function() {
+                $(this).toggleClass('active');
+                $(".menu").toggleClass('active');
+            });
+        });
+    </script>
   </div>
-  {# ====スマホ用のヘッダー==== #}
-    <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
-<body>
+<body class="background">
   <script>
     function getMobileOS(shop_id){
       const ua = navigator.userAgent
@@ -72,38 +124,99 @@
       console.log(os);
       window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
     }
-  </script>
 
-  <h1>{{device_type}}</h1>
-  {% if tag_name != None %}
-      <div class="alert alert-warning search-alert" role="alert">{{ tag_name }}のタグがついているお店一覧</div>
-  {% endif %}
-  
-  <!-- カテゴリ -->
-  <div class="tagList">
-    {% for tag_id_name in tag_id_name_list %}
-      <a class="btn btn-warning categoryBox" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">{{ tag_id_name["name"] }}</a>
-    {% endfor %}
-  </div>
-  <!-- お店のスライドを入れる枠 -->
-  <div class="slideFlame">
-      <!-- お店のスライド -->
-      {% for shop_and_pay in shops_and_payments %} 
-        <div class="card slideBox">
-          <span class="card-header location bg-warning-subtle">現在地から {{ shop_and_pay[2] }}</span>	
-          <div class="card-body">
-            <div class="card-title storeName">{{ shop_and_pay[1] }}</div>
+    // 画面幅が820px以下の場合、カテゴリ欄をフッターに移動
+    function moveCategory() {
+      var shopCategoryFrameMox = document.querySelector('.shop_category_frame_box');
+      var categoryBox = document.querySelector('.category_frame_box');
+      var footer = document.querySelector('footer');
+      // 最初の読み込み時に元の親要素を記録
+      if (!shopCategoryFrameMox) {
+        shopCategoryFrameMox = categoryBox.parentNode;
+      }
+      if (window.innerWidth <= 920) {
+        // 画面幅が820px以下の場合、カテゴリ欄をフッターに移動
+        footer.appendChild(categoryBox);
+      } else {
+        // 画面幅が820px以上の場合、カテゴリ欄を元の位置に戻す
+        shopCategoryFrameMox.appendChild(categoryBox);
+      }
+    }
+    // ページの読み込み時とウィンドウサイズが変更されたときに関数を実行
+    window.onload = moveCategory;
+    window.onresize = moveCategory;
+  </script>
+  <!-- タイトル -->
+  <div class="title">Search Shop List</div>
+  <div class="line"></div>
+  <div class="shop_category_frame_box">
+    <div class="shop_frame_box">
+      <!-- タグのアラート -->
+      <h1>{{device_type}}</h1>
+      {% if tag_name != None %}
+          <div class="tag-alert">{{ tag_name }}のタグがついているお店一覧</div>
+      {% endif %}
+      <!-- お店のスライドを入れる欄 -->
+      {% for shop_and_pay in shops_and_payments %}
+        <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }})" href="#">
+          <div class="shop_frame">
+            <p class="storeName">{{ shop_and_pay[1] }}<br></p>
+            <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
             {% if ((shop_and_pay[3] | length) < 100) %}
-              <div class="card-text payment">{{  shop_and_pay[3] }}</div>
+              <p class="payments">{{  shop_and_pay[3] }}</p>
             {% else %}
-              <div class="card-text payment">{{ (shop_and_pay[3])[:100]+"..." }}</div>
+              <p class="payments">{{ (shop_and_pay[3])[:100]+"etc..." }}</p>
             {% endif %}
           </div>
-          <a onclick="getMobileOS({{ shop_and_pay[0] }})" href="#" class="stretched-link"></a>
-        </div>
+        </a>
       {% endfor %}
+    </div>
+    <!-- カテゴリ欄 -->
+    <div class="category_frame_box">
+      <!-- 決済サービスのタグ -->
+      <div class="payment_service_head">決済サービス</div>
+        <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
+        <div class="fold_tag-content_credit">
+          {% for credit_name in credit_names %}
+            <p><span class="fold_tag-under_line">{{ credit_name }}</p>
+          {% endfor %}
+        </div>
+      
+        <input id="fold_tag-check2" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
+        <div class="fold_tag-content_barcode">
+          {% for barcode_name in barcode_names %}
+            <p><span class="fold_tag-under_line">{{ barcode_name }}</p>
+          {% endfor %}
+        </div>
+      
+        <input id="fold_tag-check3" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
+        <div class="fold_tag-content_electronic_money">
+          {% for electronic_money_name in electronic_money_names %}
+            <p><span class="fold_tag-under_line">{{ electronic_money_name }}</p>
+          {% endfor %}
+        </div>
+        <!-- タグ -->
+        <div class="tag_head">タグ</div>
+        <div class="tag_commonly_used">よく使われるタグ Top5</div>
+        {% for tag_commonly in tag_commonly_used_list %}
+          <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+            <div class="tag_content"><span class="under_line">{{ tag_commonly["name"] }}</span></div>
+          </a>
+        {% endfor %}
+        <div class="normal_tag">50音順</div>
+        {% for tag_id_name in tag_id_name_list %}
+          <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+            <div class="tag_content"><span class="under_line">{{ tag_id_name["name"] }}</span></div>
+          </a>
+        {% endfor %}
+    </div>
   </div>
-  {# bootstrap setting #}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  {# ====フッター==== #}
+  <footer>
+    <p>©2023 PayView All Rights Reserved.</p>
+  </footer>
 </body>
 </html>

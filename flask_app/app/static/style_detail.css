@@ -1,143 +1,451 @@
 /* 以下スマホの表示 */
 @media (max-width: 480px) {
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    .background{
+        background-color: #fffaf7;
+    }
 
     .header_div{
         display:none;
     }
-
     .header_div_phone{
+        background-color: #fffaf7;
+        top: 0px;
+        left: 0px;
+        padding: 10px 20px 0 20px;
         width: 100%;
         height: 50px;
-        position: relative;
+        z-index: 100;
+        position: fixed;
+        border-radius: 3px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
-
     .logo{
         width: 100px;
         height: 40px;
-        margin: 10px;
         position: absolute;
     }
-
     .title{
-        top: 15px;
-        left: 140px;
-        position: absolute;
-        text-align: center;
-        color: black;
-        font-size: 20px;
+        color: #666666;
+        font-size: 26px;
         font-family: Source Serif Pro;
-        font-weight: 600;
         text-transform: uppercase;
         word-wrap: break-word;
+        margin: 80px 20px 0 20px;
     }
-
     .line{
-        width: 100%;
         height: 0px;
-        position: absolute;
-        top: 90%;
-        border-top: 2px solid #000;
-    }
-
-    .shopName {
-        width: 100%;
-        margin: 30px 10px 0;
-        font-family: Noto Serif JP;
-        font-weight: 600;
+        line-height : 1.8 ;
+        border-bottom: dashed 3px #666666;
         text-transform: uppercase;
         word-wrap: break-word;
+        margin: 0px 20px 0 20px;
     }
 
+    /* ハンバーガーメニュー */
+    .hamburger_menu {
+        position: relative;
+        top: -2px;
+        left: 80%;
+        background: #fffaf7;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        border-radius: 5px;
+    }
+    .hamburger_menu span {
+        display: inline-block;
+        transition: all .4s;
+        position: absolute;
+        left: 14px;
+        height: 3px;
+        border-radius: 2px;
+        background: #666666;
+        width: 45%;
+    }
+    .hamburger_menu span:nth-of-type(1) {
+        top: 15px;
+    }
+    .hamburger_menu span:nth-of-type(2) {
+        top: 23px;
+    }
+    .hamburger_menu span:nth-of-type(3) {
+        top: 31px;
+    }
+    .hamburger_menu.active span:nth-of-type(1) {
+        top: 18px;
+        left: 18px;
+        transform: translateY(6px) rotate(-45deg);
+        width: 30%;
+    }
+    .hamburger_menu.active span:nth-of-type(2) {
+        opacity: 0;
+    }
+    .hamburger_menu.active span:nth-of-type(3) {
+        top: 30px;
+        left: 18px;
+        transform: translateY(-6px) rotate(45deg);
+        width: 30%;
+    }
+    /* メニュー内 */
+    .menu {
+        background-color: #fffaf7;
+        opacity: 0; /* 初期状態で透明 */
+        visibility: hidden; /* 初期状態で非表示 */
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+        top: 65px;
+        left: 0px;
+        width: 100%;
+        height: 60vh;
+        position: fixed;
+        transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
+        overflow-y: auto; /* 縦方向のスクロールを許可 */
+    }
+    .menu.active {
+        display: block;
+        opacity: 1; /* アクティブ時に完全に表示 */
+        visibility: visible; /* アクティブ時に表示 */
+    }
+    .menu.active {
+        display: block;
+    }
+    .category_frame_box{
+        display: none;
+    }
+    /* タグの枠 */
+    .category_frame_box_phone{
+        height: 100%;
+        margin: 0 20px;
+    }
+    /* 見出し */
+    .category_memu_phone{
+        font-family: Noto Serif JP;
+        font-size: 24px;
+        margin-top: 15px;
+        color: #666666;
+    }
+    .category_menu_line_phone{
+        height: 0px;
+        line-height : 1.8 ;
+        border-bottom: dashed 3px #666666;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 3px;
+        margin-bottom: 30px;
+    }
+    /* 決済サービスの見出し */
+    .payment_service_head_phone{
+        width: 280px;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #666666;
+        margin-bottom: 20px;
+    }
+    .payment_service_head_phone::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    /* 折りたたみメニュー */
+    @keyframes bounce {
+        0% { height: 0; opacity: 0; }
+        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
+        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
+    }
+    .fold_tag_phone-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag_phone-label {
+        width: 270px;
+        font-size: 12px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin: 13px 0px 13px 20px;
+    }
+    .fold_tag_phone-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+    .fold_tag_phone-content_credit {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 730px;
+        margin-left: 30px;
+        word-break: break-all;
+    }
+    .fold_tag_phone-content_credit p {
+        font-size: 12px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8;
+        border-bottom: dashed 2px #d3d3d3;
+    }
+    .fold_tag_phone-content_barcode {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+    }
+    .fold_tag_phone-content_barcode p {
+        font-size: 12px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+    }
+    .fold_tag_phone-content_electronic_money {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+    }
+    .fold_tag_phone-content_electronic_money p {
+        font-size: 12px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+    }
+    .fold_tag_phone-under_line{
+        position:relative;
+    }
+    .fold_tag_phone-under_line::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .3s;
+    }
+    .fold_tag_phone-content_credit p:active .fold_tag_phone-under_line::after {
+        width: 100%;
+    }
+    .fold_tag_phone-check:checked + .fold_tag_phone-label + .fold_tag_phone-content_credit {
+        /* チェックされたとき：表示 */
+        max-height: 850px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag_phone-content_barcode p:active .fold_tag_phone-under_line::after {
+        width: 100%;
+    }
+    .fold_tag_phone-check:checked + .fold_tag_phone-label + .fold_tag_phone-content_barcode {
+        /* チェックされたとき：表示 */
+        max-height: 930px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag_phone-content_electronic_money p:active .fold_tag_phone-under_line::after {
+        width: 100%;
+    }
+    .fold_tag_phone-check:checked + .fold_tag_phone-label + .fold_tag_phone-content_electronic_money {
+        /* チェックされたとき：表示 */
+        max-height: 550px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag_phone-check:checked + .fold_tag_phone-label::after {
+        transform: rotate(180deg);
+    }
+    /* タグの見出し */
+    .tag_head_phone{
+        width: 280px;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #666666;
+        margin: 20px 0 20px 0;
+    }
+    .tag_head_phone::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .tag_commonly_used{
+        margin: 30px 0 25px 0;;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .normal_tag{
+        margin: 35px 0 25px 0;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .tag_content_phone{
+        font-size: 12px;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        margin-bottom: 15px;
+        margin-left: 20px;
+        color: #333333;
+    }
+    .under_line_phone{
+        position:relative;
+    }
+    .under_line_phone::after {
+        content: '';
+        position: absolute;
+        bottom: -9px;
+        left: 0;
+        width: 0%;
+        height: 2px;
+        background: #333333;
+        transition: all .2s;
+    }
+    .tag_content_phone:active .under_line_phone::after {
+        width: 100%;
+    }
+    /* 空白入れる */
+    .tag_black{
+        width: 100%;
+        height: 20px;
+    }
+
+    .shopDetail{
+        height: 100%;
+        padding: 0 20px;
+    }
+    .shopName {
+        font-size: 22px;
+        font-weight: 550;
+        color: #333333;
+        margin-top: 20px;
+    }
     .usePymentsStr{
         width: 100%;
-        top: 15px;
-        font-size: 14px;
-        position: relative;
+        font-size: 12px;
+        margin: 15px 0;
     }
-
     .credit_flex{
         width: 100%;
-        margin: 20px auto;
         display: flex; /*横並び*/
     }
     .credit_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 100px;
-        height: 60px;
+        width: 63px;
+        height: 52px;
+        top: -18px;
         background: url('credit.jpg');
         background-size: cover;
-    }
-    .credit_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 15px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .credit_text{
+        width: 280px;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #666666;
+        margin-bottom: 20px;
+    }
     .credit_text::after{
-        position: absolute;
+        height: 3px;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 20%;
     }
-
     .barcode_flex{
         width: 100%;
         display: flex; /*横並び*/
     }
     .barcode_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 73px;
-        height: 62px;
+        width: 63px;
+        height: 52px;
+        top: -18px;
         background: url('barcode.jpg');
         background-size: cover;
-    }
-    .barcode_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 17px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .barcode_text{
+        width: 280px;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #666666;
+        margin-bottom: 20px;
+    }
     .barcode_text::after{
-        position: absolute;
+        height: 3px;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 20%;
     }
-
     .electronic_money_flex{
         width: 100%;
         display: flex; /*横並び*/
     }
     .electronic_money_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 64px;
-        height: 60px;
+        width: 54px;
+        height: 50px;
+        top: -16px;
         background: url('electronic_money.jpg');
         background-size: cover;
-    }
-    .electronic_money_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 15px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .electronic_money_text{
+        width: 280px;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #666666;
+        margin-bottom: 20px;
+    }
     .electronic_money_text::after{
-        position: absolute;
+        height: 3px;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 20%;
     }
 
     /* ================== */
@@ -146,7 +454,7 @@
     .button_flex{
         top: 20px;
         width: 100%;
-        margin: 20px auto;
+        margin-bottom: 50px;
         position: relative;
     }
     .button {
@@ -195,197 +503,162 @@
         margin-top: 200px;
         text-align: center;
     }
+    footer{
+        width: 100%;
+        height: 100px;
+        background-color: #ccc8c6;
+        color: white;
+        text-align: center;
+        font-size: 12px;
+        padding-top: 10px;
+    }
 }
 /* =====以下 pcの表示===== */
 @media (min-width: 481px) {
-
+    body{
+        margin: 0;
+        padding: 0;
+    }
+    .background{
+        background-color: #fffaf7;
+    }
     .header_div_phone{
         display:none;
     }
-    
     .header_div{
-        width: 1000px;
-        height: 150px;
-        position: relative;
-        margin: 0 auto;
-    }
-
-    .logo{
-        width: 200px;
-        height: 80px;
+        background-color: #fffaf7;
+        top: 0px;
         left: 0px;
-        top: 20px;
-        position: absolute;
+        padding: 20px 50px 0 80px;
+        width: 100%;
+        height: 80px;
+        z-index: 100;
+        position: fixed;
+        border-radius: 3px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
-
+    .logo{
+        width: 190px;
+        height: 70px;
+        float: left;        
+    }
     .title{
-        width: 517px;
-        height: 65px;
-        top: 60px;
-        left: 200px;
-        position: absolute;
-        text-align: center;
-        color: black;
+        color: #666666;
         font-size: 36px;
         font-family: Source Serif Pro;
-        font-weight: 600;
         text-transform: uppercase;
         word-wrap: break-word;
+        margin: 140px 50px 0 80px;
     }
-
     .line{
-        width: 100%;
         height: 0px;
-        position: absolute;
-        top: 90%;
-        border-top: 2px solid #000;
-    }
-
-    .search_div{
-        width: 270px;
-        height: 80px;
-        position: absolute;
-        top: 50%;
-        margin-top: -40px; /* この要素の高さの半分 */
-        right: 0px;
-    }
-
-    .searchImage{
-        width: 30px;
-        height: 30px;
-        top: 30px;
-        position: absolute;
-        float: left;
-    }
-
-    .search{
-        width: 55px;
-        height: 45px;
-        top: 25px;
-        left: 35px;
-        position: absolute;
-        color: black;
-        font-size: 24px;
-        font-family: Noto Serif JP;
-        font-weight: 600;
+        line-height : 1.8 ;
+        border-bottom: dashed 3px #666666;
         text-transform: uppercase;
         word-wrap: break-word;
-        float: left;
+        margin: -5px 50px 0 80px;
     }
-
-    .searchWindow{
-        width: 170px;
-        height: 45px;
-        top: 22px;
-        left: 95px;
-        position: absolute;
-        background: #F6F6F6;
-        float: left;
+    .shopDetail{
+        height: 100%;
+        padding: 0 80px;
     }
-
     .shopName {
-        width: 1000px;
-        margin: 20px auto;
-        font-family: Noto Serif JP;
-        font-weight: 600;
-        text-transform: uppercase;
-        word-wrap: break-word;
+        font-size: 26px;
+        font-weight: 550;
+        color: #333333;
+        margin: 30px 0;
     }
-
     .usePymentsStr{
-        width: 1000px;
-        margin: 20px auto;
+        width: 100%;
         font-size: 14px;
-        position: relative;
+        margin: 25px 0;
     }
-
-    
     .credit_flex{
-        width: 1000px;
-        height: 80px;
-        margin: 20px auto;
+        width: 100%;
         display: flex; /*横並び*/
     }
     .credit_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 100px;
-        height: 61px;
+        width: 63px;
+        height: 52px;
+        top: -15px;
         background: url('credit.jpg');
         background-size: cover;
-    }
-    .credit_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 16px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .credit_text{
+        height: 37px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 24px;
+        color: #666666;
+        margin-bottom: 20px;
+        padding-right: 15px;
+    }
     .credit_text::after{
-        position: absolute;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 50%;
     }
-
     .barcode_flex{
-        width: 1000px;
-        margin: 40px auto;
+        width: 100%;
         display: flex; /*横並び*/
     }
     .barcode_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 73px;
-        height: 62px;
+        width: 63px;
+        height: 52px;
+        top: -15px;
         background: url('barcode.jpg');
         background-size: cover;
-    }
-    .barcode_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 17px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .barcode_text{
+        height: 37px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 24px;
+        color: #666666;
+        margin-bottom: 20px;
+        padding-right: 15px;
+    }
     .barcode_text::after{
-        position: absolute;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 50%;
     }
-
     .electronic_money_flex{
-        width: 1000px;
-        margin: 40px auto;
+        width: 100%;
         display: flex; /*横並び*/
     }
     .electronic_money_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 64px;
-        height: 60px;
+        width: 54px;
+        height: 50px;
+        top: -13px;
         background: url('electronic_money.jpg');
         background-size: cover;
-    }
-    .electronic_money_text{
-        border-bottom: solid 4px #FFEB8F;
-        top: 15px;
-        height: 45px;
-        font-size: 24px;
-        color: black;
         position: relative;
     }
+    .electronic_money_text{
+        height: 37px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 24px;
+        color: #666666;
+        margin-bottom: 20px;
+        padding-right: 15px;
+    }
     .electronic_money_text::after{
-        position: absolute;
+        position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        bottom: -3px;
-        width: 30%;
+        width: 50%;
     }
 
     /* ================== */
@@ -393,7 +666,7 @@
     .button_flex{
         top: 20px;
         width: 1000px;
-        margin: 20px auto;
+        margin-bottom: 50px;
         position: relative;
     }
     .button {
@@ -411,10 +684,18 @@
         overflow: hidden;
     }
 
-    /*# sourceMappingURL=bottom.css.map */
-    
     .backbutton {
         margin-top: 100px;
         text-align: center;
+    }
+
+    footer{
+        width: 100%;
+        height: 100px;
+        background-color: #ccc8c6;
+        color: white;
+        text-align: center;
+        font-size: 14px;
+        padding-top: 10px;
     }
 }

@@ -19,59 +19,104 @@
       width: 30%; /* 幅を50%に設定 */
     }
   </style>
-  {# bootstrap setting #}
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css" media="screen">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
 <header>
+  {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('loading') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Shop Detail</div>
-    <!-- 検索窓 -->
-    <div class="search_div">
-      <img src="{{ url_for('static', filename='kensaku.jpeg')}}" class="searchImage">
-      <div class="search" src="https://via.placeholder.com/30x30">検索</div>
-      <div class="searchWindow"></div>
-    </div>
-    <!-- ライン -->
-    <hr class="line">
   </div>
   
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('loading') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Shop Detail</div>
-    <!-- ライン -->
-    <hr class="line">
-  </div>
-  {# ====スマホ用のヘッダー==== #}
-  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
-</header>
-<body>
-  <div id="shopDetail">
-    <h1 class="shopName">{{ shop_name }}</h1>
-    <div class="usePymentsStr">使用できる決済サービス等一覧</div>
-    {# test
-    <div class="button_flex">
-      <div class="button" id="button-2" ontouchstart = "">
-        <div id="slide"></div>
-        <a class="a_tag" href="https://google.com">test</a>
+    <!-- ハンバーガーメニュー -->
+    <div class="hamburger_menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menu">
+      <!-- タグ欄 -->
+      <div class="category_frame_box_phone">
+        <!-- 決済サービスのタグ -->
+        <div class="category_memu_phone">Category Menu</div>
+        <div class="category_menu_line_phone"></div>
+        <div class="payment_service_head_phone">決済サービス</div>
+          <input id="fold_tag_phone-check1" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
+          <div class="fold_tag_phone-content_credit">
+            {% for credit_name in credit_names %}
+              <p><span class="fold_tag_phone-under_line">{{ credit_name }}</p>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag_phone-check2" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
+          <div class="fold_tag_phone-content_barcode">
+            {% for barcode_name in barcode_names %}
+              <p><span class="fold_tag_phone-under_line">{{ barcode_name }}</p>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag_phone-check3" class="fold_tag_phone-check" type="checkbox">
+          <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
+          <div class="fold_tag_phone-content_electronic_money">
+            {% for electronic_money_name in electronic_money_names %}
+              <p><span class="fold_tag_phone-under_line">{{ electronic_money_name }}</p>
+            {% endfor %}
+          </div>
+          <!-- タグ -->
+          <div class="tag_head_phone">タグ</div>
+          <div class="tag_commonly_used">よく使われるタグ Top5</div>
+          {% for tag_commonly in tag_commonly_used_list %}
+            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+              <div class="tag_content_phone"><span class="under_line">{{ tag_commonly["name"] }}</span></div>
+            </a>
+          {% endfor %}
+          <div class="normal_tag">50音順</div>
+          {% for tag_id_name in tag_id_name_list %}
+            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+              <div class="tag_content_phone"><span class="under_line_phone">{{ tag_id_name["name"] }}</span></div>
+            </a>
+          {% endfor %}
+          <div class="tag_black"></div>
       </div>
     </div>
-    #}
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".hamburger_menu").click(function() {
+                $(this).toggleClass('active');
+                $(".menu").toggleClass('active');
+            });
+        });
+    </script>
+  </div>
+  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
+</header>
+<body class="background">
+  <div class="title">Shop Detail</div>
+  <div class="line"></div>
+  <div id="shopDetail" class="shopDetail">
+    <h1 class="shopName">{{ shop_name }}</h1>
+    <div class="usePymentsStr">使用できる決済サービス等一覧</div>
     {# クレジットカード #}
     <div class="credit_flex">
-      <span class="credit_text">クレジットカード</span>
-      <span class="credit_image"></span>
+      <div class="credit_text">クレジットカード</div>
+      <div class="credit_image"></div>
     </div>
     <div class="button_flex">
       {% for credit_payment in credit_payments%}
@@ -135,7 +180,9 @@
   <div class="backbutton">
     <button class="btn btn-secondary" onclick="history.back()" type="button">戻る</button>
   </div>
-  {# bootstrap setting #}
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+  {# ====フッター==== #}
+  <footer>
+    <p>©2023 PayView All Rights Reserved.</p>
+  </footer>
 </body>
 </html>
