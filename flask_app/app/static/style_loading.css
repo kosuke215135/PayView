@@ -19,7 +19,7 @@
         margin: 0;
         padding: 0;
         position: fixed;
-        top: 20%;
+        top: 65%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
@@ -68,11 +68,13 @@
         height: 300px;
         margin: 0;
         padding: 0;
+        position: relative;
+        top: -10%;
         background-color: #ffff;
         
         border-radius: 100%;  
-        -webkit-animation: sk-scaleout 2.0s infinite ease-in-out;
-        animation: sk-scaleout 2.0s infinite ease-in-out;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out; /* 拡大する円形の速さを調整 */
+        animation: sk-scaleout 1.0s infinite ease-in-out;
         }
         
         @-webkit-keyframes sk-scaleout {
@@ -98,8 +100,8 @@
         position: fixed;
         width: 100px;
         height: 100px;
-        top: 50%;
-        left: 50%;
+        top: 40%;
+        left: 49%;
         transform: translate(-50%, -50%);
     }
 }
@@ -124,14 +126,14 @@
         margin: 0;
         padding: 0;
         position: fixed;
-        top: 30%;
+        top: 65%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
 
     .title span {
         display: inline-block;
-        transform: translate(0, 70%);
+        transform: translate(0, 60%);
         transition: transform cubic-bezier(0.215, 0.61, 0.355, 1) 0.8s;
     }
 
@@ -173,11 +175,13 @@
         height: 500px;
         margin: 0;
         padding: 0;
+        position: relative;
+        top: -10%;
         background-color: #ffff;
       
         border-radius: 100%;  
-        -webkit-animation: sk-scaleout 2.0s infinite ease-in-out;
-        animation: sk-scaleout 2.0s infinite ease-in-out;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
       }
       
       @-webkit-keyframes sk-scaleout {
@@ -203,8 +207,8 @@
         position: fixed;
         width: 200px;
         height: 200px;
-        top: 50%;
-        left: 50%;
+        top: 40%;
+        left: 49%;
         transform: translate(-50%, -50%);
     }
 
