@@ -12,6 +12,7 @@
         display:none;
     }
     .header_div_phone{
+        background-color: #fffaf7;
         top: 0px;
         left: 0px;
         padding: 10px 20px 0 20px;
@@ -421,6 +422,7 @@
         display:none;
     }
     .header_div{
+        background-color: #fffaf7;
         top: 0px;
         left: 0px;
         padding: 20px 50px 0 80px;
