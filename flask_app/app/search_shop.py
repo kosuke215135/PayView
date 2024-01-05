@@ -18,6 +18,8 @@ USE_PART_OF_SPEECH = ["名詞", "動詞", "形容詞", "副詞"]
 # 検索結果がこれ以下の件数である場合少ないと判断する
 MIN_NUM_SEARCH_RESULTS = 0
 
+DROP_DOWN_DISTANCE = ["1km", "3km", "5km", "10km", "すべて"]
+
 # 形態素解析の結果をlistにして返す関数
 def mecab_list(text):
     tagger = MeCab.Tagger("-Ochasen")
@@ -69,7 +71,6 @@ def create_sql_search_n_gram(search_strings_list):
 
     query_every_search_word = []
 
-    print(search_strings_list)
     for i in range(len(search_strings_list)):
         query_to_shops = "select * from shops "
         query_to_payment_services = "select * from payment_services "
@@ -130,7 +131,6 @@ def execut_sql_search(query_every_search_word):
         query_to_tags = query[2]
 
         #検索ワードに関連するお店を調べる
-        print(query_to_shops)
         cur.execute(query_to_shops)
         search_result_shops = cur.fetchall()
 
@@ -187,7 +187,6 @@ def and_search_every_search_word(result_every_search_word):
     for result in result_every_search_word:
         tmp_tuple = set()
         for re in result:
-            print(re)
             tmp_tuple.add(re["shop_id"])
         already_append_shop_id.append(tmp_tuple)
     
@@ -293,9 +292,8 @@ def search_result(tag_id):
 
     search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
 
-    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings)
+    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
     
-
 
 @bp.route('/search-result/text-search', methods=['POST'])
 def text_search():
@@ -310,6 +308,9 @@ def text_search():
     # 半角スペースや全角スペースごとに区切る
     search_strings = request.form["search_strings"]
     search_words = search_strings.split()
+    select_distance = request.form["select_distance"]
+
+    print(select_distance)
 
     # neologdnで検索ワードの前処理を行う
     for i in range(len(search_words)):
@@ -403,4 +404,4 @@ def text_search():
 
     tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
 
-    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, search_strings=search_strings)
+    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)

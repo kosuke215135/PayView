@@ -16,6 +16,8 @@ CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
 TRANSPORTATION_GROUP = "05PG"
 
+DROP_DOWN_DISTANCE = ["1km", "3km", "5km", "10km", "すべて"]
+
 #シークレットキーを作成
 def get_random_string(length):
     pass_chars = string.ascii_letters + string.digits
@@ -136,7 +138,12 @@ def create_app():
             tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
             search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
 
+<<<<<<< HEAD
             return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings)
+=======
+            return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+
+>>>>>>> 952424a (検索画面の見た目を整えた)
 
             
     @app.route("/detail/<string:os>/<int:shop_id>")
@@ -204,6 +211,7 @@ def create_app():
             """, (group_id,))
             return [item["name"] for item in cur.fetchall()]
 
+<<<<<<< HEAD
         barcode_names = get_payment_service_names(BARCODE_GROUP)
         credit_names = get_payment_service_names(CREDIT_GROUP)
         electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
@@ -221,6 +229,9 @@ def create_app():
                 tag_commonly_used_list.append(tag_id_name)
 
         return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list)
+=======
+        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+>>>>>>> 952424a (検索画面の見た目を整えた)
 
     return app
 

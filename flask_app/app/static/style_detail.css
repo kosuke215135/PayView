@@ -515,6 +515,47 @@
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
     }
+    .search_div{
+        width: 270px;
+        height: 80px;
+        position: absolute;
+        top: 50%;
+        margin-top: -40px; /* この要素の高さの半分 */
+        right: 0px;
+    }
+    .search_container{
+    box-sizing: border-box;
+    position: relative;
+    border: 1px solid #999;
+    display: block;
+    padding: 3px 10px;
+    border-radius: 5px;
+    height: 2.3em;
+    width: 260px;
+    overflow: hidden;
+    }
+    .search_container input[type="text"]{
+    border: none;
+    height: 2.0em;
+    }
+    .search_container input[type="text"]:focus {
+    outline: 0;
+    }
+    .search_container input[type="submit"]{
+    cursor: pointer;
+    font-family: FontAwesome;
+    font-size: 1.3em;
+    border: none;
+    background: none;
+    color: #2d2d2d;;
+    position: absolute;
+    width: 2.5em;
+    height: 2.5em;
+    right: 0;
+    top: -10px;
+    outline : none;
+    }
+
     .line{
         height: 0px;
         line-height : 1.8 ;
