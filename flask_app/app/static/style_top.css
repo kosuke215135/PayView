@@ -415,7 +415,7 @@
         width: 380px;
         height: 80px;
         position: absolute;
-        top: 50%;
+        top: 60%;
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
         right: 100px;
@@ -443,6 +443,7 @@
     .search_container input[type="text"]{
         border: none;
         height: 2.0em;
+        width: 200px;
         background-color: #fffaf7
     }
     .search_container input[type="text"]:focus {
