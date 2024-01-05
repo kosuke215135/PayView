@@ -16,7 +16,7 @@ CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
 TRANSPORTATION_GROUP = "05PG"
 
-DROP_DOWN_DISTANCE = ["1km", "3km", "5km", "10km", "すべて"]
+DROP_DOWN_DISTANCE = [1, 3, 5, 10, -1]
 
 #シークレットキーを作成
 def get_random_string(length):

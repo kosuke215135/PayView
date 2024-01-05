@@ -37,12 +37,16 @@
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- 検索窓 -->
+   <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
-            <option>{{ i }}</option>
+            {% if i == -1%}
+              <option value="{{ i }}">すべて</option>
+            {% else %}
+              <option value="{{ i }}" >{{ i }} km</option>
+            {% endif %}
           {% endfor %}
         </select>
         <div class="search_container">
@@ -50,7 +54,7 @@
           <input type="submit" value="&#xf002">
         </div>
       </form>
-    </div>
+    </div> 
   </div>
   
   {# ====スマホ用のヘッダー==== #}

@@ -18,7 +18,7 @@ USE_PART_OF_SPEECH = ["名詞", "動詞", "形容詞", "副詞"]
 # 検索結果がこれ以下の件数である場合少ないと判断する
 MIN_NUM_SEARCH_RESULTS = 0
 
-DROP_DOWN_DISTANCE = ["1km", "3km", "5km", "10km", "すべて"]
+DROP_DOWN_DISTANCE = [1, 3, 5, 10, -1]
 
 # 形態素解析の結果をlistにして返す関数
 def mecab_list(text):
@@ -87,6 +87,7 @@ def create_sql_search_n_gram(search_strings_list):
             #最後のクエリであれば以下を追加する
             if j == len(search_strings_list[i]) - 1:
                 query_common_part += " ' in boolean mode) "
+            
         query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
         query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
         
@@ -111,7 +112,7 @@ def create_sql_search_like(search_words):
 
 
 # 検索を実行する関数
-def execut_sql_search(query_every_search_word):
+def execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=True):
     """
     Args:
         query_every_search_word [[str]]: 各TableへのSQLが格納されたリストが検索ワードごとに格納されている
@@ -130,6 +131,13 @@ def execut_sql_search(query_every_search_word):
         query_to_payment_services = query[1]
         query_to_tags = query[2]
 
+        # 距離の指定を付け加える
+        if not be_all_distance:
+            if be_input_search_word:
+                query_to_shops = query_to_shops + " and " +distance_limit_sql
+            else:
+                query_to_shops = query_to_shops + " where " +distance_limit_sql
+
         #検索ワードに関連するお店を調べる
         cur.execute(query_to_shops)
         search_result_shops = cur.fetchall()
@@ -142,6 +150,9 @@ def execut_sql_search(query_every_search_word):
         for search_result_payment_service in search_result_payment_services:
             payment_id = search_result_payment_service["payment_id"]
             tmp_query = f"select * from shops inner join can_use_services on shops.shop_id = can_use_services.shop_id where can_use_services.payment_id='{payment_id}' "
+            if not be_all_distance:
+                # 距離の指定を付け加える
+                tmp_query = tmp_query + " and " + distance_limit_sql
             cur.execute(tmp_query)
             search_result_shops += cur.fetchall()
 
@@ -153,6 +164,9 @@ def execut_sql_search(query_every_search_word):
         for search_result_tag in search_result_tags:
             tag_id = search_result_tag["tag_id"]
             tmp_query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id='{tag_id}' "
+            if not be_all_distance:
+                # 距離の指定を付け加える
+                tmp_query = tmp_query + " and " + distance_limit_sql
             cur.execute(tmp_query)
             search_result_shops += cur.fetchall()
 
@@ -310,7 +324,23 @@ def text_search():
     search_words = search_strings.split()
     select_distance = request.form["select_distance"]
 
-    print(select_distance)
+    select_distance = int(select_distance)
+
+    # 距離指定がない場合は-1が返ってくる
+    if select_distance == -1:
+        distance_limit_sql = ""
+        be_all_distance = True
+    else:
+        be_all_distance = False
+        # select_distanceで指定した範囲を指定する
+        result = get_distanced_lat_lng(user_latitude, user_longitude, select_distance)
+        n = str(result["n"])
+        e = str(result["e"])
+        s = str(result["s"])
+        w = str(result["w"])
+
+        # 距離を指定するためのsqlを作成しておく
+        distance_limit_sql = " ("+n+" > shops.latitude and shops.latitude > "+s+") and ("+e+" > shops.longitude and shops.longitude > "+w+") "
 
     # neologdnで検索ワードの前処理を行う
     for i in range(len(search_words)):
@@ -335,11 +365,11 @@ def text_search():
 
     # 距離の検索と文字列検索を兼ねているため、文字列が何も入力されていない場合は距離だけの絞り込みを行う
     if search_strings == '':
-        query_to_shops = "select * from shops "
+        query_to_shops = "select * from shops " 
         query_to_payment_services = "select * from payment_services "
         query_to_tags = "select * from tags "
         query_every_search_word = [[query_to_shops, query_to_payment_services, query_to_tags]]
-        search_result_shops = execut_sql_search(query_every_search_word)
+        search_result_shops = execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=False)
     # 検索に使えるwordが無い場合は結果を空にしておく 
     elif len(search_strings_list) == 0:
         search_result_shops = []
@@ -349,12 +379,12 @@ def text_search():
         # 検索を行うためにsqlを発行する
         query_every_search_word = create_sql_search_n_gram(search_strings_list)
         # 検索を行う
-        search_result_shops = execut_sql_search(query_every_search_word)
+        search_result_shops = execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance)
 
         # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
         if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
             like_query_every_search_word = create_sql_search_like(search_words)
-            search_result_shops += execut_sql_search(like_query_every_search_word)
+            search_result_shops += execut_sql_search(like_query_every_search_word, distance_limit_sql, be_all_distance)
 
 
     # 検索結果の重複を削除
