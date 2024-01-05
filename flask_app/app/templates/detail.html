@@ -35,10 +35,8 @@
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('top') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Shop Detail</div>
     <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
@@ -53,14 +51,12 @@
         </div>
       </form>
     </div>
-    <!-- ライン -->
-    <hr class="line">
   </div>
   
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('loading') }}">
+    <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
     <!-- ハンバーガーメニュー -->

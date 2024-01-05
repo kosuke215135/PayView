@@ -418,11 +418,11 @@
         top: 50%;
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
-        right: 0px;
+        right: 100px;
     }
 
     .select_distance{
-        height: 2.3em;
+        height: 2.8em;
         float: left;
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
@@ -435,7 +435,7 @@
         border: 0.1px solid #d3d3d3;
         display: block;
         padding: 3px 10px;
-        border-radius: 3px;
+        /* border-radius: 3px; */
         height: 2.3em;
         width: 265px;
         overflow: hidden;
@@ -443,6 +443,7 @@
     .search_container input[type="text"]{
         border: none;
         height: 2.0em;
+        background-color: #fffaf7
     }
     .search_container input[type="text"]:focus {
         outline: 0;
@@ -455,7 +456,7 @@
         color: #000000;
         position: absolute;
         width: 3.0em;
-        height: 3.0em;
+        height: 3.1em;
         right:0px;
         top: -5px;
         outline : none;

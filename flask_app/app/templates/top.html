@@ -36,10 +36,8 @@
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('top') }}">
-      <img src="{{ url_for('static', filename='logo.jpg')}}" alt="payview" class="logo">
+      <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- タイトル -->
-    <div class="title">Search Shop List</div>
     <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
@@ -54,14 +52,12 @@
         </div>
       </form>
     </div>
-    <!-- ライン -->
-    <hr class="line">
   </div>
   
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('loading') }}">
+    <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
     <!-- ハンバーガーメニュー -->
@@ -105,13 +101,13 @@
           <div class="tag_head_phone">タグ</div>
           <div class="tag_commonly_used">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
@@ -148,7 +144,6 @@
       window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
     }
 
-<<<<<<< HEAD
     // 画面幅が820px以下の場合、カテゴリ欄をフッターに移動
     function moveCategory() {
       var shopCategoryFrameMox = document.querySelector('.shop_category_frame_box');
@@ -182,46 +177,17 @@
       {% endif %}
       <!-- お店のスライドを入れる欄 -->
       {% for shop_and_pay in shops_and_payments %}
-        <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }})" href="#">
+        <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
           <div class="shop_frame">
             <p class="storeName">{{ shop_and_pay[1] }}<br></p>
             <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
-=======
-  {% if tag_name != None %}
-      <div class="alert alert-warning search-alert" role="alert">'{{ tag_name }}' のタグがついているお店一覧</div>
-  {% endif %}
-
-  {% if search_strings != None %}
-      <div class="alert alert-warning search-alert" role="alert">'{{ search_strings }}' で検索した結果</div>
-  {% endif %}
-  
-  <!-- タグ -->
-  <div class="tagList">
-    {% for tag_id_name in tag_id_name_list %}
-      <a class="btn btn-warning categoryBox"  href="{{ url_for('search_shop.search_result', tag_id=tag_id_name['tag_id'])}}" role="button">{{ tag_id_name["name"] }}</a>
-    {% endfor %}
-  </div>
-  <!-- お店のスライドを入れる枠 -->
-  <div class="slideFlame">
-      <!-- お店のスライド -->
-      {% for shop_and_pay in shops_and_payments %} 
-        <div class="card slideBox">
-          <span class="card-header location bg-warning-subtle">現在地から {{ shop_and_pay[2] }}</span>	
-          <div class="card-body">
-            <div class="card-title storeName">{{ shop_and_pay[1] }}</div>
->>>>>>> 6c8d6ea (検索機能の実装(mecab)&Cookieの実装)
             {% if ((shop_and_pay[3] | length) < 100) %}
               <p class="payments">{{  shop_and_pay[3] }}</p>
             {% else %}
               <p class="payments">{{ (shop_and_pay[3])[:100]+"etc..." }}</p>
             {% endif %}
           </div>
-<<<<<<< HEAD
         </a>
-=======
-          <a onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#" class="stretched-link"></a>
-        </div>
->>>>>>> 6c8d6ea (検索機能の実装(mecab)&Cookieの実装)
       {% endfor %}
     </div>
     <!-- カテゴリ欄 -->
@@ -256,13 +222,13 @@
         <div class="tag_head">タグ</div>
         <div class="tag_commonly_used">よく使われるタグ Top5</div>
         {% for tag_commonly in tag_commonly_used_list %}
-          <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', tag_id=tag_commonly['tag_id'])}}" role="button">
             <div class="tag_content">{{ tag_commonly["name"] }}</div>
           </a>
         {% endfor %}
         <div class="normal_tag">50音順</div>
         {% for tag_id_name in tag_id_name_list %}
-          <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', tag_id=tag_id_name['tag_id'])}}" role="button">
             <div class="tag_content">{{ tag_id_name["name"] }}</div>
           </a>
         {% endfor %}
