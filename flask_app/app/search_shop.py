@@ -140,7 +140,6 @@ def execut_sql_search(query_every_search_word, variable_every_search_word, dista
 
         # クエリごとに変数をタプルで持っておく(プレースホルダーを使用するため)
         variable_tuple = variable_every_search_word[i]
-        print(variable_tuple)
 
         # 距離の指定を付け加える
         if not be_all_distance:
