@@ -90,16 +90,16 @@ def create_app():
 
             for i in range(len(shops_and_payments)):
                 shop_id = shops_and_payments[i][0]
-                join_query = f"""
+                join_query = """
                     select 
                     payment_services.name 
                     from can_use_services 
                     inner join 
                     payment_services 
                     on can_use_services.payment_id = payment_services.payment_id 
-                    where can_use_services.shop_id = {shop_id} 
+                    where can_use_services.shop_id = %s 
                 """
-                cur.execute(join_query)
+                cur.execute(join_query, (shop_id, ))
                 payments_name_list = cur.fetchall() 
                 payments_str = ""
                 for l in range(len(payments_name_list)):
@@ -145,10 +145,10 @@ def create_app():
     def detail(os, shop_id):
         db = get_db()
         cur = db.cursor(dictionary=True)
-        query = f"select * from shops where shop_id = {shop_id};"
-        cur.execute(query) 
+        query = "select * from shops where shop_id = %s;"
+        cur.execute(query, (shop_id,)) 
         shop_name = cur.fetchall()[0]["name"]
-        join_query = f"""
+        join_query = """
             select 
             payment_services.payment_id,
             payment_services.name,
@@ -163,9 +163,9 @@ def create_app():
             payment_schemes
             on
             can_use_services.payment_id = payment_schemes.payment_id
-            where can_use_services.shop_id = {shop_id} 
+            where can_use_services.shop_id = %s
         """
-        cur.execute(join_query)
+        cur.execute(join_query, (shop_id,))
         payments_name_list = cur.fetchall()
 
         scheme_data = []
