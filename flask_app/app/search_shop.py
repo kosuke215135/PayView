@@ -247,8 +247,8 @@ def search_result(tag_id):
 
     db = get_db()
     cur = db.cursor(dictionary=True)
-    query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where (allocated_tags.tag_id='{tag_id}') and ({n}>latitude and latitude>{s}) and ({e}>longitude and longitude>{w});"
-    cur.execute(query)
+    query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where (allocated_tags.tag_id=%s) and ({n}>latitude and latitude>{s}) and ({e}>longitude and longitude>{w});"
+    cur.execute(query, (tag_id,))
     shops = cur.fetchall()
 
     shops_and_payments = []
@@ -265,16 +265,16 @@ def search_result(tag_id):
     
     for i in range(len(shops_and_payments)):
         shop_id = shops_and_payments[i][0]
-        join_query = f"""
+        join_query = """
             select 
             payment_services.name 
             from can_use_services 
             inner join 
             payment_services 
             on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = {shop_id} 
+            where can_use_services.shop_id = %s
         """
-        cur.execute(join_query)
+        cur.execute(join_query, (shop_id,))
         payments_name_list = cur.fetchall() 
         payments_str = ""
         for l in range(len(payments_name_list)):
@@ -310,7 +310,7 @@ def search_result(tag_id):
             tag_commonly_used_list.append(tag_id_name)
     
     #タグ名を取得する
-    cur.execute(f"select name from tags where tag_id = '{tag_id}'")
+    cur.execute("select name from tags where tag_id = %s", (tag_id,))
     tag_name = cur.fetchall()[0]["name"]
 
     search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
@@ -415,16 +415,16 @@ def text_search():
     
     for i in range(len(shops_and_payments)):
         shop_id = shops_and_payments[i][0]
-        join_query = f"""
+        join_query = """
             select 
             payment_services.name 
             from can_use_services 
             inner join 
             payment_services 
             on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = {shop_id} 
+            where can_use_services.shop_id = %s
         """
-        cur.execute(join_query)
+        cur.execute(join_query, (shop_id,))
         payments_name_list = cur.fetchall() 
         payments_str = ""
         for l in range(len(payments_name_list)):
