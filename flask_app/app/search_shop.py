@@ -47,16 +47,18 @@ def search_synonym(search_strings_list):
     for i in range(len(search_strings_list)):
         query = f"select * from synonyms  "
         tmp_list = []
-        
+        variable_tuple = ()
         for j in range(len(search_strings_list[i])):
             if j == 0:
-                query += f" where synonym='{search_strings_list[i][j]}' "
+                query += " where synonym=%s "
             else:
-                query += f" or synonym='{search_strings_list[i][j]}' "
+                query += " or synonym=%s "
             # 検索したままのワードも入れておく
             tmp_list.append(search_strings_list[i][j])
+            # プレースホルダーで使用する変数を格納
+            variable_tuple += (search_strings_list[i][j],)
 
-        cur.execute(query)
+        cur.execute(query, variable_tuple)
         sql_result_list = cur.fetchall()
         for j in range(len(sql_result_list)):
             tmp_list.append(sql_result_list[j]["original_word"])
@@ -70,49 +72,52 @@ def search_synonym(search_strings_list):
 def create_sql_search_n_gram(search_strings_list):
 
     query_every_search_word = []
+    variable_every_search_word = []
 
     for i in range(len(search_strings_list)):
         query_to_shops = "select * from shops "
         query_to_payment_services = "select * from payment_services "
         query_to_tags = "select * from tags "
-        query_common_part = ""
+        query_common_part = " where match (name) against ( %s  in boolean mode) "
+        variable_tuple = ()
+        tmp_strings = ""
         for j in range(len(search_strings_list[i])):
-            #最初のクエリであれば以下を追加する
-            if j == 0:
-                query_common_part += " where match (name) against (' "
-
-            search_string = search_strings_list[i][j]
-            query_common_part += search_string
-
-            #最後のクエリであれば以下を追加する
-            if j == len(search_strings_list[i]) - 1:
-                query_common_part += " ' in boolean mode) "
+            # 変数を追加する
+            tmp_strings += f" {search_strings_list[i][j]} "
             
         query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
         query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
+
+        variable_tuple += (tmp_strings,)
+        variable_every_search_word.append(variable_tuple)
         
-    return query_every_search_word
+    return query_every_search_word, variable_every_search_word
 
 
 # like句での検索をを行うsqlを発行する関数
 def create_sql_search_like(search_words):
     query_every_search_word = []
+    variable_every_search_word = []
 
     for i in range(len(search_words)):
         query_to_shops = "select * from shops "
         query_to_payment_services = "select * from payment_services "
         query_to_tags = "select * from tags "
+        variable_tuple = ()
 
-        query_common_part = f" where name like '%{search_words[i]}%' "
+        query_common_part = " where name like %s "
+        variable_tuple += ('%'+search_words[i]+'%',)
 
         query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
         query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
         
-    return query_every_search_word
+        variable_every_search_word.append(variable_tuple)
+
+    return query_every_search_word, variable_every_search_word
 
 
 # 検索を実行する関数
-def execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=True):
+def execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=True):
     """
     Args:
         query_every_search_word [[str]]: 各TableへのSQLが格納されたリストが検索ワードごとに格納されている
@@ -125,11 +130,15 @@ def execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distan
 
     result_every_search_word = []
 
-    for query in query_every_search_word:
+    for i in range(len(query_every_search_word)):
         # 各Tableへのクエリを取り出す
-        query_to_shops = query[0]
-        query_to_payment_services = query[1]
-        query_to_tags = query[2]
+        query_to_shops = query_every_search_word[i][0]
+        query_to_payment_services = query_every_search_word[i][1]
+        query_to_tags = query_every_search_word[i][2]
+
+        # クエリごとに変数をタプルで持っておく(プレースホルダーを使用するため)
+        variable_tuple = variable_every_search_word[i]
+        print(variable_tuple)
 
         # 距離の指定を付け加える
         if not be_all_distance:
@@ -139,11 +148,11 @@ def execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distan
                 query_to_shops = query_to_shops + " where " +distance_limit_sql
 
         #検索ワードに関連するお店を調べる
-        cur.execute(query_to_shops)
+        cur.execute(query_to_shops, variable_tuple)
         search_result_shops = cur.fetchall()
 
         #検索ワードに関連する決済サービスを調べる
-        cur.execute(query_to_payment_services)
+        cur.execute(query_to_payment_services, variable_tuple)
         search_result_payment_services = cur.fetchall()
 
         # 検索でヒットした決済サービスが使用できるお店を調べる
@@ -157,7 +166,7 @@ def execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distan
             search_result_shops += cur.fetchall()
 
         #検索ワードに関連するタグを調べる
-        cur.execute(query_to_tags)
+        cur.execute(query_to_tags, variable_tuple)
         search_result_tags = cur.fetchall()
 
         # 検索でヒットしたタグがつけられているお店を調べる
@@ -199,24 +208,24 @@ def and_search_every_search_word(result_every_search_word):
     """
     already_append_shop_id = []
     for result in result_every_search_word:
-        tmp_tuple = set()
+        tmp_set = set()
         for re in result:
-            tmp_tuple.add(re["shop_id"])
-        already_append_shop_id.append(tmp_tuple)
+            tmp_set.add(re["shop_id"])
+        already_append_shop_id.append(tmp_set)
     
-    and_shop_id_tuple = set()
+    and_shop_id_set = set()
 
     for i in range(len(already_append_shop_id)):
         if i == 0:
-            and_shop_id_tuple |= already_append_shop_id[i]
+            and_shop_id_set |= already_append_shop_id[i]
         else:
-            and_shop_id_tuple &= already_append_shop_id[i]
+            and_shop_id_set &= already_append_shop_id[i]
     
     result_and_search = []
     for re in result_every_search_word[0]:
-        if re["shop_id"] in and_shop_id_tuple:
+        if re["shop_id"] in and_shop_id_set:
             result_and_search.append(re)
-            and_shop_id_tuple.remove(re["shop_id"])
+            and_shop_id_set.remove(re["shop_id"])
     
     return result_and_search
 
@@ -369,7 +378,8 @@ def text_search():
         query_to_payment_services = "select * from payment_services "
         query_to_tags = "select * from tags "
         query_every_search_word = [[query_to_shops, query_to_payment_services, query_to_tags]]
-        search_result_shops = execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=False)
+        variable_every_search_word = [()]
+        search_result_shops = execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=False)
     # 検索に使えるwordが無い場合は結果を空にしておく 
     elif len(search_strings_list) == 0:
         search_result_shops = []
@@ -377,14 +387,14 @@ def text_search():
         # 類似語や省略形があれば、検索に適した単語も検索リストに加える
         search_strings_list = search_synonym(search_strings_list)
         # 検索を行うためにsqlを発行する
-        query_every_search_word = create_sql_search_n_gram(search_strings_list)
+        query_every_search_word, variable_every_search_word = create_sql_search_n_gram(search_strings_list)
         # 検索を行う
-        search_result_shops = execut_sql_search(query_every_search_word, distance_limit_sql, be_all_distance)
+        search_result_shops = execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance)
 
         # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
         if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
-            like_query_every_search_word = create_sql_search_like(search_words)
-            search_result_shops += execut_sql_search(like_query_every_search_word, distance_limit_sql, be_all_distance)
+            like_query_every_search_word, variable_every_search_word = create_sql_search_like(search_words)
+            search_result_shops += execut_sql_search(like_query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance)
 
 
     # 検索結果の重複を削除
