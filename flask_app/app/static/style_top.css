@@ -24,8 +24,8 @@
         box-shadow: 0 10px 20px rgba(0,0,0,0.2);
     }
     .logo{
-        width: 100px;
-        height: 40px;
+        width: 75px;
+        height: 30px;
         position: absolute;
     }
     .title{
@@ -43,6 +43,55 @@
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
+    }
+
+    /* 検索窓 */
+    .search_div{
+        width: 50%;
+        height: 40px;
+        padding: 5px;
+        position: absolute;
+        left: 100px;
+    }
+
+    .select_distance{
+        height: 25px;
+        float: left;
+        border: 2px solid #dcdcdc;
+        background: #dcdcdc;
+        color: #696969;
+    }
+
+    .search_container{
+        position: relative;
+        box-sizing: border-box;
+        border: 0.1px solid #d3d3d3;
+        display: block;
+        height: 25px;
+        width: 70%;
+        overflow: hidden;
+    }
+    .search_container input[type="text"]{
+        border: none;
+        height: 25px;
+        width: 70%;
+        background-color: #fffaf7
+    }
+    .search_container input[type="text"]:focus {
+        outline: 0;
+    }
+    .search_container input[type="submit"]{
+        cursor: pointer;
+        font-family: FontAwesome;
+        border: none;
+        background: #FFEB8F;
+        color: #000000;
+        position: absolute;
+        width: 25px;
+        height: 30px;
+        right:0px;
+        top: -5px;
+        outline : none;
     }
 
     /* ハンバーガーメニュー */

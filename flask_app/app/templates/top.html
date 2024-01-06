@@ -43,15 +43,24 @@
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
-            {% if i == -1%}
-              <option value="{{ i }}">すべて</option>
+            {% if i == selected_distance%}
+              {% set selected = "selected"%}
             {% else %}
-              <option value="{{ i }}" >{{ i }} km</option>
+              {% set selected = "" %}
+            {% endif %}
+            {% if i == -1%}
+              <option value="{{ i }}" {{ selected }}>すべて</option>
+            {% else %}
+              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
             {% endif %}
           {% endfor %}
         </select>
         <div class="search_container">
-          <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% if searched_strings == ""%}
+            <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% else %}
+            <input type="text" name="search_strings" value="{{ searched_strings }}">
+          {% endif%}
           <input type="submit" value="&#xf002">
         </div>
       </form>
@@ -64,6 +73,33 @@
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
+    <!-- 検索窓 -->
+    <div class="search_div">
+      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+        <select class="select_distance" name="select_distance">
+          {% for i in DROP_DOWN_DISTANCE %}
+            {% if i == selected_distance%}
+              {% set selected = "selected"%}
+            {% else %}
+              {% set selected = "" %}
+            {% endif %}
+            {% if i == -1%}
+              <option value="{{ i }}" {{ selected }}>すべて</option>
+            {% else %}
+              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <div class="search_container">
+          {% if searched_strings == ""%}
+            <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% else %}
+            <input type="text" name="search_strings" value="{{ searched_strings }}">
+          {% endif%}
+          <input type="submit" value="&#xf002">
+        </div>
+      </form>
+    </div>
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu">
       <span></span>
