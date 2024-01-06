@@ -237,19 +237,13 @@ def and_search_every_search_word(result_every_search_word):
 
 @bp.route('/search-result/<string:tag_id>')
 def search_result(tag_id):
-    #Cookieからユーザーの現在地を取得
+    #Cookieからユーザーの現在地を取j
     user_latitude = session.get("user_latitude")
     user_longitude = session.get("user_longitude") 
-    
-    result = get_distanced_lat_lng(user_latitude, user_longitude, DEFAULT_SEARCH_DISTANCE_KM)
-    n = str(result["n"])
-    e = str(result["e"])
-    s = str(result["s"])
-    w = str(result["w"])
 
     db = get_db()
     cur = db.cursor(dictionary=True)
-    query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where (allocated_tags.tag_id=%s) and ({n}>latitude and latitude>{s}) and ({e}>longitude and longitude>{w});"
+    query = "select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id=%s;"
     cur.execute(query, (tag_id,))
     shops = cur.fetchall()
 
