@@ -20,6 +20,8 @@ MIN_NUM_SEARCH_RESULTS = 0
 
 DROP_DOWN_DISTANCE = [1, 3, 5, 10, -1]
 
+DEFAULT_SEARCH_DISTANCE_KM = 1
+
 # 形態素解析の結果をlistにして返す関数
 def mecab_list(text):
     tagger = MeCab.Tagger("-Ochasen")
@@ -239,7 +241,7 @@ def search_result(tag_id):
     user_latitude = session.get("user_latitude")
     user_longitude = session.get("user_longitude") 
     
-    result = get_distanced_lat_lng(user_latitude, user_longitude, 3)
+    result = get_distanced_lat_lng(user_latitude, user_longitude, DEFAULT_SEARCH_DISTANCE_KM)
     n = str(result["n"])
     e = str(result["e"])
     s = str(result["s"])

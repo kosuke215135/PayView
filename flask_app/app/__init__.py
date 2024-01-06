@@ -18,6 +18,8 @@ TRANSPORTATION_GROUP = "05PG"
 
 DROP_DOWN_DISTANCE = [1, 3, 5, 10, -1]
 
+DEFAULT_SEARCH_DISTANCE_KM = 1
+
 #シークレットキーを作成
 def get_random_string(length):
     pass_chars = string.ascii_letters + string.digits
@@ -63,13 +65,13 @@ def create_app():
             user_latitude = session.get("user_latitude")
             user_longitude = session.get("user_longitude") 
 
-            result = get_distanced_lat_lng(user_latitude, user_longitude, 3)
+            result = get_distanced_lat_lng(user_latitude, user_longitude, DEFAULT_SEARCH_DISTANCE_KM)
             n = str(result["n"])
             e = str(result["e"])
             s = str(result["s"])
             w = str(result["w"])
                     
-            # 3km以内のお店だけをデータベースから指定
+            # 1km以内のお店だけをデータベースから指定
             db = get_db()
             cur = db.cursor(dictionary=True)
             query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
