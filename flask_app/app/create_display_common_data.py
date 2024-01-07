@@ -2,21 +2,29 @@ from db import get_db
 
 COMMONLY_TAG = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
 
+CASH_GROUP = "01PG"
 BARCODE_GROUP = "02PG"
 CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
 TRANSPORTATION_GROUP = "05PG"
 
-# すべての決済サービスの名前を取得する
-def get_payment_service_names(group_id):
+# 指定した種類の決済サービスの名前とidを取得する
+def get_payment_service_ids_names(group_id):
     db = get_db()
     cur = db.cursor(dictionary=True) 
     cur.execute("""
-        SELECT name
-        FROM payment_services
-        WHERE payment_group = %s
+        SELECT 
+        payment_id, 
+        name
+        FROM 
+        payment_services
+        WHERE 
+        payment_group = %s
     """, (group_id,))
-    return [item["name"] for item in cur.fetchall()]
+
+    payments = cur.fetchall()
+
+    return payments
 
 # すべてのタグの情報を取得する
 def get_all_tag():
@@ -30,9 +38,10 @@ def get_all_tag():
 
 # top画面とdetail画面で表示されるカテゴリ欄のデータを取得する関数
 def get_category_data():
-    barcode_names = get_payment_service_names(BARCODE_GROUP)
-    credit_names = get_payment_service_names(CREDIT_GROUP)
-    electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
+    cash_group = get_payment_service_ids_names(CASH_GROUP)
+    barcode_names = get_payment_service_ids_names(BARCODE_GROUP)
+    credit_names = get_payment_service_ids_names(CREDIT_GROUP)
+    electronic_money_names = get_payment_service_ids_names(ELECTRONIC_MONEY_GROUP)
 
     tag_id_name_list = get_all_tag()
 
@@ -42,7 +51,7 @@ def get_category_data():
             tag_id_name_list.remove(tag_id_name)
             tag_commonly_used_list.append(tag_id_name)
     
-    return tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list
+    return tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list
 
 # top画面で決済サービスの一部を表示させるための関数
 # 引数で受け取った店の情報が入ったリストに決済サービスの名前も追加する

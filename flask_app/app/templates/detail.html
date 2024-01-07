@@ -122,13 +122,13 @@
           <div class="tag_head_phone">タグ</div>
           <div class="tag_commonly_used">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}

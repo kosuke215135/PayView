@@ -264,22 +264,36 @@ def and_search_every_search_word(result_every_search_word):
 
 
 
-@bp.route('/search-result/<string:tag_id>')
-def search_result(tag_id):
+@bp.route('/search-result/<string:payment_or_tag_id>')
+def search_result(payment_or_tag_id):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    # "決済サービス"か"タグ"かを判別する
+    if payment_or_tag_id[-1] == "P":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join can_use_services on shops.shop_id = can_use_services.shop_id 
+            where can_use_services.payment_id=%s;"""
+        query_get_payment_or_tag_name = "select name from payment_services where payment_id=%s"
+    elif payment_or_tag_id[-1] == "T":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join allocated_tags on shops.shop_id = allocated_tags.shop_id 
+            where allocated_tags.tag_id=%s;"""
+        query_get_payment_or_tag_name = "select name from tags where tag_id=%s"
+
     #Cookieからユーザーの現在地を取得
     user_latitude = session.get("user_latitude")
     user_longitude = session.get("user_longitude") 
 
-    db = get_db()
-    cur = db.cursor(dictionary=True)
-    query = """
-        select 
-        * 
-        from 
-        shops 
-        inner join allocated_tags on shops.shop_id = allocated_tags.shop_id 
-        where allocated_tags.tag_id=%s;"""
-    cur.execute(query, (tag_id,))
+    cur.execute(query, (payment_or_tag_id,))
     shops = cur.fetchall()
 
     shops_and_payments = []
@@ -296,32 +310,29 @@ def search_result(tag_id):
 
     #見やすいようにkmかmに変換する
     shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
+    #タグ名か決済サービス名を取得する
+    cur.execute(query_get_payment_or_tag_name, (payment_or_tag_id,))
+    searched_strings = cur.fetchall()[0]["name"]
     
     # お店で使用できる決済サービスの名前を追加する
     get_can_use_services(shops_and_payments) 
         
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
-            
-    #タグ名を取得する
-    cur.execute("select name from tags where tag_id = %s", (tag_id,))
-    tag_name = cur.fetchall()[0]["name"]
-
-    search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
     return render_template(
         "top.html", 
         shops_and_payments=shops_and_payments, 
         tag_id_name_list=tag_id_name_list, 
-        tag_name=tag_name, 
+        cash_group=cash_group,
         barcode_names=barcode_names, 
         credit_names=credit_names, 
         electronic_money_names=electronic_money_names, 
         tag_commonly_used_list=tag_commonly_used_list, 
-        search_strings=search_strings, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
-        selected_distance="", 
-        searched_strings = "")
+        selected_distance=-1, 
+        searched_strings=searched_strings)
     
 
 @bp.route('/search-result/text-search', methods=['POST'])
@@ -437,20 +448,17 @@ def text_search():
     get_can_use_services(shops_and_payments)
 
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
-
-    tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
     return render_template(
         "top.html", 
         shops_and_payments=shops_and_payments, 
         tag_id_name_list=tag_id_name_list, 
-        tag_name=tag_name, 
+        cash_group=cash_group,
         barcode_names=barcode_names, 
         credit_names=credit_names, 
         electronic_money_names=electronic_money_names, 
         tag_commonly_used_list=tag_commonly_used_list, 
-        search_strings=search_strings, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
         selected_distance=select_distance, 
         searched_strings=search_strings)

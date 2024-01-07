@@ -12,6 +12,7 @@ import string
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
+CASH_GROUP = "01PG"
 BARCODE_GROUP = "02PG"
 CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
@@ -106,21 +107,17 @@ def create_app():
             get_can_use_services(shops_and_payments)
 
             # カテゴリ欄のデータを取得する
-            tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+            tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
             
-            tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
-            search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
-
             return render_template(
                 "top.html", 
                 shops_and_payments=shops_and_payments, 
                 tag_id_name_list=tag_id_name_list, 
-                tag_name=tag_name, 
+                cash_group=cash_group,
                 barcode_names=barcode_names, 
                 credit_names=credit_names, 
                 electronic_money_names=electronic_money_names, 
                 tag_commonly_used_list=tag_commonly_used_list, 
-                search_strings=search_strings, 
                 DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
                 selected_distance="", 
                 searched_strings="")
@@ -183,7 +180,7 @@ def create_app():
                 electronic_money_payments.append(pay_scheme)
                 
         # カテゴリ欄のデータを取得する
-        tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
         return render_template(
             "detail.html", 
@@ -192,6 +189,7 @@ def create_app():
             credit_payments=credit_payments, 
             electronic_money_payments=electronic_money_payments, 
             tag_id_name_list=tag_id_name_list, 
+            cash_group=cash_group,
             barcode_names=barcode_names, 
             credit_names=credit_names, 
             electronic_money_names=electronic_money_names, 
