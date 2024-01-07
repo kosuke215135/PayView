@@ -4,7 +4,7 @@ from flask import request
 from db import get_db
 import random
 from datetime import timedelta #時間情報を用いるため
-from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m
+from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m, accurately_determine_distance
 import secrets
 import string
 
@@ -83,6 +83,9 @@ def create_app():
                 distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
                 shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
                 shops_and_payments.append(shop_list)
+            
+            #正確な距離制限を掛ける
+            shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
 
             # 距離(distance)でソートする
             shops_and_payments.sort(key=lambda x: x[2])

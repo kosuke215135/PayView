@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from calculation_location import location_distance, get_distanced_lat_lng,conversion_km_or_m
+from calculation_location import location_distance, get_distanced_lat_lng,conversion_km_or_m, accurately_determine_distance
 from db import get_db
 import random
 import MeCab
@@ -401,7 +401,9 @@ def text_search():
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
     
-
+    #正確な距離制限を掛ける
+    shops_and_payments = accurately_determine_distance(shops_and_payments, select_distance)
+    
     # 距離(distance)でソートする
     shops_and_payments.sort(key=lambda x: x[2])
 
