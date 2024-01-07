@@ -66,7 +66,9 @@ def create_app():
             user_latitude = session.get("user_latitude")
             user_longitude = session.get("user_longitude") 
 
-            result = get_distanced_lat_lng(user_latitude, user_longitude, DEFAULT_SEARCH_DISTANCE_KM)
+            result = get_distanced_lat_lng(user_latitude, 
+                                           user_longitude, 
+                                           DEFAULT_SEARCH_DISTANCE_KM)
             n = str(result["n"])
             e = str(result["e"])
             s = str(result["s"])
@@ -75,13 +77,22 @@ def create_app():
             # 1km以内のお店だけをデータベースから指定
             db = get_db()
             cur = db.cursor(dictionary=True)
-            query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
+            query = f"""
+                select 
+                * 
+                from 
+                shops 
+                where ({n}>latitude and latitude>{s}) 
+                and ({e}>longitude and longitude>{w});"""
             cur.execute(query)
             shops = cur.fetchall()
 
             shops_and_payments = []
             for shop_dict in shops:
-                distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+                distance = location_distance(user_latitude, 
+                                             user_longitude, 
+                                             shop_dict["latitude"], 
+                                             shop_dict["longitude"])
                 shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
                 shops_and_payments.append(shop_list)
 
@@ -100,7 +111,19 @@ def create_app():
             tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
             search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
 
-            return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, selected_distance="", searched_strings = "")
+            return render_template(
+                "top.html", 
+                shops_and_payments=shops_and_payments, 
+                tag_id_name_list=tag_id_name_list, 
+                tag_name=tag_name, 
+                barcode_names=barcode_names, 
+                credit_names=credit_names, 
+                electronic_money_names=electronic_money_names, 
+                tag_commonly_used_list=tag_commonly_used_list, 
+                search_strings=search_strings, 
+                DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+                selected_distance="", 
+                searched_strings="")
 
             
     @app.route("/detail/<string:os>/<int:shop_id>")
@@ -162,7 +185,18 @@ def create_app():
         # カテゴリ欄のデータを取得する
         tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
-        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+        return render_template(
+            "detail.html", 
+            shop_name=shop_name, 
+            barcode_payments=barcode_payments, 
+            credit_payments=credit_payments, 
+            electronic_money_payments=electronic_money_payments, 
+            tag_id_name_list=tag_id_name_list, 
+            barcode_names=barcode_names, 
+            credit_names=credit_names, 
+            electronic_money_names=electronic_money_names, 
+            tag_commonly_used_list=tag_commonly_used_list, 
+            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
 
     return app
 
