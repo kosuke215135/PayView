@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from calculation_location import location_distance, get_distanced_lat_lng,conversion_km_or_m
+from create_display_common_data import get_category_data, get_can_use_services
 from db import get_db
 import random
 import MeCab
@@ -258,52 +259,12 @@ def search_result(tag_id):
     #見やすいようにkmかmに変換する
     shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
     
-    for i in range(len(shops_and_payments)):
-        shop_id = shops_and_payments[i][0]
-        join_query = """
-            select 
-            payment_services.name 
-            from can_use_services 
-            inner join 
-            payment_services 
-            on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = %s
-        """
-        cur.execute(join_query, (shop_id,))
-        payments_name_list = cur.fetchall() 
-        payments_str = ""
-        for l in range(len(payments_name_list)):
-            if l == len(payments_name_list)-1:
-                payments_str = payments_str + payments_name_list[l]["name"]
-                continue
-            payments_str = payments_str + payments_name_list[l]["name"] + ", "
-        shops_and_payments[i].append(payments_str)
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments) 
         
-    #決済サービスタグを追加する。
-    def get_payment_service_names(group_id):
-        cur.execute("""
-            SELECT name
-            FROM payment_services
-            WHERE payment_group = %s
-        """, (group_id,))
-        return [item["name"] for item in cur.fetchall()]
-
-    barcode_names = get_payment_service_names(BARCODE_GROUP)
-    credit_names = get_payment_service_names(CREDIT_GROUP)
-    electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
-        
-    #タグを追加する.
-    tag_query = "select * from tags;"
-    cur.execute(tag_query)
-    tag_id_name_list = cur.fetchall()
-    # よく使われるタグtop5
-    commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
-    tag_commonly_used_list = []
-    for tag_id_name in tag_id_name_list:
-        if tag_id_name['name'] in commonly_tag:
-            tag_id_name_list.remove(tag_id_name)
-            tag_commonly_used_list.append(tag_id_name)
-    
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+            
     #タグ名を取得する
     cur.execute("select name from tags where tag_id = %s", (tag_id,))
     tag_name = cur.fetchall()[0]["name"]
@@ -391,7 +352,6 @@ def text_search():
             like_query_every_search_word, variable_every_search_word = create_sql_search_like(search_words)
             search_result_shops += execut_sql_search(like_query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance)
 
-
     # 検索結果の重複を削除
     search_result_shops = get_unique_list(search_result_shops)
     
@@ -400,7 +360,6 @@ def text_search():
         distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
-    
 
     # 距離(distance)でソートする
     shops_and_payments.sort(key=lambda x: x[2])
@@ -408,52 +367,11 @@ def text_search():
     #見やすいようにkmかmに変換する
     shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
     
-    for i in range(len(shops_and_payments)):
-        shop_id = shops_and_payments[i][0]
-        join_query = """
-            select 
-            payment_services.name 
-            from can_use_services 
-            inner join 
-            payment_services 
-            on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = %s
-        """
-        cur.execute(join_query, (shop_id,))
-        payments_name_list = cur.fetchall() 
-        payments_str = ""
-        for l in range(len(payments_name_list)):
-            if l == len(payments_name_list)-1:
-                payments_str = payments_str + payments_name_list[l]["name"]
-                continue
-            payments_str = payments_str + payments_name_list[l]["name"] + ", "
-        shops_and_payments[i].append(payments_str)
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments)
 
-    #決済サービスタグを追加する。
-    def get_payment_service_names(group_id):
-        cur.execute("""
-            SELECT name
-            FROM payment_services
-            WHERE payment_group = %s
-        """, (group_id,))
-        return [item["name"] for item in cur.fetchall()]
-
-    barcode_names = get_payment_service_names(BARCODE_GROUP)
-    credit_names = get_payment_service_names(CREDIT_GROUP)
-    electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
-
-    #タグを追加する.
-    tag_query = "select * from tags;"
-    cur.execute(tag_query)
-    tag_id_name_list = cur.fetchall()
-    # よく使われるタグtop5
-    commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
-    tag_commonly_used_list = []
-    for tag_id_name in tag_id_name_list:
-        if tag_id_name['name'] in commonly_tag:
-            tag_id_name_list.remove(tag_id_name)
-            tag_commonly_used_list.append(tag_id_name) 
-
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
     tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
 
