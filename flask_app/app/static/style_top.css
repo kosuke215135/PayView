@@ -97,13 +97,12 @@
     /* ハンバーガーメニュー */
     .hamburger_menu {
         position: relative;
-        top: -2px;
-        left: 80%;
         background: #fffaf7;
         cursor: pointer;
         width: 50px;
         height: 50px;
         border-radius: 5px;
+        margin: 0 25px 0 auto;
     }
     .hamburger_menu span {
         display: inline-block;
@@ -207,7 +206,7 @@
         width: 270px;
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -216,7 +215,7 @@
         transition: border-bottom 0.3s ease;
     }
     .cash_label_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 折りたたみメニュー */
     @keyframes bounce {
@@ -234,8 +233,8 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        line-height : 1.8 ;
-        border-bottom: dashed 2px #d3d3d3;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 13px 0px 13px 20px;
     }
     .fold_tag_phone-label::after {
@@ -339,7 +338,7 @@
     .tag_content_phone {
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -348,7 +347,7 @@
         transition: border-bottom 0.3s ease;
     }
     .tag_content_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }    
     /* 空白入れる */
     .tag_black{
@@ -374,8 +373,8 @@
     /* お店のスライド枠の装飾 */
     .shop_frame {
         margin: 20px 5px;
-        width: 330px;
-        height: 200px;
+        min-width: 80%;
+        height: 100%;
         text-decoration: none;
         border: solid 3px #FED121;
         float: left;
@@ -541,7 +540,8 @@
     .shop_frame {
         margin: 30px 10px;
         width: 330px;
-        height: 200px;
+        min-height: 230px;
+        height: 100%;
         text-decoration: none;
         border: solid 3px #FED121;
         float: left;
@@ -610,7 +610,7 @@
     .cash_label{
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 30px 0 20px 20px;
         color: #333333;
         background-color: transparent;
@@ -619,7 +619,7 @@
         transition: border-bottom 0.3s ease;
     }
     .cash_label:hover{
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 折りたたみメニュー */
     @keyframes bounce {
@@ -637,8 +637,8 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        line-height : 1.8 ;
-        border-bottom: dashed 2px #d3d3d3;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 13px 0px 13px 20px;
     }
     .fold_tag-label::after {
@@ -735,7 +735,7 @@
     .tag_content{
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -744,7 +744,7 @@
         transition: border-bottom 0.3s ease;
     }
     .tag_content:hover{
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 画面幅が600px以下の場合のスタイル */
     @media screen and (max-width: 1300px) {

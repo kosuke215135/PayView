@@ -93,13 +93,12 @@
     /* ハンバーガーメニュー */
     .hamburger_menu {
         position: relative;
-        top: -2px;
-        left: 80%;
         background: #fffaf7;
         cursor: pointer;
         width: 50px;
         height: 50px;
         border-radius: 5px;
+        margin: 0 25px 0 auto;
     }
     .hamburger_menu span {
         display: inline-block;
@@ -203,7 +202,7 @@
         width: 270px;
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -212,7 +211,7 @@
         transition: border-bottom 0.3s ease;
     }
     .cash_label_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 折りたたみメニュー */
     @keyframes bounce {
@@ -230,8 +229,8 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        line-height : 1.8 ;
-        border-bottom: dashed 2px #d3d3d3;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 13px 0px 13px 20px;
     }
     .fold_tag_phone-label::after {
@@ -335,7 +334,7 @@
     .tag_content_phone {
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -344,7 +343,7 @@
         transition: border-bottom 0.3s ease;
     }
     .tag_content_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }    
     /* 空白入れる */
     .tag_black{
@@ -376,7 +375,7 @@
         width: 63px;
         height: 52px;
         top: -12px;
-        background: url('credit.jpg');
+        background: url('credit.png');
         background-size: cover;
         position: relative;
     }
@@ -405,22 +404,22 @@
         border-bottom: solid 4px #FFEB8F;
         width: 63px;
         height: 52px;
-        top: -12px;
-        background: url('barcode.jpg');
+        top: -22px;
+        background: url('barcode.png');
         background-size: cover;
         position: relative;
     }
     .barcode_text{
         width: 302px;
-        height: 40px;
+        height: 30px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
+        font-size: 90%;
         color: #333333;
         margin-bottom: 20px;
     }
     .barcode_text::after{
-        height: 3px;
+        height: 7px;
         position: relative;
         content: " ";
         display: block;
@@ -436,7 +435,7 @@
         width: 54px;
         height: 50px;
         top: -10px;
-        background: url('electronic_money.jpg');
+        background: url('electronic_money.png');
         background-size: cover;
         position: relative;
     }
@@ -641,10 +640,10 @@
     }
     .credit_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 63px;
-        height: 52px;
+        width: 80px;
+        height: 60px;
         top: -15px;
-        background: url('credit.jpg');
+        background: url('credit.png');
         background-size: cover;
         position: relative;
     }
@@ -671,9 +670,9 @@
     .barcode_image{
         border-bottom: solid 4px #FFEB8F;
         width: 63px;
-        height: 52px;
+        height: 60px;
         top: -15px;
-        background: url('barcode.jpg');
+        background: url('barcode.png');
         background-size: cover;
         position: relative;
     }
@@ -699,10 +698,10 @@
     }
     .electronic_money_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 54px;
-        height: 50px;
+        width: 68px;
+        height: 60px;
         top: -13px;
-        background: url('electronic_money.jpg');
+        background: url('electronic_money.png');
         background-size: cover;
         position: relative;
     }
