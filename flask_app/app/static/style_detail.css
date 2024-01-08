@@ -50,10 +50,11 @@
         height: 40px;
         padding: 5px;
         position: absolute;
-        left: 100px;
+        left: 25%;
     }
     .select_distance{
         height: 25px;
+        width: 30%;
         float: left;
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
@@ -84,7 +85,7 @@
         background: #FFEB8F;
         color: #000000;
         position: absolute;
-        width: 25px;
+        width: 20%;
         height: 30px;
         right:0px;
         top: -5px;
