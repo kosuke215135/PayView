@@ -586,8 +586,10 @@
         float: right;
         width: 100%;
         height: 100%;
-        max-width: 300px; /* 最大幅を設定 */
+        max-width: 300px;
         padding-bottom: 70px;
+        overflow-y: auto;
+        position: fixed;
     }
     /* カテゴリの見出し */
     .payment_service_head{
@@ -747,7 +749,7 @@
         border-bottom: dashed 3px black;
     }
     /* 画面幅が600px以下の場合のスタイル */
-    @media screen and (max-width: 1300px) {
+    @media screen and (max-width: 1200px) {
         .category_frame_box {
         /* フッターに移動したときのスタイルを定義 */
         width: 100%; /* 例 */

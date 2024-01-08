@@ -364,7 +364,7 @@
     .usePymentsStr{
         width: 100%;
         font-size: 14px;
-        margin: 15px 0;
+        margin: 15px 0 20px 0;
     }
     .credit_flex{
         width: 100%;
@@ -372,29 +372,28 @@
     }
     .credit_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 63px;
-        height: 52px;
-        top: -12px;
+        width: 70px;
+        height: 50px;
+        top: -20px;
         background: url('credit.png');
         background-size: cover;
         position: relative;
     }
     .credit_text{
-        width: 280px;
-        height: 40px;
+        height: 30px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
+        font-size: 15px;
         color: #333333;
         margin-bottom: 20px;
     }
     .credit_text::after{
-        height: 3px;
+        height: 7px;
         position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        width: 20%;
+        width: 40%;
     }
     .barcode_flex{
         width: 100%;
@@ -402,19 +401,18 @@
     }
     .barcode_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 63px;
-        height: 52px;
-        top: -22px;
+        width: 53px;
+        height: 50px;
+        top: -20px;
         background: url('barcode.png');
         background-size: cover;
         position: relative;
     }
     .barcode_text{
-        width: 302px;
         height: 30px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
-        font-size: 90%;
+        font-size: 15px;
         color: #333333;
         margin-bottom: 20px;
     }
@@ -424,37 +422,36 @@
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        width: 20%;
+        width: 40%;
     }
     .electronic_money_flex{
         width: 100%;
         display: flex; /*横並び*/
+        margin-top: 60px;
     }
     .electronic_money_image{
         border-bottom: solid 4px #FFEB8F;
-        width: 54px;
+        width: 58px;
         height: 50px;
-        top: -10px;
+        top: -20px;
         background: url('electronic_money.png');
         background-size: cover;
         position: relative;
     }
     .electronic_money_text{
-        width: 280px;
-        height: 40px;
+        height: 30px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
+        font-size: 15px;
         color: #333333;
-        margin-bottom: 20px;
     }
     .electronic_money_text::after{
-        height: 3px;
+        height: 7px;
         position: relative;
         content: " ";
         display: block;
         border-bottom: solid 3px #FED121;
-        width: 20%;
+        width: 50%;
     }
 
     /* ================== */
