@@ -1,5 +1,5 @@
 /* 以下スマホの表示 */
-@media (max-width: 480px) {
+@media (max-width: 540px) {
     body{
         margin: 0;
         padding: 0;
@@ -25,8 +25,9 @@
     }
     .logo{
         width: 20%;
-        aspect-ratio: 5 / 2;
         position: absolute;
+        /* 画像の縦横比を固定する */
+        aspect-ratio: 5 / 2;
     }
     .title{
         color: #666666;
@@ -424,7 +425,7 @@
 }
 
 /* =====以下 pcの表示===== */
-@media (min-width: 481px) {
+@media (min-width: 541px) {
     body{
         margin: 0;
         padding: 0;
