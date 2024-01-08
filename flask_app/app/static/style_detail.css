@@ -60,6 +60,7 @@
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
         color: #696969;
+        font-size: 80%;
     }
     .search_container{
         position: relative;
