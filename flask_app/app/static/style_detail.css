@@ -1,5 +1,5 @@
 /* 以下スマホの表示 */
-@media (max-width: 540px) {
+@media (max-width: 840px) {
     body{
         margin: 0;
         padding: 0;
@@ -25,6 +25,7 @@
     }
     .logo{
         width: 20%;
+        max-width: 100px;
         position: absolute;
         /* 画像の縦横比を固定する */
         aspect-ratio: 5 / 2;
@@ -354,15 +355,44 @@
         height: 20px;
     }
 
-    .shopDetail{
+    .detail_frame_box{
         height: 100%;
         padding: 0 20px;
+    }
+    .backbutton{
+        margin: 15px 0 10px 0;
+    }
+    .backbutton:before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color:  #B97E4D;
+        border-radius: 50%;
+        top: 1px;
+        position: relative;
+    }
+    .backbutton a{
+        color: #696969;
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.1s ease-in-out;
+        padding: 5px;
+    }
+    .backbutton a:active{
+        background: #CCC0B0;
+        color: #FFF;
+    }
+    .backbutton span{
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: #696969;
     }
     .shopName {
         font-size: 22px;
         font-weight: 550;
         color: #333333;
-        margin-top: 20px;
     }
     .usePymentsStr{
         width: 100%;
@@ -457,9 +487,7 @@
         width: 50%;
     }
 
-    /* ================== */
     /* 決済サービスボタン設定 */
-    /* ボタンの基本スタイル */
     .button_flex{
         top: 20px;
         width: 100%;
@@ -467,51 +495,41 @@
         position: relative;
     }
     .button {
-        border-radius: 10px;
         margin: 6px;
-        padding: 10px;
-        font-family: proxima-nova, monospace;
-        color: #2d2d2d;
         display: inline-flex;
-        border: 1.5px solid #2d2d2d;
-        font-size: .8em;
-        letter-spacing: 1.5px;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
     }
-    #button-2 {
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
+    .button_text{
+        color: #2d2d2d;
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        border-radius: 10px;
+        border: 1.5px solid #2d2d2d;
+        font-family: proxima-nova, monospace;
+        padding: 10px;
     }
-    #button-2 a {
-    position: relative;
-    transition: all .35s ease-Out;
-    color: #2d2d2d;
+    #button_pushed {
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        border-radius: 10px;
+        border: 1.5px solid #2d2d2d;
+        font-family: proxima-nova, monospace;
+        padding: 10px;
+        transition: 0.1s ease-in-out;
     }
-    #slide {
-    width: 100%;
-    height: 100%;
-    left: -200px;
-    background: #2d2d2d;
-    position: absolute;
-    transition: all .2s ease-Out;
-    bottom: 0;
+    #button_pushed a{
+        color: #2d2d2d;
     }
-    #button-2:hover #slide {
-    left: 0;
+    #button_pushed:active{
+        background: #CCC0B0;
     }
-    #button-2:hover a {
-        color: #BFC0C0;
+    #button_pushed:active a{
+        color: #FFF;
     }
     
     /*# sourceMappingURL=bottom.css.map */
     
-    .backbutton {
-        margin-top: 200px;
-        text-align: center;
-    }
     footer{
         width: 100%;
         height: 100px;
@@ -523,7 +541,7 @@
     }
 }
 /* =====以下 pcの表示===== */
-@media (min-width: 541px) {
+@media (min-width: 841px) {
     body{
         margin: 0;
         padding: 0;
@@ -549,7 +567,7 @@
     .logo{
         width: 190px;
         height: 70px;
-        float: left;        
+        float: left;   
     }
     .title{
         color: #666666;
@@ -619,20 +637,56 @@
         word-wrap: break-word;
         margin: -5px 50px 0 80px;
     }
-    .shopDetail{
+    .detail_category_frame_box{
+        display: flex;
+        justify-content: flex-end;
+        margin: 60px 50px 0 80px;
+    }
+    .detail_frame_box{
+        width: 70%;
         height: 100%;
-        padding: 0 80px;
+        position: static;
+        margin: -50px auto 400px 0;
+    }
+    .backbutton{
+        margin: 15px 0 10px 0;
+    }
+    .backbutton:before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color:  #B97E4D;
+        border-radius: 50%;
+        top: 1px;
+        position: relative;
+    }
+    .backbutton a{
+        color: #696969;
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        padding: 5px;
+    }
+    .backbutton a:hover{
+        background: #CCC0B0;
+        color: #FFF;
+    }
+    .backbutton span{
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: #696969;
     }
     .shopName {
         font-size: 26px;
         font-weight: 550;
         color: #333333;
-        margin: 30px 0;
     }
     .usePymentsStr{
         width: 100%;
         font-size: 14px;
-        margin: 25px 0;
+        margin: 20px 0;
     }
     .credit_flex{
         width: 100%;
@@ -726,28 +780,211 @@
     /* 決済サービスボタン設定 */
     .button_flex{
         top: 20px;
-        width: 1000px;
         margin-bottom: 50px;
         position: relative;
     }
     .button {
-        border-radius: 10px;
         margin: 6px;
-        padding: 10px;
-        font-family: proxima-nova, monospace;
-        color: #2d2d2d;
         display: inline-flex;
-        border: 1.5px solid #2d2d2d;
-        font-size: .8em;
-        letter-spacing: 1.5px;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
+    }
+    .button_text{
+        color: #2d2d2d;
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        border-radius: 10px;
+        border: 1.5px solid #2d2d2d;
+        font-family: proxima-nova, monospace;
+        padding: 10px;
+    }
+    #button_pushed {
+        font-size: .8em;
+        letter-spacing: 1.5px;
+        border-radius: 10px;
+        border: 1.5px solid #2d2d2d;
+        font-family: proxima-nova, monospace;
+        padding: 10px;
+        transition: 0.1s ease-in-out;
+    }
+    #button_pushed a{
+        color: #2d2d2d;
+    }
+    #button_pushed:hover{
+        background: #CCC0B0;
+    }
+    #button_pushed:hover a{
+        color: #FFF;
     }
 
-    .backbutton {
-        margin-top: 100px;
-        text-align: center;
+    /* カテゴリの枠（見出し） */
+    .category_frame_box_phone{
+        display: none;
+    }
+    /* カテゴリの枠（見出し） */
+    .category_frame_box{
+        float: right;
+        width: 100%;
+        height: 100%;
+        max-width: 300px;
+        padding-bottom: 70px;
+    }
+    /* カテゴリの見出し */
+    .payment_service_head{
+        width: 280px;
+        height: 38px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 24px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+    .payment_service_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .cash_label{
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 30px 0 20px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .cash_label:hover{
+        border-bottom: dashed 3px black;
+    }
+    /* 折りたたみメニュー */
+    @keyframes bounce {
+        0% { height: 0; opacity: 0; }
+        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
+        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
+    }
+    .fold_tag-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag-label {
+        width: 270px;
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 13px 0px 13px 20px;
+    }
+    .fold_tag-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+    .fold_tag-content_credit {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin: 0 auto;
+        word-break: break-all;
+    }
+    .fold_tag-content_barcode {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin: 0 auto;
+        word-break: break-all;
+    }
+    .fold_tag-content_electronic_money {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin: 0 auto;
+        word-break: break-all;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_credit {
+        /* チェックされたとき：表示 */
+        max-height: 850px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
+        /* チェックされたとき：表示 */
+        max-height: 930px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_electronic_money {
+        /* チェックされたとき：表示 */
+        max-height: 550px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label::after {
+        transform: rotate(180deg);
+    }
+    /* タグのテキスト（決済サービスじゃないやつ） */
+    .tag_head{
+        width: 280px;
+        height: 38px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 24px;
+        color: #333333;
+        margin: 20px 0 30px 0;
+    }
+    .tag_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .tag_commonly_used{
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .normal_tag{
+        margin: 30px 0 25px 0;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .tag_content{
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 15px 0 15px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .tag_content:hover{
+        border-bottom: dashed 3px black;
     }
 
     footer{

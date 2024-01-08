@@ -162,75 +162,136 @@
 <body class="background">
   <div class="title">Shop Detail</div>
   <div class="line"></div>
-  <div id="shopDetail" class="shopDetail">
-    <h1 class="shopName">{{ shop_name }}</h1>
-    <div class="usePymentsStr">使用できる決済サービス等一覧</div>
-    {# クレジットカード #}
-    <div class="credit_flex">
-      <div class="credit_text">クレジットカード</div>
-      <div class="credit_image"></div>
-    </div>
-    <div class="button_flex">
-      {% for credit_payment in credit_payments%}
-        {% set name = credit_payment[0] %}
-        {% set scheme = credit_payment[1] %}
-        {% if scheme is not none %}
-          <div class="button" id="button-2" ontouchstart = "">
-            <div id="slide"></div>
-            <a href="{{scheme}}">{{name}}</a>
-          </div>
-        {% else %}
+  <div class="detail_category_frame_box">
+    <div id="shopDetail" class="detail_frame_box">
+      <div class="backbutton">
+        <a href="#" onclick="history.back(); return false;">Top</a>
+        <span> ></span>
+        <span>Shop Detail</span>
+      </div>  
+      <h1 class="shopName">{{ shop_name }}</h1> 
+      <div class="usePymentsStr">使用できる決済サービス等一覧</div>
+      {# クレジットカード #}
+      <div class="credit_flex">
+        <div class="credit_text">クレジットカード</div>
+        <div class="credit_image"></div>
+      </div>
+      <div class="button_flex">
+        {% for credit_payment in credit_payments%}
+          {% set name = credit_payment[0] %}
+          {% set scheme = credit_payment[1] %}
           <div class="button">
-            <a>{{name}}</a>
+            {% if scheme is not none %}
+              <div id="button_pushed">
+                <a href="{{scheme}}">{{name}}</a>
+              </div>
+            {% else %}
+              <div class="button_text">
+                <a>{{name}}</a>
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-    {# バーコード・QRコード決済 #}
-    <div class="barcode_flex">
-      <span class="barcode_text">バーコード・QRコード決済</span>
-      <span class="barcode_image"></span>
-    </div>
-    <div class="button_flex">
-      {% for barcode_payment in barcode_payments %}
-        {% set name = barcode_payment[0] %}
-        {% set scheme = barcode_payment[1] %}
-        {% if scheme is not none %}
-          <div class="button" id="button-2" ontouchstart = "">
-            <div id="slide"></div>
-            <a href="{{scheme}}">{{name}}</a>
-          </div>
-        {% else %}
+        {% endfor %}
+      </div>
+      {# バーコード・QRコード決済 #}
+      <div class="barcode_flex">
+        <span class="barcode_text">バーコード・QRコード決済</span>
+        <span class="barcode_image"></span>
+      </div>
+      <div class="button_flex">
+        {% for barcode_payment in barcode_payments %}
+          {% set name = barcode_payment[0] %}
+          {% set scheme = barcode_payment[1] %}
           <div class="button">
-            <a>{{name}}</a>
+            {% if scheme is not none %}
+              <div id="button_pushed">
+                <a href="{{scheme}}">{{name}}</a>
+              </div>
+            {% else %}
+              <div class="button_text">
+                <a>{{name}}</a>
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
-      {% endfor %}
-    </div>
-    {# 電子マネー #}
-    <div class="electronic_money_flex">
-      <span class="electronic_money_text">電子マネー</span>
-      <span class="electronic_money_image"></span>
-    </div>
-    <div class="button_flex">
-      {% for electronic_money_payment in electronic_money_payments %}
-        {% set name = electronic_money_payment[0] %}
-        {% set scheme = electronic_money_payment[1] %}
-        {% if scheme is not none %}
-          <div class="button" id="button-2" ontouchstart = "">
-            <div id="slide"></div>
-            <a href="{{scheme}}">{{name}}</a>
-          </div>
-        {% else %}
+        {% endfor %}
+      </div>
+      {# 電子マネー #}
+      <div class="electronic_money_flex">
+        <span class="electronic_money_text">電子マネー</span>
+        <span class="electronic_money_image"></span>
+      </div>
+      <div class="button_flex">
+        {% for electronic_money_payment in electronic_money_payments %}
+          {% set name = electronic_money_payment[0] %}
+          {% set scheme = electronic_money_payment[1] %}
           <div class="button">
-            <a>{{name}}</a>
+            {% if scheme is not none %}
+              <div id="button_pushed">
+                <a href="{{scheme}}">{{name}}</a>
+              </div>
+            {% else %}
+              <div class="button_text">
+                <a>{{name}}</a>
+              </div>
+            {% endif %}
           </div>
-        {% endif %}
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
-  </div>
-  <div class="backbutton">
-    <button class="btn btn-secondary" onclick="history.back()" type="button">戻る</button>
+    <!-- カテゴリ欄 -->
+    <div class="category_frame_box">
+      <!-- 決済サービスのタグ -->
+      <div class="payment_service_head">決済サービス</div>
+        <!-- 現金の表示 -->
+        {% for cash in cash_group %}
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
+            <div class="cash_label">{{ cash["name"] }}</div>
+          </a> 
+        {% endfor %}
+        <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
+        <div class="fold_tag-content_credit">
+          {% for credit_name in credit_names %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+              <div class="tag_content">{{ credit_name["name"] }}</div>
+            </a> 
+          {% endfor %}
+        </div>
+      
+        <input id="fold_tag-check2" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
+        <div class="fold_tag-content_barcode">
+          {% for barcode_name in barcode_names %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+              <div class="tag_content">{{ barcode_name["name"] }}</div>
+            </a> 
+          {% endfor %}
+        </div>
+      
+        <input id="fold_tag-check3" class="fold_tag-check" type="checkbox">
+        <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
+        <div class="fold_tag-content_electronic_money">
+          {% for electronic_money_name in electronic_money_names %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+              <div class="tag_content">{{ electronic_money_name["name"] }}</div>
+            </a> 
+          {% endfor %}
+        </div>
+        <!-- タグ -->
+        <div class="tag_head">タグ</div>
+        <div class="tag_commonly_used">よく使われるタグ Top5</div>
+        {% for tag_commonly in tag_commonly_used_list %}
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
+            <div class="tag_content">{{ tag_commonly["name"] }}</div>
+          </a>
+        {% endfor %}
+        <div class="normal_tag">50音順</div>
+        {% for tag_id_name in tag_id_name_list %}
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+            <div class="tag_content">{{ tag_id_name["name"] }}</div>
+          </a>
+        {% endfor %}
+    </div>
   </div>
   {# ====フッター==== #}
   <footer>

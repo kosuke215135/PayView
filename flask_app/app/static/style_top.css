@@ -1,5 +1,5 @@
 /* 以下スマホの表示 */
-@media (max-width: 540px) {
+@media (max-width: 840px) {
     body{
         margin: 0;
         padding: 0;
@@ -25,6 +25,7 @@
     }
     .logo{
         width: 20%;
+        max-width: 100px;
         position: absolute;
         /* 画像の縦横比を固定する */
         aspect-ratio: 5 / 2;
@@ -419,7 +420,7 @@
 }
 
 /* =====以下 pcの表示===== */
-@media (min-width: 541px) {
+@media (min-width: 841px) {
     body{
         margin: 0;
         padding: 0;
@@ -516,17 +517,16 @@
         margin: 0 50px 0 80px;
     }
     
-    /* お店のスライドを入れる欄 */
     .shop_category_frame_box{
         display: flex;
         justify-content: flex-end;
-        padding: 60px 50px 0 80px;
+        margin: 60px 50px 0 80px;
     }
     .shop_frame_box{
-        width: 100%;
+        width: 70%;
         height: 100%;
         position: static;
-        margin-top: -50px;
+        margin: -50px auto 400px 0;
     }
     /* お店のスライド枠の装飾 */
     .shop_frame {
@@ -580,8 +580,6 @@
         height: 100%;
         max-width: 300px;
         padding-bottom: 70px;
-        overflow-y: auto;
-        position: fixed;
     }
     /* カテゴリの見出し */
     .payment_service_head{
@@ -739,14 +737,6 @@
     }
     .tag_content:hover{
         border-bottom: dashed 3px black;
-    }
-    /* 画面幅が600px以下の場合のスタイル */
-    @media screen and (max-width: 1200px) {
-        .category_frame_box {
-        /* フッターに移動したときのスタイルを定義 */
-        width: 100%; /* 例 */
-        /* 他のスタイルを必要に応じて追加 */
-        }
     }
 
     footer{
