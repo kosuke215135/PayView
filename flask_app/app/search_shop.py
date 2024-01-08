@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 from calculation_location import location_distance, get_distanced_lat_lng,conversion_km_or_m, accurately_determine_distance
+from create_display_common_data import get_category_data, get_can_use_services
 from db import get_db
 import random
 import MeCab
@@ -87,8 +88,13 @@ def create_sql_search_n_gram(search_strings_list):
             # 変数を追加する
             tmp_strings += f" {search_strings_list[i][j]} "
             
-        query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
-        query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
+        query_to_shops += query_common_part
+        query_to_payment_services += query_common_part
+        query_to_tags += query_common_part
+
+        query_every_search_word.append([query_to_shops, 
+                                        query_to_payment_services,
+                                        query_to_tags])
 
         variable_tuple += (tmp_strings,)
         variable_every_search_word.append(variable_tuple)
@@ -110,8 +116,13 @@ def create_sql_search_like(search_words):
         query_common_part = " where name like %s "
         variable_tuple += ('%'+search_words[i]+'%',)
 
-        query_to_shops += query_common_part; query_to_payment_services += query_common_part; query_to_tags += query_common_part; 
-        query_every_search_word.append([query_to_shops, query_to_payment_services, query_to_tags])
+        query_to_shops += query_common_part
+        query_to_payment_services += query_common_part
+        query_to_tags += query_common_part
+
+        query_every_search_word.append([query_to_shops,
+                                        query_to_payment_services, 
+                                        query_to_tags])
         
         variable_every_search_word.append(variable_tuple)
 
@@ -119,7 +130,12 @@ def create_sql_search_like(search_words):
 
 
 # 検索を実行する関数
-def execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=True):
+def execut_sql_search(
+        query_every_search_word, 
+        variable_every_search_word, 
+        distance_limit_sql, 
+        be_all_distance, 
+        be_input_search_word=True):
     """
     Args:
         query_every_search_word [[str]]: 各TableへのSQLが格納されたリストが検索ワードごとに格納されている
@@ -159,7 +175,14 @@ def execut_sql_search(query_every_search_word, variable_every_search_word, dista
         # 検索でヒットした決済サービスが使用できるお店を調べる
         for search_result_payment_service in search_result_payment_services:
             payment_id = search_result_payment_service["payment_id"]
-            tmp_query = f"select * from shops inner join can_use_services on shops.shop_id = can_use_services.shop_id where can_use_services.payment_id='{payment_id}' "
+            tmp_query = f"""
+                select 
+                * 
+                from 
+                shops 
+                inner join can_use_services on shops.shop_id = can_use_services.shop_id 
+                where 
+                can_use_services.payment_id='{payment_id}' """
             if not be_all_distance:
                 # 距離の指定を付け加える
                 tmp_query = tmp_query + " and " + distance_limit_sql
@@ -173,7 +196,14 @@ def execut_sql_search(query_every_search_word, variable_every_search_word, dista
         # 検索でヒットしたタグがつけられているお店を調べる
         for search_result_tag in search_result_tags:
             tag_id = search_result_tag["tag_id"]
-            tmp_query = f"select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id='{tag_id}' "
+            tmp_query = f"""
+                select
+                * 
+                from 
+                shops 
+                inner join allocated_tags on shops.shop_id = allocated_tags.shop_id 
+                where 
+                allocated_tags.tag_id='{tag_id}' """
             if not be_all_distance:
                 # 距離の指定を付け加える
                 tmp_query = tmp_query + " and " + distance_limit_sql
@@ -234,21 +264,44 @@ def and_search_every_search_word(result_every_search_word):
 
 
 
-@bp.route('/search-result/<string:tag_id>')
-def search_result(tag_id):
-    #Cookieからユーザーの現在地を取j
+@bp.route('/search-result/<string:payment_or_tag_id>')
+def search_result(payment_or_tag_id):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    # "決済サービス"か"タグ"かを判別する
+    if payment_or_tag_id[-1] == "P":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join can_use_services on shops.shop_id = can_use_services.shop_id 
+            where can_use_services.payment_id=%s;"""
+        query_get_payment_or_tag_name = "select name from payment_services where payment_id=%s"
+    elif payment_or_tag_id[-1] == "T":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join allocated_tags on shops.shop_id = allocated_tags.shop_id 
+            where allocated_tags.tag_id=%s;"""
+        query_get_payment_or_tag_name = "select name from tags where tag_id=%s"
+
+    #Cookieからユーザーの現在地を取得
     user_latitude = session.get("user_latitude")
     user_longitude = session.get("user_longitude") 
 
-    db = get_db()
-    cur = db.cursor(dictionary=True)
-    query = "select * from shops inner join allocated_tags on shops.shop_id = allocated_tags.shop_id where allocated_tags.tag_id=%s;"
-    cur.execute(query, (tag_id,))
+    cur.execute(query, (payment_or_tag_id,))
     shops = cur.fetchall()
 
     shops_and_payments = []
     for shop_dict in shops:
-        distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+        distance = location_distance(user_latitude, 
+                                     user_longitude, 
+                                     shop_dict["latitude"], 
+                                     shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
 
@@ -257,60 +310,29 @@ def search_result(tag_id):
 
     #見やすいようにkmかmに変換する
     shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
+    #タグ名か決済サービス名を取得する
+    cur.execute(query_get_payment_or_tag_name, (payment_or_tag_id,))
+    searched_strings = cur.fetchall()[0]["name"]
     
-    for i in range(len(shops_and_payments)):
-        shop_id = shops_and_payments[i][0]
-        join_query = """
-            select 
-            payment_services.name 
-            from can_use_services 
-            inner join 
-            payment_services 
-            on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = %s
-        """
-        cur.execute(join_query, (shop_id,))
-        payments_name_list = cur.fetchall() 
-        payments_str = ""
-        for l in range(len(payments_name_list)):
-            if l == len(payments_name_list)-1:
-                payments_str = payments_str + payments_name_list[l]["name"]
-                continue
-            payments_str = payments_str + payments_name_list[l]["name"] + ", "
-        shops_and_payments[i].append(payments_str)
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments) 
         
-    #決済サービスタグを追加する。
-    def get_payment_service_names(group_id):
-        cur.execute("""
-            SELECT name
-            FROM payment_services
-            WHERE payment_group = %s
-        """, (group_id,))
-        return [item["name"] for item in cur.fetchall()]
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
-    barcode_names = get_payment_service_names(BARCODE_GROUP)
-    credit_names = get_payment_service_names(CREDIT_GROUP)
-    electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
-        
-    #タグを追加する.
-    tag_query = "select * from tags;"
-    cur.execute(tag_query)
-    tag_id_name_list = cur.fetchall()
-    # よく使われるタグtop5
-    commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
-    tag_commonly_used_list = []
-    for tag_id_name in tag_id_name_list:
-        if tag_id_name['name'] in commonly_tag:
-            tag_id_name_list.remove(tag_id_name)
-            tag_commonly_used_list.append(tag_id_name)
-    
-    #タグ名を取得する
-    cur.execute("select name from tags where tag_id = %s", (tag_id,))
-    tag_name = cur.fetchall()[0]["name"]
-
-    search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
-
-    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, selected_distance="", searched_strings = "")
+    return render_template(
+        "top.html", 
+        shops_and_payments=shops_and_payments, 
+        tag_id_name_list=tag_id_name_list, 
+        cash_group=cash_group,
+        barcode_names=barcode_names, 
+        credit_names=credit_names, 
+        electronic_money_names=electronic_money_names, 
+        tag_commonly_used_list=tag_commonly_used_list, 
+        DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+        selected_distance=-1, 
+        searched_strings=searched_strings)
     
 
 @bp.route('/search-result/text-search', methods=['POST'])
@@ -337,14 +359,17 @@ def text_search():
     else:
         be_all_distance = False
         # select_distanceで指定した範囲を指定する
-        result = get_distanced_lat_lng(user_latitude, user_longitude, select_distance)
+        result = get_distanced_lat_lng(user_latitude, 
+                                       user_longitude, 
+                                       select_distance)
         n = str(result["n"])
         e = str(result["e"])
         s = str(result["s"])
         w = str(result["w"])
 
         # 距離を指定するためのsqlを作成しておく
-        distance_limit_sql = " ("+n+" > shops.latitude and shops.latitude > "+s+") and ("+e+" > shops.longitude and shops.longitude > "+w+") "
+        distance_limit_sql = f""" ({n} > shops.latitude and shops.latitude > {s}) 
+                                and ({e} > shops.longitude and shops.longitude > {w}) """
 
     # neologdnで検索ワードの前処理を行う
     for i in range(len(search_words)):
@@ -374,7 +399,11 @@ def text_search():
         query_to_tags = "select * from tags "
         query_every_search_word = [[query_to_shops, query_to_payment_services, query_to_tags]]
         variable_every_search_word = [()]
-        search_result_shops = execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance, be_input_search_word=False)
+        search_result_shops = execut_sql_search(query_every_search_word, 
+                                                variable_every_search_word, 
+                                                distance_limit_sql, 
+                                                be_all_distance, 
+                                                be_input_search_word=False)
     # 検索に使えるwordが無い場合は結果を空にしておく 
     elif len(search_strings_list) == 0:
         search_result_shops = []
@@ -384,20 +413,28 @@ def text_search():
         # 検索を行うためにsqlを発行する
         query_every_search_word, variable_every_search_word = create_sql_search_n_gram(search_strings_list)
         # 検索を行う
-        search_result_shops = execut_sql_search(query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance)
+        search_result_shops = execut_sql_search(query_every_search_word, 
+                                                variable_every_search_word, 
+                                                distance_limit_sql, 
+                                                be_all_distance)
 
         # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
         if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
             like_query_every_search_word, variable_every_search_word = create_sql_search_like(search_words)
-            search_result_shops += execut_sql_search(like_query_every_search_word, variable_every_search_word, distance_limit_sql, be_all_distance)
-
+            search_result_shops += execut_sql_search(like_query_every_search_word, 
+                                                     variable_every_search_word, 
+                                                     distance_limit_sql, 
+                                                     be_all_distance)
 
     # 検索結果の重複を削除
     search_result_shops = get_unique_list(search_result_shops)
     
     shops_and_payments = []
     for shop_dict in search_result_shops:
-        distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+        distance = location_distance(user_latitude, 
+                                     user_longitude, 
+                                     shop_dict["latitude"], 
+                                     shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
     
@@ -410,53 +447,21 @@ def text_search():
     #見やすいようにkmかmに変換する
     shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
     
-    for i in range(len(shops_and_payments)):
-        shop_id = shops_and_payments[i][0]
-        join_query = """
-            select 
-            payment_services.name 
-            from can_use_services 
-            inner join 
-            payment_services 
-            on can_use_services.payment_id = payment_services.payment_id 
-            where can_use_services.shop_id = %s
-        """
-        cur.execute(join_query, (shop_id,))
-        payments_name_list = cur.fetchall() 
-        payments_str = ""
-        for l in range(len(payments_name_list)):
-            if l == len(payments_name_list)-1:
-                payments_str = payments_str + payments_name_list[l]["name"]
-                continue
-            payments_str = payments_str + payments_name_list[l]["name"] + ", "
-        shops_and_payments[i].append(payments_str)
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments)
 
-    #決済サービスタグを追加する。
-    def get_payment_service_names(group_id):
-        cur.execute("""
-            SELECT name
-            FROM payment_services
-            WHERE payment_group = %s
-        """, (group_id,))
-        return [item["name"] for item in cur.fetchall()]
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
-    barcode_names = get_payment_service_names(BARCODE_GROUP)
-    credit_names = get_payment_service_names(CREDIT_GROUP)
-    electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
-
-    #タグを追加する.
-    tag_query = "select * from tags;"
-    cur.execute(tag_query)
-    tag_id_name_list = cur.fetchall()
-    # よく使われるタグtop5
-    commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
-    tag_commonly_used_list = []
-    for tag_id_name in tag_id_name_list:
-        if tag_id_name['name'] in commonly_tag:
-            tag_id_name_list.remove(tag_id_name)
-            tag_commonly_used_list.append(tag_id_name) 
-
-
-    tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
-
-    return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, selected_distance=select_distance, searched_strings=search_strings)
+    return render_template(
+        "top.html", 
+        shops_and_payments=shops_and_payments, 
+        tag_id_name_list=tag_id_name_list, 
+        cash_group=cash_group,
+        barcode_names=barcode_names, 
+        credit_names=credit_names, 
+        electronic_money_names=electronic_money_names, 
+        tag_commonly_used_list=tag_commonly_used_list, 
+        DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+        selected_distance=select_distance, 
+        searched_strings=search_strings)

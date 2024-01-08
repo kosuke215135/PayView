@@ -94,12 +94,19 @@
         <div class="category_memu_phone">Category Menu</div>
         <div class="category_menu_line_phone"></div>
         <div class="payment_service_head_phone">決済サービス</div>
-          <div class="cash_label_phone">現金</div>
+          <!-- 現金の表示 -->
+          {% for cash in cash_group %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
+              <div class="cash_label_phone">{{ cash["name"] }}</div>
+            </a> 
+          {% endfor %}
           <input id="fold_tag_phone-check1" class="fold_tag_phone-check" type="checkbox">
           <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
           <div class="fold_tag_phone-content_credit">
             {% for credit_name in credit_names %}
-              <div class="tag_content_phone">{{ credit_name }}</div>
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+                <div class="tag_content_phone">{{ credit_name["name"] }}</div>
+              </a>
             {% endfor %}
           </div>
         
@@ -107,7 +114,9 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
           <div class="fold_tag_phone-content_barcode">
             {% for barcode_name in barcode_names %}
-              <div class="tag_content_phone">{{ barcode_name }}</div>
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+                <div class="tag_content_phone">{{ barcode_name["name"] }}</div>
+              </a>
             {% endfor %}
           </div>
         
@@ -115,20 +124,22 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
           <div class="fold_tag_phone-content_electronic_money">
             {% for electronic_money_name in electronic_money_names %}
-              <div class="tag_content_phone">{{ electronic_money_name }}</div>
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+                <div class="tag_content_phone">{{ electronic_money_name["name"] }}</div>
+              </a>
             {% endfor %}
           </div>
           <!-- タグ -->
           <div class="tag_head_phone">タグ</div>
           <div class="tag_commonly_used">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_commonly['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" onclick="post_position('/search-shop/search-result/{{ tag_id_name['tag_id'] }}')" href="#" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
