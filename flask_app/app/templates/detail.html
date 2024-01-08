@@ -6,6 +6,9 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style_detail.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
+  {# 検索窓の虫眼鏡のフォントを使用するため以下のフォントを追加 #}
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
   <title>PayView</title>
   <style>
     /* すべての画像のスタイル */
@@ -31,17 +34,53 @@
   {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('loading') }}">
+    <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
+   <!-- 検索窓 -->
+    <div class="search_div">
+      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+        <select class="select_distance" name="select_distance">
+          {% for i in DROP_DOWN_DISTANCE %}
+            {% if i == -1%}
+              <option value="{{ i }}">すべて</option>
+            {% else %}
+              <option value="{{ i }}" >{{ i }} km</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <div class="search_container">
+          <input type="text" name="search_strings" placeholder="キーワードを入力">
+          <input type="submit" value="&#xf002">
+        </div>
+      </form>
+    </div> 
   </div>
   
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('loading') }}">
+    <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
+    <!-- 検索窓 -->
+    <div class="search_div">
+      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+        <select class="select_distance" name="select_distance">
+          {% for i in DROP_DOWN_DISTANCE %}
+            {% if i == -1%}
+              <option value="{{ i }}">すべて</option>
+            {% else %}
+              <option value="{{ i }}" >{{ i }} km</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <div class="search_container">
+          <input type="text" name="search_strings" placeholder="キーワードを入力">
+          <input type="submit" value="&#xf002">
+        </div>
+      </form>
+    </div> 
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu">
       <span></span>

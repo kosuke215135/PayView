@@ -1,10 +1,14 @@
-from flask import Flask, render_template, session
+from flask import Flask, render_template, session, redirect, url_for
 import os
 from flask import request
 from db import get_db
 import random
 from datetime import timedelta #時間情報を用いるため
-from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m
+from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m, accurately_determine_distance
+import secrets
+import string
+
+
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
 BARCODE_GROUP = "02PG"
@@ -12,10 +16,24 @@ CREDIT_GROUP = "03PG"
 ELECTRONIC_MONEY_GROUP = "04PG"
 TRANSPORTATION_GROUP = "05PG"
 
+DROP_DOWN_DISTANCE = [1, 3, 5, 10, -1]
+
+DEFAULT_SEARCH_DISTANCE_KM = 1
+
+#シークレットキーを作成
+def get_random_string(length):
+    pass_chars = string.ascii_letters + string.digits
+    random_str = ''.join(secrets.choice(pass_chars) for x in range(length))
+    return random_str
+
+SECRET_KEY = get_random_string(12)
 
 def create_app():
     #Flaskオブジェクトの生成
     app = Flask(__name__)
+
+    #シークレットキーを登録
+    app.secret_key = SECRET_KEY
 
     import db
     db.init_app(app)
@@ -32,95 +50,110 @@ def create_app():
 
 
     # jsからhttp経由のPOST方式で、現在地のデータを受け取る。
-    @app.route("/top", methods=['POST'])
+    @app.route("/top", methods=['GET','POST'])
     def top():
-        user_latitude = float(request.form["latitude"])
-        user_longitude = float(request.form["longitude"])
-        
-        result = get_distanced_lat_lng(user_latitude, user_longitude, 3)
-        n = str(result["n"])
-        e = str(result["e"])
-        s = str(result["s"])
-        w = str(result["w"])
-                
-        # 3km以内のお店だけをデータベースから指定
-        db = get_db()
-        cur = db.cursor(dictionary=True)
-        query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
-        cur.execute(query)
-        shops = cur.fetchall()
+        if request.method == "POST":
+            user_latitude = float(request.form["latitude"])
+            user_longitude = float(request.form["longitude"])
+            # 位置情報をCookieに保存
+            session['user_latitude'] = user_latitude
+            session['user_longitude'] = user_longitude
+            return redirect(url_for('top'))
 
-        shops_and_payments = []
-        for shop_dict in shops:
-            distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
-            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
-            shops_and_payments.append(shop_list)
+        elif request.method == "GET":
+            #Cookieからユーザーの現在地を取得
+            user_latitude = session.get("user_latitude")
+            user_longitude = session.get("user_longitude") 
 
-        # 距離(distance)でソートする
-        shops_and_payments.sort(key=lambda x: x[2])
+            result = get_distanced_lat_lng(user_latitude, user_longitude, DEFAULT_SEARCH_DISTANCE_KM)
+            n = str(result["n"])
+            e = str(result["e"])
+            s = str(result["s"])
+            w = str(result["w"])
+                    
+            # 1km以内のお店だけをデータベースから指定
+            db = get_db()
+            cur = db.cursor(dictionary=True)
+            query = "select * from shops where ("+n+">latitude and latitude>"+s+") and ("+e+">longitude and longitude>"+w+");"
+            cur.execute(query)
+            shops = cur.fetchall()
 
-        #見やすいようにkmかmに変換する
-        shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+            shops_and_payments = []
+            for shop_dict in shops:
+                distance = location_distance(user_latitude, user_longitude, shop_dict["latitude"], shop_dict["longitude"])
+                shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
+                shops_and_payments.append(shop_list)
+            
+            #正確な距離制限を掛ける
+            shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
 
-        for i in range(len(shops_and_payments)):
-            shop_id = shops_and_payments[i][0]
-            join_query = f"""
-                select 
-                payment_services.name 
-                from can_use_services 
-                inner join 
-                payment_services 
-                on can_use_services.payment_id = payment_services.payment_id 
-                where can_use_services.shop_id = {shop_id} 
-            """
-            cur.execute(join_query)
-            payments_name_list = cur.fetchall() 
-            payments_str = ""
-            for l in range(len(payments_name_list)):
-                if l == len(payments_name_list)-1:
-                    payments_str = payments_str + payments_name_list[l]["name"]
-                    continue
-                payments_str = payments_str + payments_name_list[l]["name"] + ", "
-            shops_and_payments[i].append(payments_str)
+            # 距離(distance)でソートする
+            shops_and_payments.sort(key=lambda x: x[2])
 
-        #決済サービスタグを追加する。
-        def get_payment_service_names(group_id):
-            cur.execute("""
-                SELECT name
-                FROM payment_services
-                WHERE payment_group = %s
-            """, (group_id,))
-            return [item["name"] for item in cur.fetchall()]
+            #見やすいようにkmかmに変換する
+            shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
 
-        barcode_names = get_payment_service_names(BARCODE_GROUP)
-        credit_names = get_payment_service_names(CREDIT_GROUP)
-        electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
-        
-        #タグを追加する.
-        tag_query = "select * from tags;"
-        cur.execute(tag_query)
-        tag_id_name_list = cur.fetchall()
-        # よく使われるタグtop5
-        commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
-        tag_commonly_used_list = []
-        for tag_id_name in tag_id_name_list:
-            if tag_id_name['name'] in commonly_tag:
-                tag_id_name_list.remove(tag_id_name)
-                tag_commonly_used_list.append(tag_id_name)
-        
-        tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
-        print("execute top()")
-        return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list)
+            for i in range(len(shops_and_payments)):
+                shop_id = shops_and_payments[i][0]
+                join_query = """
+                    select 
+                    payment_services.name 
+                    from can_use_services 
+                    inner join 
+                    payment_services 
+                    on can_use_services.payment_id = payment_services.payment_id 
+                    where can_use_services.shop_id = %s 
+                """
+                cur.execute(join_query, (shop_id, ))
+                payments_name_list = cur.fetchall() 
+                payments_str = ""
+                for l in range(len(payments_name_list)):
+                    if l == len(payments_name_list)-1:
+                        payments_str = payments_str + payments_name_list[l]["name"]
+                        continue
+                    payments_str = payments_str + payments_name_list[l]["name"] + ", "
+                shops_and_payments[i].append(payments_str)
 
 
+            #決済サービスタグを追加する。
+            def get_payment_service_names(group_id):
+                cur.execute("""
+                    SELECT name
+                    FROM payment_services
+                    WHERE payment_group = %s
+                """, (group_id,))
+                return [item["name"] for item in cur.fetchall()]
+
+            barcode_names = get_payment_service_names(BARCODE_GROUP)
+            credit_names = get_payment_service_names(CREDIT_GROUP)
+            electronic_money_names = get_payment_service_names(ELECTRONIC_MONEY_GROUP)
+            
+            #タグを追加する.
+            tag_query = "select * from tags;"
+            cur.execute(tag_query)
+            tag_id_name_list = cur.fetchall()
+            # よく使われるタグtop5
+            commonly_tag = ['スーパー', '食堂', '居酒屋', 'ラーメン', 'カフェ']
+            tag_commonly_used_list = []
+            for tag_id_name in tag_id_name_list:
+                if tag_id_name['name'] in commonly_tag:
+                    tag_id_name_list.remove(tag_id_name)
+                    tag_commonly_used_list.append(tag_id_name)
+            
+            tag_name = None #serch_shopのsearch_result関数で同じtop.htmlを表示している。その際、tag_nameが必要になるので、こちらではダミーの変数を使っている。
+            search_strings = None #serch_shopのtext_search関数で同じtop.htmlを表示している。その際、search_stringsが必要になるので、こちらではダミーの変数を使っている。
+
+            return render_template("top.html", shops_and_payments=shops_and_payments, tag_id_name_list=tag_id_name_list, tag_name=tag_name, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, search_strings=search_strings, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, selected_distance="", searched_strings = "")
+
+            
     @app.route("/detail/<string:os>/<int:shop_id>")
     def detail(os, shop_id):
         db = get_db()
         cur = db.cursor(dictionary=True)
-        query = f"select * from shops where shop_id = {shop_id};"
-        cur.execute(query) 
+        query = "select * from shops where shop_id = %s;"
+        cur.execute(query, (shop_id,)) 
         shop_name = cur.fetchall()[0]["name"]
-        join_query = f"""
+        join_query = """
             select 
             payment_services.payment_id,
             payment_services.name,
@@ -135,9 +168,9 @@ def create_app():
             payment_schemes
             on
             can_use_services.payment_id = payment_schemes.payment_id
-            where can_use_services.shop_id = {shop_id} 
+            where can_use_services.shop_id = %s
         """
-        cur.execute(join_query)
+        cur.execute(join_query, (shop_id,))
         payments_name_list = cur.fetchall()
 
         scheme_data = []
@@ -194,7 +227,7 @@ def create_app():
                 tag_id_name_list.remove(tag_id_name)
                 tag_commonly_used_list.append(tag_id_name)
 
-        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list)
+        return render_template("detail.html", shop_name=shop_name, barcode_payments=barcode_payments, credit_payments=credit_payments, electronic_money_payments=electronic_money_payments, tag_id_name_list=tag_id_name_list, barcode_names=barcode_names, credit_names=credit_names, electronic_money_names=electronic_money_names, tag_commonly_used_list=tag_commonly_used_list, DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
 
     return app
 
