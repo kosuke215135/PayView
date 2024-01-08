@@ -357,11 +357,6 @@
         height: 20px;
     }
 
-    /* タグのアラート */
-    .tag_alert{
-        font-size: 16px;
-        color: #333333;
-    }
     .shop_category_frame_box{
         display: flex;
         justify-content: flex-end;
@@ -520,12 +515,7 @@
         word-wrap: break-word;
         margin: 0 50px 0 80px;
     }
-    /* タグを押した時のアラート */
-    .tag_alert{
-        font-size: 16px;
-        color: #333333;
-        margin: 40px 0px 10px 0px;
-    }
+    
     /* お店のスライドを入れる欄 */
     .shop_category_frame_box{
         display: flex;
