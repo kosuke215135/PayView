@@ -198,6 +198,10 @@ def create_app():
             electronic_money_names=electronic_money_names, 
             tag_commonly_used_list=tag_commonly_used_list, 
             DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+    
+    @app.route("/map")
+    def render_map():
+        return render_template("map.html")
 
     return app
 
