@@ -51,17 +51,19 @@ def create_app():
     
     @app.route("/")
     def loading():
-        return render_template("loading.html", to_url="top")
+        return render_template("loading.html", to_url="/")
     
     @app.route("/get-location",methods=['POST'])
-    def get_location(redirect_url):
+    def get_location():
         user_latitude = float(request.form["latitude"])
         user_longitude = float(request.form["longitude"])
         redirect_url = request.form["redirect_url"]
         # 位置情報をCookieに保存
         session['user_latitude'] = user_latitude
         session['user_longitude'] = user_longitude
-        if redirect_url == "top":
+        # ルートurlにアクセスする場合と検索にアクセスしようとしている場合はtopにリダイレクトする
+        # 検索はpostしか受け付けていないため
+        if redirect_url == "/" or "text-search" in redirect_url:
             return redirect(url_for("top"))
         return redirect(redirect_url)
 

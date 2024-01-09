@@ -31,7 +31,11 @@
     <span>.</span>
   </h1>
   <script>
-    const img = ["../static/payviewPig1.png", "../static/payviewPig2.png"];
+    // ルートurlを取得する
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig1.png";
+    const pig2url = rootUrl + "/static/payviewPig2.png";
+    const img = [pig1url, pig2url];
     
     let count = -1;
     

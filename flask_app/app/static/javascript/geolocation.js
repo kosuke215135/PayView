@@ -50,9 +50,6 @@ function post(path, params, method='post') {
   form.submit();
 }
 
-function call_post(position) {
-  post("/top", {latitude: position.coords.latitude, longitude: position.coords.longitude});
-}
 
 function fail(error){
  window.alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
