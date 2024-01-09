@@ -320,9 +320,11 @@ def search_result(payment_or_tag_id):
         
     # カテゴリ欄のデータを取得する
     tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
-
+    
+    web_hierarchy_search='検索結果'
+    
     return render_template(
-        "search_shop.html", 
+        "top.html", 
         shops_and_payments=shops_and_payments, 
         tag_id_name_list=tag_id_name_list, 
         cash_group=cash_group,
@@ -332,7 +334,8 @@ def search_result(payment_or_tag_id):
         tag_commonly_used_list=tag_commonly_used_list, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
         selected_distance=-1, 
-        searched_strings=searched_strings)
+        searched_strings=searched_strings,
+        web_hierarchy_search=web_hierarchy_search)
     
 
 @bp.route('/search-result/text-search', methods=['POST'])
@@ -453,8 +456,11 @@ def text_search():
     # カテゴリ欄のデータを取得する
     tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
+    # webの階層構造の文字のリスト
+    web_hierarchy_search='検索結果'
+    
     return render_template(
-        "search_shop.html", 
+        "top.html",
         shops_and_payments=shops_and_payments, 
         tag_id_name_list=tag_id_name_list, 
         cash_group=cash_group,
@@ -464,4 +470,5 @@ def text_search():
         tag_commonly_used_list=tag_commonly_used_list, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
         selected_distance=select_distance, 
-        searched_strings=search_strings)
+        searched_strings=search_strings,
+        web_hierarchy_search=web_hierarchy_search)

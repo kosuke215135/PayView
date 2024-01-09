@@ -203,6 +203,8 @@
       <!-- web階層の表示 -->
       <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
         <a href="{{ url_for('top') }}">Top</a>
+        <span> ></span>
+        <span>{{ web_hierarchy_search }}</span>
       </div>
       <!-- お店のスライドを入れる欄 -->
       {% for shop_and_pay in shops_and_payments %}

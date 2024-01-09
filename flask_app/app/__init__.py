@@ -8,7 +8,7 @@ from calculation_location import location_distance, get_distanced_lat_lng, conve
 from create_display_common_data import get_category_data, get_can_use_services
 import secrets
 import string
-
+from urllib.parse import urlparse
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -185,6 +185,19 @@ def create_app():
         # カテゴリ欄のデータを取得する
         tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
+        # 遷移前のURLを取得
+        url = request.referrer
+        parsed_url = urlparse(url)
+        # URLのパス部分をスラッシュで分割し、最後の部分を取得
+        last_segment = parsed_url.path.rstrip('/').split('/')[-1]
+
+        if last_segment == 'top':
+            # 最後の階層が 'top'の時、
+            web_hierarchy_list = ['', '決済情報詳細']
+        else:
+            web_hierarchy_list = ['検索結果', '決済情報詳細']
+
+        
         return render_template(
             "detail.html", 
             shop_name=shop_name, 
@@ -197,7 +210,8 @@ def create_app():
             credit_names=credit_names, 
             electronic_money_names=electronic_money_names, 
             tag_commonly_used_list=tag_commonly_used_list, 
-            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE,
+            web_hierarchy_list=web_hierarchy_list)
 
     return app
 
