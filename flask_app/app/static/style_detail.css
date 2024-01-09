@@ -355,10 +355,10 @@
         height: 100%;
         padding: 0 20px;
     }
-    .backbutton{
+    .web_hierarchy{
         margin: 15px 0 10px 0;
     }
-    .backbutton:before {
+    .web_hierarchy:before {
         content: '';
         display: inline-block;
         width: 12px;
@@ -368,7 +368,7 @@
         top: 1px;
         position: relative;
     }
-    .backbutton a{
+    .web_hierarchy a{
         color: #696969;
         font-size: 16px;
         letter-spacing: 1px;
@@ -376,11 +376,11 @@
         transition: 0.1s ease-in-out;
         padding: 5px;
     }
-    .backbutton a:active{
+    .web_hierarchy a:active{
         background: #CCC0B0;
         color: #FFF;
     }
-    .backbutton span{
+    .web_hierarchy span{
         font-size: 16px;
         letter-spacing: 1px;
         color: #696969;
@@ -524,7 +524,28 @@
         color: #FFF;
     }
     
-    /*# sourceMappingURL=bottom.css.map */
+    .back_button{
+        margin-top: 50px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+    }
+    .back_button a{
+        color: #2d2d2d;
+        background: #eee;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: proxima-nova, monospace;
+        padding: 10px 40px;
+        transition: 0.3s ease-in-out;
+        font-weight: 500;
+        text-decoration:none;
+    }
+    .back_button a:hover{
+        background: #313131;
+        color: #FFF;
+    }
     
     footer{
         width: 100%;
@@ -644,10 +665,10 @@
         position: static;
         margin: -50px auto 400px 0;
     }
-    .backbutton{
+    .web_hierarchy{
         margin: 15px 0 10px 0;
     }
-    .backbutton:before {
+    .web_hierarchy:before {
         content: '';
         display: inline-block;
         width: 12px;
@@ -657,7 +678,7 @@
         top: 1px;
         position: relative;
     }
-    .backbutton a{
+    .web_hierarchy a{
         color: #696969;
         font-size: 16px;
         letter-spacing: 1px;
@@ -665,11 +686,11 @@
         transition: 0.3s ease-in-out;
         padding: 5px;
     }
-    .backbutton a:hover{
+    .web_hierarchy a:hover{
         background: #CCC0B0;
         color: #FFF;
     }
-    .backbutton span{
+    .web_hierarchy span{
         font-size: 16px;
         letter-spacing: 1px;
         color: #696969;
@@ -810,6 +831,29 @@
         background: #CCC0B0;
     }
     #button_pushed:hover a{
+        color: #FFF;
+    }
+
+    .back_button{
+        margin-top: 80px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+    }
+    .back_button a{
+        color: #2d2d2d;
+        background: #eee;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: proxima-nova, monospace;
+        padding: 10px 40px;
+        transition: 0.3s ease-in-out;
+        font-weight: 500;
+        text-decoration:none;
+    }
+    .back_button a:hover{
+        background: #313131;
         color: #FFF;
     }
 

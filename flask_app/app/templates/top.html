@@ -200,6 +200,10 @@
   <div class="line"></div>
   <div class="shop_category_frame_box">
     <div class="shop_frame_box">
+      <!-- web階層の表示 -->
+      <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
+        <a href="{{ url_for('top') }}">Top</a>
+      </div>
       <!-- お店のスライドを入れる欄 -->
       {% for shop_and_pay in shops_and_payments %}
         <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
@@ -223,7 +227,7 @@
         {% for cash in cash_group %}
           <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
             <div class="cash_label">{{ cash["name"] }}</div>
-          </a> 
+          </a>
         {% endfor %}
         <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>

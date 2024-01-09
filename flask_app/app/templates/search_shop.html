@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8"> 
   <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_detail.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_search_shop.css')}}">
+
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
   {# 検索窓の虫眼鏡のフォントを使用するため以下のフォントを追加 #}
@@ -30,31 +31,40 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
-<header>
+<header class="background">
   {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-  <!-- 検索窓 -->
+    <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
-            {% if i == -1%}
-              <option value="{{ i }}">すべて</option>
+            {% if i == selected_distance%}
+              {% set selected = "selected"%}
             {% else %}
-              <option value="{{ i }}" >{{ i }} km</option>
+              {% set selected = "" %}
+            {% endif %}
+            {% if i == -1%}
+              <option value="{{ i }}" {{ selected }}>すべて</option>
+            {% else %}
+              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
             {% endif %}
           {% endfor %}
         </select>
         <div class="search_container">
-          <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% if searched_strings == ""%}
+            <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% else %}
+            <input type="text" name="search_strings" value="{{ searched_strings }}">
+          {% endif%}
           <input type="submit" value="&#xf002">
         </div>
       </form>
-    </div> 
+    </div>
   </div>
   
   {# ====スマホ用のヘッダー==== #}
@@ -68,19 +78,28 @@
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
-            {% if i == -1%}
-              <option value="{{ i }}">すべて</option>
+            {% if i == selected_distance%}
+              {% set selected = "selected"%}
             {% else %}
-              <option value="{{ i }}" >{{ i }} km</option>
+              {% set selected = "" %}
+            {% endif %}
+            {% if i == -1%}
+              <option value="{{ i }}" {{ selected }}>すべて</option>
+            {% else %}
+              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
             {% endif %}
           {% endfor %}
         </select>
         <div class="search_container">
-          <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% if searched_strings == ""%}
+            <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% else %}
+            <input type="text" name="search_strings" value="{{ searched_strings }}">
+          {% endif%}
           <input type="submit" value="&#xf002">
         </div>
       </form>
-    </div> 
+    </div>
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu">
       <span></span>
@@ -146,7 +165,7 @@
           <div class="tag_black"></div>
       </div>
     </div>
-    
+
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -160,89 +179,47 @@
   <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
 <body class="background">
-  <div class="title">Shop Detail</div>
+  <script>
+    function getMobileOS(shop_id){
+      const ua = navigator.userAgent
+      var os = "Other"
+      if (/android/i.test(ua)) {
+        os = "Android"
+      }
+      else if ((/iPad|iPhone|iPod/.test(ua)) 
+          || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+        os = "iOS"
+      }
+      const SCRIPT_ROOT = {{ request.script_root|tojson }}
+      console.log(os);
+      window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
+    }
+  </script>
+  <!-- タイトル -->
+  <div class="title">Search Shop List</div>
   <div class="line"></div>
-  <div class="detail_category_frame_box">
-    <div id="shopDetail" class="detail_frame_box">
+  <div class="shop_category_frame_box">
+    <div class="shop_frame_box">
       <!-- web階層の表示 -->
       <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
         <a href="{{ url_for('top') }}">Top</a>
         <span> ></span>
-        <a href="#" onclick="history.back(); return false;">検索結果</a>
-        <span> ></span>
-        <span>決済情報詳細</span>
+        <span>検索結果</span>
       </div>
-      <h1 class="shopName">{{ shop_name }}</h1> 
-      <div class="usePymentsStr">使用できる決済サービス等一覧</div>
-      {# クレジットカード #}
-      <div class="credit_flex">
-        <div class="credit_text">クレジットカード</div>
-        <div class="credit_image"></div>
-      </div>
-      <div class="button_flex">
-        {% for credit_payment in credit_payments%}
-          {% set name = credit_payment[0] %}
-          {% set scheme = credit_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
+      <!-- お店のスライドを入れる欄 -->
+      {% for shop_and_pay in shops_and_payments %}
+        <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
+          <div class="shop_frame">
+            <p class="storeName">{{ shop_and_pay[1] }}<br></p>
+            <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
+            {% if ((shop_and_pay[3] | length) < 100) %}
+              <p class="payments">{{  shop_and_pay[3] }}</p>
             {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
+              <p class="payments">{{ (shop_and_pay[3])[:100]+"etc..." }}</p>
             {% endif %}
           </div>
-        {% endfor %}
-      </div>
-      {# バーコード・QRコード決済 #}
-      <div class="barcode_flex">
-        <span class="barcode_text">バーコード・QRコード決済</span>
-        <span class="barcode_image"></span>
-      </div>
-      <div class="button_flex">
-        {% for barcode_payment in barcode_payments %}
-          {% set name = barcode_payment[0] %}
-          {% set scheme = barcode_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
-            {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-      {# 電子マネー #}
-      <div class="electronic_money_flex">
-        <span class="electronic_money_text">電子マネー</span>
-        <span class="electronic_money_image"></span>
-      </div>
-      <div class="button_flex">
-        {% for electronic_money_payment in electronic_money_payments %}
-          {% set name = electronic_money_payment[0] %}
-          {% set scheme = electronic_money_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
-            {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-      <div class="back_button">
-        <a href="#" onclick="history.back(); return false;">戻る</a>
-      </div>
+        </a>
+      {% endfor %}
     </div>
     <!-- カテゴリ欄 -->
     <div class="category_frame_box">
