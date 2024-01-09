@@ -37,7 +37,7 @@
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-   <!-- 検索窓 -->
+  <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
@@ -167,7 +167,7 @@
       <div class="backbutton">
         <a href="#" onclick="history.back(); return false;">Top</a>
         <span> ></span>
-        <span>Shop Detail</span>
+        <span>決済情報詳細</span>
       </div>  
       <h1 class="shopName">{{ shop_name }}</h1> 
       <div class="usePymentsStr">使用できる決済サービス等一覧</div>

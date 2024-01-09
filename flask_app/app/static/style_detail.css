@@ -147,7 +147,7 @@
         top: 65px;
         left: 0px;
         width: 100%;
-        height: 60vh;
+        height: 75vh;
         position: fixed;
         transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
         overflow-y: auto; /* 縦方向のスクロールを許可 */
@@ -186,7 +186,6 @@
     }
     /* 決済サービスの見出し */
     .payment_service_head_phone{
-        width: 280px;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -203,7 +202,6 @@
         width: 20%;
     }
     .cash_label_phone{
-        width: 270px;
         font-size: 14px;
         line-height: 1.8;
         border-bottom: dashed 3px #d3d3d3;
@@ -228,7 +226,6 @@
     }
     /* ラベルの見た目 */
     .fold_tag_phone-label {
-        width: 270px;
         font-size: 14px;
         box-sizing: border-box;
         display: flex;
@@ -307,7 +304,6 @@
     }
     /* タグの見出し */
     .tag_head_phone{
-        width: 280px;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -367,7 +363,7 @@
         display: inline-block;
         width: 12px;
         height: 12px;
-        background-color:  #B97E4D;
+        background-color:  #CCC0B0;
         border-radius: 50%;
         top: 1px;
         position: relative;
@@ -656,7 +652,7 @@
         display: inline-block;
         width: 12px;
         height: 12px;
-        background-color:  #B97E4D;
+        background-color:  #CCC0B0;
         border-radius: 50%;
         top: 1px;
         position: relative;
