@@ -45,85 +45,90 @@ def create_app():
 
     import search_shop
     app.register_blueprint(search_shop.bp)
+
+    import external_access
+    app.register_blueprint(external_access.bp) 
     
     @app.route("/")
     def loading():
-        return render_template("loading.html")
-
+        return render_template("loading.html", to_url="top")
+    
+    @app.route("/get-location",methods=['POST'])
+    def get_location(redirect_url):
+        user_latitude = float(request.form["latitude"])
+        user_longitude = float(request.form["longitude"])
+        redirect_url = request.form["redirect_url"]
+        # 位置情報をCookieに保存
+        session['user_latitude'] = user_latitude
+        session['user_longitude'] = user_longitude
+        if redirect_url == "top":
+            return redirect(url_for("top"))
+        return redirect(redirect_url)
 
     # jsからhttp経由のPOST方式で、現在地のデータを受け取る。
-    @app.route("/top", methods=['GET','POST'])
+    @app.route("/top")
     def top():
-        if request.method == "POST":
-            user_latitude = float(request.form["latitude"])
-            user_longitude = float(request.form["longitude"])
-            # 位置情報をCookieに保存
-            session['user_latitude'] = user_latitude
-            session['user_longitude'] = user_longitude
-            return redirect(url_for('top'))
+        #Cookieからユーザーの現在地を取得
+        user_latitude = session.get("user_latitude")
+        user_longitude = session.get("user_longitude") 
 
-        elif request.method == "GET":
-            #Cookieからユーザーの現在地を取得
-            user_latitude = session.get("user_latitude")
-            user_longitude = session.get("user_longitude") 
+        result = get_distanced_lat_lng(user_latitude, 
+                                        user_longitude, 
+                                        DEFAULT_SEARCH_DISTANCE_KM)
+        n = str(result["n"])
+        e = str(result["e"])
+        s = str(result["s"])
+        w = str(result["w"])
+                
+        # 1km以内のお店だけをデータベースから指定
+        db = get_db()
+        cur = db.cursor(dictionary=True)
+        query = f"""
+            select 
+            * 
+            from 
+            shops 
+            where ({n}>latitude and latitude>{s}) 
+            and ({e}>longitude and longitude>{w});"""
+        cur.execute(query)
+        shops = cur.fetchall()
 
-            result = get_distanced_lat_lng(user_latitude, 
-                                           user_longitude, 
-                                           DEFAULT_SEARCH_DISTANCE_KM)
-            n = str(result["n"])
-            e = str(result["e"])
-            s = str(result["s"])
-            w = str(result["w"])
-                    
-            # 1km以内のお店だけをデータベースから指定
-            db = get_db()
-            cur = db.cursor(dictionary=True)
-            query = f"""
-                select 
-                * 
-                from 
-                shops 
-                where ({n}>latitude and latitude>{s}) 
-                and ({e}>longitude and longitude>{w});"""
-            cur.execute(query)
-            shops = cur.fetchall()
+        shops_and_payments = []
+        for shop_dict in shops:
+            distance = location_distance(user_latitude, 
+                                            user_longitude, 
+                                            shop_dict["latitude"], 
+                                            shop_dict["longitude"])
+            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
+            shops_and_payments.append(shop_list)
+        
+        #正確な距離制限を掛ける
+        shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
 
-            shops_and_payments = []
-            for shop_dict in shops:
-                distance = location_distance(user_latitude, 
-                                             user_longitude, 
-                                             shop_dict["latitude"], 
-                                             shop_dict["longitude"])
-                shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
-                shops_and_payments.append(shop_list)
-            
-            #正確な距離制限を掛ける
-            shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
+        # 距離(distance)でソートする
+        shops_and_payments.sort(key=lambda x: x[2])
 
-            # 距離(distance)でソートする
-            shops_and_payments.sort(key=lambda x: x[2])
+        #見やすいようにkmかmに変換する
+        shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
 
-            #見やすいようにkmかmに変換する
-            shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+        # お店で使用できる決済サービスの名前を追加する
+        get_can_use_services(shops_and_payments)
 
-            # お店で使用できる決済サービスの名前を追加する
-            get_can_use_services(shops_and_payments)
-
-            # カテゴリ欄のデータを取得する
-            tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
-            
-            return render_template(
-                "top.html", 
-                shops_and_payments=shops_and_payments, 
-                tag_id_name_list=tag_id_name_list, 
-                cash_group=cash_group,
-                barcode_names=barcode_names, 
-                credit_names=credit_names, 
-                electronic_money_names=electronic_money_names, 
-                tag_commonly_used_list=tag_commonly_used_list, 
-                DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
-                selected_distance="", 
-                searched_strings="")
+        # カテゴリ欄のデータを取得する
+        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        
+        return render_template(
+            "top.html", 
+            shops_and_payments=shops_and_payments, 
+            tag_id_name_list=tag_id_name_list, 
+            cash_group=cash_group,
+            barcode_names=barcode_names, 
+            credit_names=credit_names, 
+            electronic_money_names=electronic_money_names, 
+            tag_commonly_used_list=tag_commonly_used_list, 
+            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+            selected_distance="", 
+            searched_strings="")
 
             
     @app.route("/detail/<string:os>/<int:shop_id>")

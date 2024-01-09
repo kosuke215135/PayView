@@ -1,12 +1,13 @@
 // jsで現在地の位置情報（緯度経度）を取得する。 by kouya
 
-function post_position(path) {
+function post_position(path, to_url) {
   if ("geolocation" in navigator) {
       console.log("execute post_position")
+      console.log(to_url)
       navigator.geolocation.getCurrentPosition(
         // 成功時のコールバック関数
         function(position) {
-          post(path, {latitude: position.coords.latitude, longitude: position.coords.longitude});
+          post(path, {latitude: position.coords.latitude, longitude: position.coords.longitude, redirect_url: to_url});
         },
         // 失敗時のコールバック関数
         function(error) {
