@@ -13,7 +13,7 @@
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
-<body onload="post_position('/top')"> 
+<body onload="post_position('/get-location', '{{ to_url }}')"> 
   <div class="spinner"></div>
   <div class="ImagePig">
     <img id="pic" src="../static/payviewPig1.png" alt="payview-pig 1">
@@ -31,7 +31,11 @@
     <span>.</span>
   </h1>
   <script>
-    const img = ["../static/payviewPig1.png", "../static/payviewPig2.png"];
+    // ルートurlを取得する
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig1.png";
+    const pig2url = rootUrl + "/static/payviewPig2.png";
+    const img = [pig1url, pig2url];
     
     let count = -1;
     
