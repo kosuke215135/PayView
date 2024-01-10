@@ -194,33 +194,18 @@
       console.log(os);
       window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
     }
-
-    // 画面幅が820px以下の場合、カテゴリ欄をフッターに移動
-    function moveCategory() {
-      var shopCategoryFrameMox = document.querySelector('.shop_category_frame_box');
-      var categoryBox = document.querySelector('.category_frame_box');
-      var footer = document.querySelector('footer');
-      // 最初の読み込み時に元の親要素を記録
-      if (!shopCategoryFrameMox) {
-        shopCategoryFrameMox = categoryBox.parentNode;
-      }
-      if (window.innerWidth <= 920) {
-        // 画面幅が820px以下の場合、カテゴリ欄をフッターに移動
-        footer.appendChild(categoryBox);
-      } else {
-        // 画面幅が820px以上の場合、カテゴリ欄を元の位置に戻す
-        shopCategoryFrameMox.appendChild(categoryBox);
-      }
-    }
-    // ページの読み込み時とウィンドウサイズが変更されたときに関数を実行
-    window.onload = moveCategory;
-    window.onresize = moveCategory;
   </script>
   <!-- タイトル -->
   <div class="title">Search Shop List</div>
   <div class="line"></div>
   <div class="shop_category_frame_box">
     <div class="shop_frame_box">
+      <!-- web階層の表示 -->
+      <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
+        <a href="{{ url_for('top') }}">Top</a>
+        <span> ></span>
+        <span>{{ web_hierarchy_search }}</span>
+      </div>
       <!-- お店のスライドを入れる欄 -->
       {% for shop_and_pay in shops_and_payments %}
         <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
@@ -244,7 +229,7 @@
         {% for cash in cash_group %}
           <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
             <div class="cash_label">{{ cash["name"] }}</div>
-          </a> 
+          </a>
         {% endfor %}
         <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>

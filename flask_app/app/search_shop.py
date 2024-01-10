@@ -299,9 +299,9 @@ def search_result(payment_or_tag_id):
     shops_and_payments = []
     for shop_dict in shops:
         distance = location_distance(user_latitude, 
-                                     user_longitude, 
-                                     shop_dict["latitude"], 
-                                     shop_dict["longitude"])
+                                    user_longitude, 
+                                    shop_dict["latitude"], 
+                                    shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
 
@@ -320,7 +320,9 @@ def search_result(payment_or_tag_id):
         
     # カテゴリ欄のデータを取得する
     tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
-
+    
+    web_hierarchy_search='検索結果'
+    
     return render_template(
         "top.html", 
         shops_and_payments=shops_and_payments, 
@@ -332,7 +334,8 @@ def search_result(payment_or_tag_id):
         tag_commonly_used_list=tag_commonly_used_list, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
         selected_distance=-1, 
-        searched_strings=searched_strings)
+        searched_strings=searched_strings,
+        web_hierarchy_search=web_hierarchy_search)
     
 
 @bp.route('/search-result/text-search', methods=['POST'])
@@ -360,8 +363,8 @@ def text_search():
         be_all_distance = False
         # select_distanceで指定した範囲を指定する
         result = get_distanced_lat_lng(user_latitude, 
-                                       user_longitude, 
-                                       select_distance)
+                                        user_longitude, 
+                                        select_distance)
         n = str(result["n"])
         e = str(result["e"])
         s = str(result["s"])
@@ -422,9 +425,9 @@ def text_search():
         if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
             like_query_every_search_word, variable_every_search_word = create_sql_search_like(search_words)
             search_result_shops += execut_sql_search(like_query_every_search_word, 
-                                                     variable_every_search_word, 
-                                                     distance_limit_sql, 
-                                                     be_all_distance)
+                                                    variable_every_search_word, 
+                                                    distance_limit_sql, 
+                                                    be_all_distance)
 
     # 検索結果の重複を削除
     search_result_shops = get_unique_list(search_result_shops)
@@ -432,9 +435,9 @@ def text_search():
     shops_and_payments = []
     for shop_dict in search_result_shops:
         distance = location_distance(user_latitude, 
-                                     user_longitude, 
-                                     shop_dict["latitude"], 
-                                     shop_dict["longitude"])
+                                    user_longitude, 
+                                    shop_dict["latitude"], 
+                                    shop_dict["longitude"])
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
         shops_and_payments.append(shop_list)
     
@@ -453,8 +456,11 @@ def text_search():
     # カテゴリ欄のデータを取得する
     tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
+    # webの階層構造の文字のリスト
+    web_hierarchy_search='検索結果'
+    
     return render_template(
-        "top.html", 
+        "top.html",
         shops_and_payments=shops_and_payments, 
         tag_id_name_list=tag_id_name_list, 
         cash_group=cash_group,
@@ -464,4 +470,5 @@ def text_search():
         tag_commonly_used_list=tag_commonly_used_list, 
         DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
         selected_distance=select_distance, 
-        searched_strings=search_strings)
+        searched_strings=search_strings,
+        web_hierarchy_search=web_hierarchy_search)
