@@ -1,5 +1,5 @@
 /* 以下スマホの表示 */
-@media (max-width: 540px) {
+@media (max-width: 840px) {
     body{
         margin: 0;
         padding: 0;
@@ -25,6 +25,7 @@
     }
     .logo{
         width: 20%;
+        max-width: 100px;
         position: absolute;
         /* 画像の縦横比を固定する */
         aspect-ratio: 5 / 2;
@@ -99,13 +100,12 @@
     /* ハンバーガーメニュー */
     .hamburger_menu {
         position: relative;
-        top: -2px;
-        left: 80%;
         background: #fffaf7;
         cursor: pointer;
         width: 50px;
         height: 50px;
         border-radius: 5px;
+        margin: 0 10px 0 auto;
     }
     .hamburger_menu span {
         display: inline-block;
@@ -150,7 +150,7 @@
         top: 65px;
         left: 0px;
         width: 100%;
-        height: 60vh;
+        height: 75vh;
         position: fixed;
         transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
         overflow-y: auto; /* 縦方向のスクロールを許可 */
@@ -209,7 +209,7 @@
         width: 270px;
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -218,7 +218,7 @@
         transition: border-bottom 0.3s ease;
     }
     .cash_label_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 折りたたみメニュー */
     @keyframes bounce {
@@ -236,8 +236,8 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        line-height : 1.8 ;
-        border-bottom: dashed 2px #d3d3d3;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 13px 0px 13px 20px;
     }
     .fold_tag_phone-label::after {
@@ -341,7 +341,7 @@
     .tag_content_phone {
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -350,7 +350,7 @@
         transition: border-bottom 0.3s ease;
     }
     .tag_content_phone:active {
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }    
     /* 空白入れる */
     .tag_black{
@@ -360,19 +360,52 @@
 
     .shop_category_frame_box{
         display: flex;
-        justify-content: flex-end;
+        justify-content: flex-start;
     }
     /* お店のスライドを入れる欄 */
     .shop_frame_box{
         height: 100%;
         padding: 0 20px;
-        margin: 0 auto;
+        margin: 0 auto 0 0;
+    }
+    /* web階層の表示 */
+    .web_hierarchy{
+        margin: 15px 0 10px 0;
+    }
+    .web_hierarchy:before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color:  #CCC0B0;
+        border-radius: 50%;
+        top: 1px;
+        position: relative;
+    }
+    .web_hierarchy a{
+        color: #696969;
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        padding: 5px;
+    }
+    .web_hierarchy a:hover{
+        background: #CCC0B0;
+        color: #FFF;
+    }
+    .web_hierarchy span{
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: #696969;
     }
     /* お店のスライド枠の装飾 */
     .shop_frame {
         margin: 20px 5px;
-        width: 330px;
-        height: 200px;
+        width: 83%;
+        max-width: 330px;
+        height: 100%;
+        min-height: 230px;
         text-decoration: none;
         border: solid 3px #FED121;
         float: left;
@@ -420,7 +453,7 @@
 }
 
 /* =====以下 pcの表示===== */
-@media (min-width: 541px) {
+@media (min-width: 841px) {
     body{
         margin: 0;
         padding: 0;
@@ -514,26 +547,57 @@
         border-bottom: dashed 3px #666666;
         text-transform: uppercase;
         word-wrap: break-word;
-        margin: 0 50px 0 80px;
+        margin: -5px 50px 0 80px;
     }
     
-    /* お店のスライドを入れる欄 */
     .shop_category_frame_box{
         display: flex;
-        justify-content: flex-end;
-        padding: 60px 50px 0 80px;
+        justify-content: flex-start;
+        margin: 60px 50px 0 80px;
     }
     .shop_frame_box{
-        width: 100%;
+        width: 70%;
         height: 100%;
         position: static;
-        margin-top: -50px;
+        margin: -50px auto 400px 0;
+    }
+    /* web階層の表示 */
+    .web_hierarchy{
+        margin: 15px 0 10px 0;
+    }
+    .web_hierarchy:before {
+        content: '';
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        background-color:  #CCC0B0;
+        border-radius: 50%;
+        top: 1px;
+        position: relative;
+    }
+    .web_hierarchy a{
+        color: #696969;
+        font-size: 16px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        padding: 5px;
+    }
+    .web_hierarchy a:hover{
+        background: #CCC0B0;
+        color: #FFF;
+    }
+    .web_hierarchy span{
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: #696969;
     }
     /* お店のスライド枠の装飾 */
     .shop_frame {
         margin: 30px 10px;
         width: 330px;
-        height: 200px;
+        min-height: 230px;
+        height: 100%;
         text-decoration: none;
         border: solid 3px #FED121;
         float: left;
@@ -578,7 +642,7 @@
         float: right;
         width: 100%;
         height: 100%;
-        max-width: 300px; /* 最大幅を設定 */
+        max-width: 300px;
         padding-bottom: 70px;
     }
     /* カテゴリの見出し */
@@ -592,7 +656,7 @@
         margin-bottom: 20px;
     }
     .payment_service_head::after{
-        height: 3px;
+        height: 2px;
         position: relative;
         content: " ";
         display: block;
@@ -602,7 +666,7 @@
     .cash_label{
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 30px 0 20px 20px;
         color: #333333;
         background-color: transparent;
@@ -611,7 +675,7 @@
         transition: border-bottom 0.3s ease;
     }
     .cash_label:hover{
-        border-bottom: dashed 2px black;
+        border-bottom: dashed 3px black;
     }
     /* 折りたたみメニュー */
     @keyframes bounce {
@@ -629,8 +693,8 @@
         box-sizing: border-box;
         display: flex;
         justify-content: space-between;
-        line-height : 1.8 ;
-        border-bottom: dashed 2px #d3d3d3;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 13px 0px 13px 20px;
     }
     .fold_tag-label::after {
@@ -706,7 +770,7 @@
         margin: 20px 0 30px 0;
     }
     .tag_head::after{
-        height: 3px;
+        height: 2px;
         position: relative;
         content: " ";
         display: block;
@@ -727,7 +791,7 @@
     .tag_content{
         font-size: 14px;
         line-height: 1.8;
-        border-bottom: dashed 2px #d3d3d3;
+        border-bottom: dashed 3px #d3d3d3;
         margin: 15px 0 15px 20px;
         color: #333333;
         background-color: transparent;
@@ -736,15 +800,7 @@
         transition: border-bottom 0.3s ease;
     }
     .tag_content:hover{
-        border-bottom: dashed 2px black;
-    }
-    /* 画面幅が600px以下の場合のスタイル */
-    @media screen and (max-width: 1300px) {
-        .category_frame_box {
-        /* フッターに移動したときのスタイルを定義 */
-        width: 100%; /* 例 */
-        /* 他のスタイルを必要に応じて追加 */
-        }
+        border-bottom: dashed 3px black;
     }
 
     footer{
