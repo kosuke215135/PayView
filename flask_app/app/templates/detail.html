@@ -167,10 +167,15 @@
       <!-- web階層の表示 -->
       <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
         <a href="{{ url_for('top') }}">Top</a>
-        <span> ></span>
-        <a href="#" onclick="history.back(); return false;">検索結果</a>
-        <span> ></span>
-        <span>決済情報詳細</span>
+        {% if web_hierarchy_list[0]=='' %}
+          <span> ></span>
+          <span>{{ web_hierarchy_list[1] }}</span>
+        {% elif web_hierarchy_list[0]=='検索結果' %}
+          <span> ></span>
+          <a href="#" onclick="history.back(); return false;">{{ web_hierarchy_list[0] }}</a>
+          <span> ></span>
+          <span>{{ web_hierarchy_list[1] }}</span>
+        {% endif %}
       </div>
       <h1 class="shopName">{{ shop_name }}</h1> 
       <div class="usePymentsStr">使用できる決済サービス等一覧</div>
