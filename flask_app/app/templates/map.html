@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8"> 
@@ -27,7 +26,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css" media="screen">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
@@ -40,7 +38,7 @@
     </a>
     <!-- 検索窓 -->
     <div class="search_div">
-      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
             {% if i == selected_distance%}
@@ -75,7 +73,7 @@
     </a>
     <!-- 検索窓 -->
     <div class="search_div">
-      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
             {% if i == selected_distance%}
@@ -179,12 +177,96 @@
     <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
 <body class="background">
-    <h3>My Google Map with Multiple Markers</h3>
-    <!-- 地図を表示するためのコンテナ -->
-    <div id="map"></div>
-    <!-- Google Maps JavaScript APIの読み込み -->
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgVJBWiiCC8qEXIvLcLeOatB1jG6oewnE&callback=initMap"></script>
-    <script src="{{ url_for('static', filename='javascript/map.js') }}"></script>
+    <!-- お店のスライドクリックした時の処理 -->
+    <script>
+      function getMobileOS(shop_id){
+        const ua = navigator.userAgent
+        var os = "Other"
+        if (/android/i.test(ua)) {
+          os = "Android"
+        }
+        else if ((/iPad|iPhone|iPod/.test(ua)) 
+            || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+          os = "iOS"
+        }
+        const SCRIPT_ROOT = {{ request.script_root|tojson }}
+        console.log(os);
+        window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
+      }
+    </script>
+    <!-- タイトル -->
+    <div class="title">Search Shop Map</div>
+    <div class="line"></div>
+    <!-- web階層の表示 -->
+    <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
+      <a href="{{ url_for('top') }}">Top</a>
+      <span> ></span>
+      <span>map</span>
+    </div>
+    <div class="map_shop_frame_box">
+      <div id="map"></div>
+      <!-- Google Maps JavaScript APIの読み込み -->
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgVJBWiiCC8qEXIvLcLeOatB1jG6oewnE&callback=initMap"></script>
+      <!-- Google MapのJavascript設定 -->
+      <script>
+        function initMap() {
+          // 地図の中心を設定、pythonからユーザの位置情報を渡す。
+          var user_latitude = {{ user_latitude }};
+          var user_longitude = {{ user_longitude }};
+          var center = {lat: user_latitude, lng: user_longitude};
+          // 地図を表示
+          var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 13,
+              center: center
+          });
+          var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+          var icons = {
+              userLocation: {
+                  icon: iconBase + 'man.png'
+              }
+          };
+          map.setCenter(center);
+          var marker = new google.maps.Marker({
+              position: center,
+              icon: icons.userLocation.icon,
+              map: map
+          });
+          // マーカーを配置する位置の配列
+          var locations_json = '{{locations_json}}';
+          var decoded_json = locations_json.replace(/&#34;/g, '"');
+          var locations = JSON.parse(decoded_json);
+          // 各位置にマーカーを配置
+          locations.forEach(function(location) {
+              var marker = new google.maps.Marker({
+                  position: location,
+                  map: map
+              });
+              var infowindow = new google.maps.InfoWindow({
+                content: 'ここに表示するコンテンツ'
+              });
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+          });
+        }
+      </script>
+      <div class="shop_frame_box">
+        <!-- お店のスライドを入れる欄 -->
+        {% for shop_and_pay in shops_and_payments %}
+          <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
+            <div class="shop_frame">
+              <p class="storeName">{{ shop_and_pay[1] }}<br></p>
+              <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
+              {% if ((shop_and_pay[3] | length) < 100) %}
+                <p class="payments">{{  shop_and_pay[3] }}</p>
+              {% else %}
+                <p class="payments">{{ (shop_and_pay[3])[:100]+"etc..." }}</p>
+              {% endif %}
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    </div>
     {# ====フッター==== #}
     <footer>
         <p>©PayView All Rights Reserved.</p>

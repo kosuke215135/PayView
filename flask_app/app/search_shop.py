@@ -7,6 +7,7 @@ from db import get_db
 import random
 import MeCab
 import neologdn
+import json
 
 bp = Blueprint('search_shop', __name__, url_prefix='/search-shop')
 
@@ -472,3 +473,148 @@ def text_search():
         selected_distance=select_distance, 
         searched_strings=search_strings,
         web_hierarchy_search=web_hierarchy_search)
+
+@bp.route('/map-search-result/text-search', methods=['POST'])
+def text_search_map():
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    #Cookieからユーザーの現在地を取得
+    user_latitude = session.get("user_latitude")
+    user_longitude = session.get("user_longitude") 
+
+    # htmlから検索を掛ける文字列を取得する
+    # 半角スペースや全角スペースごとに区切る
+    search_strings = request.form["search_strings"]
+    search_words = search_strings.split()
+    select_distance = request.form["select_distance"]
+
+    select_distance = int(select_distance)
+
+    # 距離指定がない場合は-1が返ってくる
+    if select_distance == -1:
+        distance_limit_sql = ""
+        be_all_distance = True
+    else:
+        be_all_distance = False
+        # select_distanceで指定した範囲を指定する
+        result = get_distanced_lat_lng(user_latitude, 
+                                        user_longitude, 
+                                        select_distance)
+        n = str(result["n"])
+        e = str(result["e"])
+        s = str(result["s"])
+        w = str(result["w"])
+
+        # 距離を指定するためのsqlを作成しておく
+        distance_limit_sql = f""" ({n} > shops.latitude and shops.latitude > {s}) 
+                                and ({e} > shops.longitude and shops.longitude > {w}) """
+
+    # neologdnで検索ワードの前処理を行う
+    for i in range(len(search_words)):
+        search_words[i] = neologdn.normalize(search_words[i])
+
+    #検索ワードを分かち書きしたものをそれぞれlistとして保持する2重リスト
+    search_strings_list = []
+    
+    for search_word in search_words:
+        # 検索ワードごとに形態素解析を行う
+        morpheme_list = mecab_list(search_word)
+        tmp_list = []
+        for morpheme in morpheme_list:
+            part_of_speech = morpheme[1]
+            # 分かち書きした単語の品詞によって、検索で使用するかどうか判定する
+            if part_of_speech in USE_PART_OF_SPEECH:
+                tmp_list.append(morpheme[0])
+        # 検索に使える品詞がない場合はcontinue
+        if len(tmp_list) == 0:
+            continue
+        search_strings_list.append(tmp_list)
+
+    # 距離の検索と文字列検索を兼ねているため、文字列が何も入力されていない場合は距離だけの絞り込みを行う
+    if search_strings == '':
+        query_to_shops = "select * from shops " 
+        query_to_payment_services = "select * from payment_services "
+        query_to_tags = "select * from tags "
+        query_every_search_word = [[query_to_shops, query_to_payment_services, query_to_tags]]
+        variable_every_search_word = [()]
+        search_result_shops = execut_sql_search(query_every_search_word, 
+                                                variable_every_search_word, 
+                                                distance_limit_sql, 
+                                                be_all_distance, 
+                                                be_input_search_word=False)
+    # 検索に使えるwordが無い場合は結果を空にしておく 
+    elif len(search_strings_list) == 0:
+        search_result_shops = []
+    else:
+        # 類似語や省略形があれば、検索に適した単語も検索リストに加える
+        search_strings_list = search_synonym(search_strings_list)
+        # 検索を行うためにsqlを発行する
+        query_every_search_word, variable_every_search_word = create_sql_search_n_gram(search_strings_list)
+        # 検索を行う
+        search_result_shops = execut_sql_search(query_every_search_word, 
+                                                variable_every_search_word, 
+                                                distance_limit_sql, 
+                                                be_all_distance)
+
+        # 検索件数が極端に少ない場合,検索ワードごとにlike句での検索を再び行う
+        if len(search_result_shops) <= MIN_NUM_SEARCH_RESULTS:
+            like_query_every_search_word, variable_every_search_word = create_sql_search_like(search_words)
+            search_result_shops += execut_sql_search(like_query_every_search_word, 
+                                                    variable_every_search_word, 
+                                                    distance_limit_sql, 
+                                                    be_all_distance)
+
+    # 検索結果の重複を削除
+    search_result_shops = get_unique_list(search_result_shops)
+    
+    shops_and_payments = []
+    shop_locations = []
+    for shop_dict in search_result_shops:
+        # お店の緯度経度リストを作る
+        shop_location = {'lat': shop_dict["latitude"], 'lng': shop_dict["longitude"]}
+        shop_locations.append(shop_location)
+        distance = location_distance(user_latitude, 
+                                    user_longitude, 
+                                    shop_dict["latitude"], 
+                                    shop_dict["longitude"])
+        shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
+        shops_and_payments.append(shop_list)
+    
+    # PythonリストをJSON文字列に変換
+    locations_json = json.dumps(shop_locations)
+    
+    #正確な距離制限を掛ける
+    shops_and_payments = accurately_determine_distance(shops_and_payments, select_distance)
+    
+    # 距離(distance)でソートする
+    shops_and_payments.sort(key=lambda x: x[2])
+
+    #見やすいようにkmかmに変換する
+    shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+    
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments)
+
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+
+    # webの階層構造の文字のリスト
+    web_hierarchy_search='検索結果'
+    
+    return render_template(
+        "map.html",
+        shops_and_payments=shops_and_payments, 
+        tag_id_name_list=tag_id_name_list, 
+        cash_group=cash_group,
+        barcode_names=barcode_names,
+        credit_names=credit_names,
+        electronic_money_names=electronic_money_names, 
+        tag_commonly_used_list=tag_commonly_used_list, 
+        DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+        selected_distance=select_distance, 
+        searched_strings=search_strings,
+        web_hierarchy_search=web_hierarchy_search,
+        user_latitude=user_latitude,
+        user_longitude=user_longitude,
+        locations_json=locations_json)

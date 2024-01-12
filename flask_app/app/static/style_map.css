@@ -1,5 +1,10 @@
 /* 以下スマホの表示 */
 @media (max-width: 840px) {
+    /* 地図を表示するためのコンテナのスタイル */
+    #map {
+        width: 100%;
+        height: 80vh;
+    }
     body{
         margin: 0;
         padding: 0;
@@ -358,19 +363,14 @@
         height: 20px;
     }
 
-    .shop_category_frame_box{
-        display: flex;
-        justify-content: flex-start;
-    }
     /* お店のスライドを入れる欄 */
-    .shop_frame_box{
-        height: 100%;
-        padding: 0 20px;
-        margin: 0 auto 0 0;
+    .map_shop_frame_box{
+        padding: 0 20px 20px 20px;
+        margin: 0 auto;
     }
     /* web階層の表示 */
     .web_hierarchy{
-        margin: 15px 0 10px 0;
+        margin: 15px 0 15px 20px;
     }
     .web_hierarchy:before {
         content: '';
@@ -398,6 +398,9 @@
         font-size: 16px;
         letter-spacing: 1px;
         color: #696969;
+    }
+    .shop_frame_box{
+        display: none;
     }
     /* お店のスライド枠の装飾 */
     .shop_frame {
@@ -456,8 +459,9 @@
 @media (min-width: 841px) {
     /* 地図を表示するためのコンテナのスタイル */
     #map {
-        height: 400px;
-        width: 100%;
+        width: 70%;
+        height: 80vh;
+        flex-grow: 1;
     }
     body{
         margin: 0;
@@ -555,20 +559,21 @@
         margin: -5px 50px 0 80px;
     }
     
-    .shop_category_frame_box{
+    .map_shop_frame_box{
         display: flex;
         justify-content: flex-start;
-        margin: 60px 50px 0 80px;
+        margin: 20px 50px 0 80px;
     }
     .shop_frame_box{
-        width: 70%;
+        float: right;
+        width: 100%;
         height: 100%;
-        position: static;
-        margin: -50px auto 400px 0;
+        max-width: 300px;
+        margin: -30px 80px 70px 10px;
     }
     /* web階層の表示 */
     .web_hierarchy{
-        margin: 15px 0 10px 0;
+        margin: 20px 0 0px 80px;
     }
     .web_hierarchy:before {
         content: '';
@@ -642,14 +647,7 @@
     .category_frame_box_phone{
         display: none;
     }
-    /* カテゴリの枠（見出し） */
-    .category_frame_box{
-        float: right;
-        width: 100%;
-        height: 100%;
-        max-width: 300px;
-        padding-bottom: 70px;
-    }
+    /* カテゴリの枠 */
     /* カテゴリの見出し */
     .payment_service_head{
         width: 280px;

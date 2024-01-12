@@ -9,6 +9,7 @@ from create_display_common_data import get_category_data, get_can_use_services
 import secrets
 import string
 from urllib.parse import urlparse
+import json
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -217,9 +218,82 @@ def create_app():
             credit_names=credit_names, 
             electronic_money_names=electronic_money_names, 
             tag_commonly_used_list=tag_commonly_used_list, 
-            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE)
+            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE,
+            web_hierarchy_list=web_hierarchy_list)
+        
+    @app.route("/map")
+    def render_map():
+        #Cookieからユーザーの現在地を取得
+        user_latitude = session.get("user_latitude")
+        user_longitude = session.get("user_longitude") 
+
+        result = get_distanced_lat_lng(user_latitude,
+                                        user_longitude,
+                                        DEFAULT_SEARCH_DISTANCE_KM)
+        n = str(result["n"])
+        e = str(result["e"])
+        s = str(result["s"])
+        w = str(result["w"])
+                
+        # 1km以内のお店だけをデータベースから指定
+        db = get_db()
+        cur = db.cursor(dictionary=True)
+        query = f"""
+            select 
+            * 
+            from 
+            shops 
+            where ({n}>latitude and latitude>{s}) 
+            and ({e}>longitude and longitude>{w});"""
+        cur.execute(query)
+        shops = cur.fetchall()
+
+        shops_and_payments = []
+        shop_locations = []
+        for shop_dict in shops:
+            # お店の緯度経度リストを作る
+            shop_location = {'lat': shop_dict["latitude"], 'lng': shop_dict["longitude"]}
+            shop_locations.append(shop_location)
+            
+            distance = location_distance(user_latitude, 
+                                            user_longitude, 
+                                            shop_dict["latitude"], 
+                                            shop_dict["longitude"])
+            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
+            shops_and_payments.append(shop_list)
+        
+        # PythonリストをJSON文字列に変換
+        locations_json = json.dumps(shop_locations)
+        
+        #正確な距離制限を掛ける
+        shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
+
+        # 距離(distance)でソートする
+        shops_and_payments.sort(key=lambda x: x[2])
+
+        #見やすいようにkmかmに変換する
+        shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
+        # お店で使用できる決済サービスの名前を追加する
+        get_can_use_services(shops_and_payments)
+
+        # カテゴリ欄のデータを取得する
+        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        
+        return render_template(
+            "map.html",
+            shops_and_payments=shops_and_payments, 
+            tag_id_name_list=tag_id_name_list, 
+            cash_group=cash_group,
+            barcode_names=barcode_names, 
+            credit_names=credit_names, 
+            electronic_money_names=electronic_money_names, 
+            tag_commonly_used_list=tag_commonly_used_list, 
+            DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+            selected_distance="", 
+            searched_strings="",
+            user_latitude=user_latitude,
+            user_longitude=user_longitude,
+            locations_json=locations_json)
 
     return app
-
-
-

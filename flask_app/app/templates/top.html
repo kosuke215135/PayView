@@ -27,7 +27,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css" media="screen">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
@@ -38,6 +37,9 @@
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
+    <div class="to_map">
+      <a href="{{ url_for('render_map') }}">map</a>
+    </div>
     <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
@@ -112,6 +114,9 @@
         <!-- 決済サービスのタグ -->
         <div class="category_memu_phone">Category Menu</div>
         <div class="category_menu_line_phone"></div>
+        <div class="to_map_phone">
+          <a href="{{ url_for('render_map') }}">map</a>
+        </div>
         <div class="payment_service_head_phone">決済サービス</div>
           <!-- 現金の表示 -->
           {% for cash in cash_group %}
@@ -194,6 +199,15 @@
       console.log(os);
       window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
     }
+  </script>
+  <script>
+    document.cookie = 'old=27';
+    document.cookie = 'address=Tokyo';
+    let name = encodeURIComponent('田中');
+    document.cookie = 'name=' + name;
+    
+    let e = document.getElementById('msg');
+    e.insertAdjacentHTML('afterend', '<p>' + document.cookie + '</p>');
   </script>
   <!-- タイトル -->
   <div class="title">Search Shop List</div>

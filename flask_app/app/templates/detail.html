@@ -37,7 +37,10 @@
     <a href="{{ url_for('top') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-  <!-- 検索窓 -->
+    <div class="to_map">
+      <a href="{{ url_for('render_map') }}">map</a>
+    </div>
+    <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search')}}" method="POST">
         <select class="select_distance" name="select_distance">
@@ -93,6 +96,9 @@
         <!-- 決済サービスのタグ -->
         <div class="category_memu_phone">Category Menu</div>
         <div class="category_menu_line_phone"></div>
+        <div class="to_map_phone">
+          <a href="{{ url_for('render_map') }}">map</a>
+        </div>
         <div class="payment_service_head_phone">決済サービス</div>
           <!-- 現金の表示 -->
           {% for cash in cash_group %}
