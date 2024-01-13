@@ -13,6 +13,7 @@ function post_position(path, to_url) {
         function(error) {
           // エラーメッセージを表示するか、適切な処理を行う
           console.error("位置情報の取得に失敗しました:", error.message);
+          window.alert('位置情報をオンにしてください')
         }
       );
   } else {
@@ -51,6 +52,3 @@ function post(path, params, method='post') {
 }
 
 
-function fail(error){
- window.alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
-}
