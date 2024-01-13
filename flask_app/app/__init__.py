@@ -49,6 +49,9 @@ def create_app():
 
     import external_access
     app.register_blueprint(external_access.bp) 
+
+    import admin_privacy
+    app.register_blueprint(admin_privacy.bp)
     
     @app.route("/")
     def loading():
