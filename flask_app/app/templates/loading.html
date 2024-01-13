@@ -1,7 +1,7 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head prefix="og: https://ogp.me/ns#">
   <meta charset="UTF-8"> 
   <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style_loading.css')}}">
@@ -12,6 +12,13 @@
   <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:url" content="https://payview.st.ie.u-ryukyu.ac.jp"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="PayView" />
+  <meta property="og:description" content="お店の決済サービスを調べることができます" />
+  <meta property="og:site_name" content="PayView" />
+  <meta property="og:image" content="https://payview.st.ie.u-ryukyu.ac.jp/static/logo.png" />
+  <meta name=”twitter:card” content="summary_large_image"/>
 </head>
 <body onload="post_position('/get-location', '{{ to_url }}')"> 
   <div class="spinner"></div>
