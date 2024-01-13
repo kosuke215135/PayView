@@ -3,11 +3,13 @@ from flask import (
 )
 
 from db import get_db
+from admin_privacy import login_required
 
 bp = Blueprint('insert_shop_data', __name__, url_prefix='/insert-shop-data')
 
 
 @bp.route('/choose-shop/<string:tag_or_payment>')
+@login_required
 def choose_shop(tag_or_payment):
     db = get_db()
     cur = db.cursor(dictionary=True)
@@ -22,6 +24,7 @@ def take_out_payment_id(dict_content):
 
 
 @bp.route('/choose-payment/<int:shop_id>', methods=('GET', 'POST'))
+@login_required
 def choose_payment(shop_id):
     db = get_db()
     cur = db.cursor(dictionary=True)
@@ -61,6 +64,7 @@ def take_out_tag_id(dict_content):
 
 
 @bp.route('/choose-tag/<int:shop_id>', methods=('GET', 'POST'))
+@login_required
 def choose_tag(shop_id):
     db = get_db()
     cur = db.cursor(dictionary=True)
@@ -98,6 +102,7 @@ def choose_tag(shop_id):
 
 
 @bp.route('/add-shop', methods=('GET', 'POST'))
+@login_required
 def add_shop():
     error = 0 #dbに挿入できたかどうかをチェックする
     if request.method == "GET":
@@ -118,6 +123,7 @@ def add_shop():
 
 
 @bp.route('/add-payment', methods=('GET', 'POST'))
+@login_required
 def add_payment():
     error = 0 #dbに挿入できたかどうかをチェックする
     if request.method == "GET":
@@ -149,6 +155,7 @@ def add_payment():
 
 
 @bp.route('/delete-shop', methods=('GET', 'POST'))
+@login_required
 def delete_shop():
     db = get_db()
     cur = db.cursor(dictionary=True)
@@ -163,6 +170,7 @@ def delete_shop():
 
 
 @bp.route('/delete-payment', methods=('GET', 'POST'))
+@login_required
 def delete_payment():
     db = get_db()
     cur = db.cursor(dictionary=True)
@@ -177,6 +185,7 @@ def delete_payment():
 
 
 @bp.route('/add-tag', methods=('GET', 'POST'))
+@login_required
 def add_tag():
     error = 0 #dbに挿入できたかどうかをチェックする
     if request.method == "GET":
@@ -209,6 +218,7 @@ def add_tag():
 
 
 @bp.route('/delete-tag', methods=('GET', 'POST'))
+@login_required
 def delete_tag():
     db = get_db()
     cur = db.cursor(dictionary=True)
