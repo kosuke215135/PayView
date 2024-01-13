@@ -157,10 +157,13 @@
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
-          {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
-              <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
-            </a>
+          {% for a_dan in tag_id_name_dict_every_gyou %}
+            <div class="tag_content_phone">{{ a_dan }} 行</div> 
+            {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+                <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
+              </a>
+            {% endfor %}
           {% endfor %}
           <div class="tag_black"></div>
       </div>
@@ -269,10 +272,13 @@
           </a>
         {% endfor %}
         <div class="normal_tag">50音順</div>
-        {% for tag_id_name in tag_id_name_list %}
-          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
-            <div class="tag_content">{{ tag_id_name["name"] }}</div>
-          </a>
+        {% for a_dan in tag_id_name_dict_every_gyou %}
+          <div class="tag_content">{{ a_dan }} 行</div> 
+          {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+              <div class="tag_content">{{ tag_id_name["name"] }}</div>
+            </a>
+          {% endfor %}
         {% endfor %}
     </div>
   </div>
