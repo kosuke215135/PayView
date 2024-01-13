@@ -251,19 +251,15 @@ def create_app():
         shops_and_payments = []
         shop_locations = []
         for shop_dict in shops:
-            # お店の緯度経度リストを作る
             shop_location = {'lat': shop_dict["latitude"], 'lng': shop_dict["longitude"]}
             shop_locations.append(shop_location)
-            
             distance = location_distance(user_latitude, 
                                             user_longitude, 
                                             shop_dict["latitude"], 
                                             shop_dict["longitude"])
-            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance]
+            # お店のid、名前、距離、緯度経度のリストを作る
+            shop_list = [shop_dict["shop_id"], shop_dict["name"], distance, shop_dict["latitude"], shop_dict["longitude"]]
             shops_and_payments.append(shop_list)
-        
-        # PythonリストをJSON文字列に変換
-        locations_json = json.dumps(shop_locations)
         
         #正確な距離制限を掛ける
         shops_and_payments = accurately_determine_distance(shops_and_payments, DEFAULT_SEARCH_DISTANCE_KM)
@@ -293,7 +289,6 @@ def create_app():
             selected_distance="", 
             searched_strings="",
             user_latitude=user_latitude,
-            user_longitude=user_longitude,
-            locations_json=locations_json)
+            user_longitude=user_longitude,)
 
     return app

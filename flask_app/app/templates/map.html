@@ -206,9 +206,11 @@
     <div class="map_shop_frame_box">
       <div id="map"></div>
       <!-- Google Maps JavaScript APIの読み込み -->
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgVJBWiiCC8qEXIvLcLeOatB1jG6oewnE&callback=initMap"></script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key=your_key&callback=initMap"></script>
       <!-- Google MapのJavascript設定 -->
       <script>
+        var markersAndInfoWindows = {};
+        var currentInfowindow = null;
         function initMap() {
           // 地図の中心を設定、pythonからユーザの位置情報を渡す。
           var user_latitude = {{ user_latitude }};
@@ -231,41 +233,77 @@
               icon: icons.userLocation.icon,
               map: map
           });
-          // マーカーを配置する位置の配列
-          var locations_json = '{{locations_json}}';
-          var decoded_json = locations_json.replace(/&#34;/g, '"');
-          var locations = JSON.parse(decoded_json);
-          // 各位置にマーカーを配置
-          locations.forEach(function(location) {
-              var marker = new google.maps.Marker({
-                  position: location,
-                  map: map
-              });
-              var infowindow = new google.maps.InfoWindow({
-                content: 'ここに表示するコンテンツ'
-              });
-              marker.addListener('click', function() {
-                infowindow.open(map, marker);
-              });
+          // pythonからお店情報を持ってくる。
+          var shops_and_payments = '{{shops_and_payments}}';
+          var decoded_shops_and_payments = shops_and_payments.replace(/&#39;/g, '"');
+          var shops_and_payments_jsList = JSON.parse(decoded_shops_and_payments);
+          // 単一の情報ウィンドウインスタンスを作成
+          var infowindow = new google.maps.InfoWindow();
+          // 店舗情報のリストをループしてマーカーと情報ウィンドウを作成
+          shops_and_payments_jsList.forEach((shop_and_pay) => {
+            let location = {lat: shop_and_pay[3], lng: shop_and_pay[4]};
+            var marker = new google.maps.Marker({
+              position: location,
+              map: map
+            });
+            const contentString = 
+              '<a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">' +
+                '<p class="storeName">' + shop_and_pay[1] + '<br></p>' +
+                '<p class="located">' + shop_and_pay[2] + '先<br></p>' +
+                '<p class="payments">' + shop_and_pay[5] + '</p>' +
+              "</a>";
+            var infowindow = new google.maps.InfoWindow({
+              content: contentString
+            });
+            // マーカーと情報ウィンドウの参照を保存
+            markersAndInfoWindows[shop_and_pay[0]] = { marker: marker, infowindow: infowindow };
+            marker.addListener('click', function() {
+              // 以前に開いていた情報ウィンドウがあれば閉じる
+              if (currentInfowindow) {
+                currentInfowindow.close();
+              }
+              infowindow.setContent(contentString);
+              infowindow.open(map, marker);
+              // 現在開いている情報ウィンドウを更新
+              currentInfowindow = infowindow;
+            });
+          });
+          document.querySelectorAll('.shop_frame_box .shop_frame').forEach((element, index) => {
+            element.addEventListener('click', function() {
+              // 店舗IDを取得
+              var shopId = shops_and_payments_jsList[index][0];
+              // 以前に開いていた情報ウィンドウがあれば閉じる
+              if (currentInfowindow) {
+                currentInfowindow.close();
+              }
+              // 対応するマーカーと吹き出しを取得して開く
+              var markerAndInfoWindow = markersAndInfoWindows[shopId];
+              if (markerAndInfoWindow) {
+                markerAndInfoWindow.infowindow.open(map, markerAndInfoWindow.marker);
+                currentInfowindow = markerAndInfoWindow.infowindow;
+              }
+            });
+          });
+          // マップ上の任意の場所をクリックしたときに情報ウィンドウを閉じる
+          map.addListener('click', function() {
+            if (currentInfowindow) {
+              currentInfowindow.close();
+            }
           });
         }
       </script>
       <div class="shop_frame_box">
-        <!-- お店のスライドを入れる欄 -->
         {% for shop_and_pay in shops_and_payments %}
-          <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">
+          <a style="text-decoration: none;" id="map_button" href="#">
             <div class="shop_frame">
               <p class="storeName">{{ shop_and_pay[1] }}<br></p>
               <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
-              {% if ((shop_and_pay[3] | length) < 100) %}
-                <p class="payments">{{  shop_and_pay[3] }}</p>
-              {% else %}
-                <p class="payments">{{ (shop_and_pay[3])[:100]+"etc..." }}</p>
-              {% endif %}
+              <p class="payments">{{ shop_and_pay[5] }}</p>
             </div>
           </a>
         {% endfor %}
       </div>
+      <!-- お店のスライドを入れる欄 -->
     </div>
     {# ====フッター==== #}
     <footer>
