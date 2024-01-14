@@ -504,6 +504,10 @@
 
 /* =====以下 pcの表示===== */
 @media (min-width: 841px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body{
         margin: 0;
         padding: 0;
@@ -900,6 +904,28 @@
     #closeBtn:hover {
         color: #FFF;
     }
+
+    #topbtn {
+        position: fixed;
+        bottom: 100px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        background-color: #ffc342;
+        display: none;
+        text-align: center;
+        border-radius: 24px;
+      }
+      
+    #topbtn::before {
+        content: '\f062';
+        font-family: 'Font Awesome 6 Free';
+        font-size: 30px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 42px;
+      }
 
     footer{
         width: 100%;

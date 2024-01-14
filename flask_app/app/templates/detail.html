@@ -323,5 +323,30 @@
   <footer>
     <p>©PayView All Rights Reserved.</p>
   </footer>
+  <script>
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig1.png";
+    const pig2url = rootUrl + "/static/payviewPig2.png";
+    const img = [pig1url, pig2url];
+    
+    let count = -1;
+    
+    picChange(); // 関数を実行
+    
+    function picChange() {
+    
+      count++;
+    
+      // カウントが最大になれば配列を初期値に戻すため「0」を指定する
+      if (count == img.length) count = 0;
+    
+      // 画像選択
+      document.getElementById("scrollPig").src = img[count];
+    
+      // 1秒ごとに実行
+      setTimeout("picChange()", 500);
+    
+    }
+  </script>
 </body>
 </html>
