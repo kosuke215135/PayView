@@ -616,3 +616,83 @@ def text_search_map():
         user_latitude=user_latitude,
         user_longitude=user_longitude,
         api_key=api_key)
+
+@bp.route('/map-search-result/<string:payment_or_tag_id>')
+def search_result_map(payment_or_tag_id):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    # "決済サービス"か"タグ"かを判別する
+    if payment_or_tag_id[-1] == "P":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join can_use_services on shops.shop_id = can_use_services.shop_id 
+            where can_use_services.payment_id=%s;"""
+        query_get_payment_or_tag_name = "select name from payment_services where payment_id=%s"
+    elif payment_or_tag_id[-1] == "T":
+        query = """
+            select 
+            * 
+            from 
+            shops 
+            inner join allocated_tags on shops.shop_id = allocated_tags.shop_id 
+            where allocated_tags.tag_id=%s;"""
+        query_get_payment_or_tag_name = "select name from tags where tag_id=%s"
+
+    #Cookieからユーザーの現在地を取得
+    user_latitude = session.get("user_latitude")
+    user_longitude = session.get("user_longitude") 
+
+    cur.execute(query, (payment_or_tag_id,))
+    shops = cur.fetchall()
+
+    shops_and_payments = []
+    for shop_dict in shops:
+        distance = location_distance(user_latitude, 
+                                        user_longitude, 
+                                        shop_dict["latitude"], 
+                                        shop_dict["longitude"])
+        # お店のid、名前、距離、緯度経度のリストを作る
+        shop_list = [shop_dict["shop_id"], shop_dict["name"], distance, shop_dict["latitude"], shop_dict["longitude"]]
+        shops_and_payments.append(shop_list)
+
+    # 距離(distance)でソートする
+    shops_and_payments.sort(key=lambda x: x[2])
+
+    #見やすいようにkmかmに変換する
+    shops_and_payments = list(map(conversion_km_or_m, shops_and_payments)) 
+
+    #タグ名か決済サービス名を取得する
+    cur.execute(query_get_payment_or_tag_name, (payment_or_tag_id,))
+    searched_strings = cur.fetchall()[0]["name"]
+    
+    # お店で使用できる決済サービスの名前を追加する
+    get_can_use_services(shops_and_payments) 
+        
+    # カテゴリ欄のデータを取得する
+    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+    
+    web_hierarchy_search='検索結果'
+    
+    # .envに書いてあるAPI keyを読み込む
+    api_key = load_api_key()
+    
+    return render_template(
+        "map.html", 
+        shops_and_payments=shops_and_payments, 
+        tag_id_name_list=tag_id_name_list, 
+        cash_group=cash_group,
+        barcode_names=barcode_names, 
+        credit_names=credit_names, 
+        electronic_money_names=electronic_money_names, 
+        tag_commonly_used_list=tag_commonly_used_list, 
+        DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
+        selected_distance=-1, 
+        searched_strings=searched_strings,
+        web_hierarchy_search=web_hierarchy_search,
+        user_latitude=user_latitude,
+        user_longitude=user_longitude,
+        api_key=api_key)

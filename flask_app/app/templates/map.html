@@ -63,6 +63,80 @@
         </div>
       </form>
     </div>
+    <!-- ハンバーガーメニュー -->
+    <div class="hamburger_menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="menu">
+      <!-- タグ欄 -->
+      <div class="category_frame_box">
+        <!-- 決済サービスのタグ -->
+        <div class="category_memu">Category Menu</div>
+        <div class="category_menu_line"></div>
+        <div class="payment_service_head">決済サービス</div>
+          <!-- 現金の表示 -->
+          {% for cash in cash_group %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=cash['payment_id'])}}" role="button">
+              <div class="cash_label">{{ cash["name"] }}</div>
+            </a> 
+          {% endfor %}
+          <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
+          <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
+          <div class="fold_tag-content_credit">
+            {% for credit_name in credit_names %}
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+                <div class="tag_content">{{ credit_name["name"] }}</div>
+              </a>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag-check2" class="fold_tag-check" type="checkbox">
+          <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
+          <div class="fold_tag-content_barcode">
+            {% for barcode_name in barcode_names %}
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+                <div class="tag_content">{{ barcode_name["name"] }}</div>
+              </a>
+            {% endfor %}
+          </div>
+        
+          <input id="fold_tag-check3" class="fold_tag-check" type="checkbox">
+          <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
+          <div class="fold_tag-content_electronic_money">
+            {% for electronic_money_name in electronic_money_names %}
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+                <div class="tag_content">{{ electronic_money_name["name"] }}</div>
+              </a>
+            {% endfor %}
+          </div>
+          <!-- タグ -->
+          <div class="tag_head">タグ</div>
+          <div class="tag_commonly_used">よく使われるタグ Top5</div>
+          {% for tag_commonly in tag_commonly_used_list %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
+              <div class="tag_content">{{ tag_commonly["name"] }}</div>
+            </a>
+          {% endfor %}
+          <div class="normal_tag">50音順</div>
+          {% for tag_id_name in tag_id_name_list %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+              <div class="tag_content">{{ tag_id_name["name"] }}</div>
+            </a>
+          {% endfor %}
+          <div class="tag_blank"></div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".hamburger_menu").click(function() {
+                $(this).toggleClass('active');
+                $(".menu").toggleClass('active');
+            });
+        });
+    </script>
   </div>
   
   {# ====スマホ用のヘッダー==== #}
@@ -113,7 +187,7 @@
         <div class="payment_service_head_phone">決済サービス</div>
           <!-- 現金の表示 -->
           {% for cash in cash_group %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=cash['payment_id'])}}" role="button">
               <div class="cash_label_phone">{{ cash["name"] }}</div>
             </a> 
           {% endfor %}
@@ -121,7 +195,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
           <div class="fold_tag_phone-content_credit">
             {% for credit_name in credit_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ credit_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -131,7 +205,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
           <div class="fold_tag_phone-content_barcode">
             {% for barcode_name in barcode_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ barcode_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -141,7 +215,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
           <div class="fold_tag_phone-content_electronic_money">
             {% for electronic_money_name in electronic_money_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ electronic_money_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -150,20 +224,19 @@
           <div class="tag_head_phone">タグ</div>
           <div class="tag_commonly_used_phone">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
           <div class="normal_tag_phone">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
           <div class="tag_blank_phone"></div>
       </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -173,8 +246,8 @@
             });
         });
     </script>
-    </div>
-    <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
+  </div>
+  <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
 <body class="background">
     <!-- お店のスライドクリックした時の処理 -->
@@ -223,6 +296,7 @@
               zoom: 13,
               center: center,
               gestureHandling: 'greedy',
+              mapTypeControl: false,
               styles: [
                 {
                   featureType: "poi",
@@ -230,10 +304,10 @@
                   stylers: [{ visibility: "off" }]
                 }]
           });
-          var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+          var iconBase = '{{ url_for('static', filename='current_location.png')}}';
           var icons = {
               userLocation: {
-                  icon: iconBase + 'man.png'
+                  icon: iconBase
               }
           };
           map.setCenter(center);

@@ -107,19 +107,19 @@
         display: none;
     }
     .hamburger_menu_phone {
-        position: relative;
+        position: absolute;
         background: #fffaf7;
+        right: 20px;
         cursor: pointer;
         width: 50px;
-        height: 50px;
+        height: 47px;
         border-radius: 5px;
-        margin: 0 10px 0 auto;
     }
     .hamburger_menu_phone span {
         display: inline-block;
         transition: all .4s;
         position: absolute;
-        left: 14px;
+        left: 12px;
         height: 3px;
         border-radius: 2px;
         background: #666666;
@@ -194,7 +194,6 @@
     }
     /* 決済サービスの見出し */
     .payment_service_head_phone{
-        width: 280px;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -211,7 +210,6 @@
         width: 20%;
     }
     .cash_label_phone{
-        width: 270px;
         font-size: 14px;
         line-height: 1.8;
         border-bottom: dashed 3px #d3d3d3;
@@ -236,7 +234,6 @@
     }
     /* ラベルの見た目 */
     .fold_tag_phone-label {
-        width: 270px;
         font-size: 14px;
         box-sizing: border-box;
         display: flex;
@@ -315,7 +312,6 @@
     }
     /* タグの見出し */
     .tag_head_phone{
-        width: 280px;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -486,10 +482,10 @@
         width: 380px;
         height: 80px;
         position: absolute;
-        top: 60%;
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
-        right: 100px;
+        top: 70px;
+        right: 240px;
     }
     .select_distance{
         height: 2.8em;
@@ -530,6 +526,274 @@
         right:0px;
         top: -5px;
         outline : none;
+    }
+    /* ハンバーガーメニュー */
+    .hamburger_menu_phone{
+        display: none;
+    }
+    .hamburger_menu{
+        position: absolute;
+        background: #f1f1f1;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        top: 30px;
+        right: 190px;
+        border-radius: 5px;
+    }
+    .hamburger_menu span {
+        display: inline-block;
+        transition: all .4s;
+        position: absolute;
+        left: 14px;
+        height: 3px;
+        border-radius: 2px;
+        background: #666666;
+        width: 45%;
+    }
+    .hamburger_menu span:nth-of-type(1) {
+        top: 15px;
+    }
+    .hamburger_menu span:nth-of-type(2) {
+        top: 23px;
+    }
+    .hamburger_menu span:nth-of-type(3) {
+        top: 31px;
+    }
+    .hamburger_menu.active{
+        background-color: #f1f1f1;
+        border: none;
+    }
+    .hamburger_menu.active span:nth-of-type(1) {
+        top: 18px;
+        left: 18px;
+        transform: translateY(6px) rotate(-45deg);
+        width: 30%;
+    }
+    .hamburger_menu.active span:nth-of-type(2) {
+        opacity: 0;
+    }
+    .hamburger_menu.active span:nth-of-type(3) {
+        top: 30px;
+        left: 18px;
+        transform: translateY(-6px) rotate(45deg);
+        width: 30%;
+    }
+    /* メニュー内 */
+    .menu {
+        background-color: #fffaf7;
+        opacity: 0; /* 初期状態で透明 */
+        visibility: hidden; /* 初期状態で非表示 */
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+        top: 105px;
+        left: 0px;
+        width: 100%;
+        height: 75vh;
+        position: fixed;
+        transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
+        overflow-y: auto; /* 縦方向のスクロールを許可 */
+    }
+    .menu.active {
+        display: block;
+        opacity: 1; /* アクティブ時に完全に表示 */
+        visibility: visible; /* アクティブ時に表示 */
+        background-color: #fffaf7;
+        border: none;
+    }
+    .menu.active {
+        display: block;
+    }
+    /* タグの枠 */
+    .category_frame_box{
+        height: 100%;
+        margin: 0 20px;
+    }
+    /* 見出し */
+    .category_memu{
+        font-family: Noto Serif JP;
+        font-size: 24px;
+        margin-top: 15px;
+        color: #666666;
+    }
+    .category_menu_line{
+        height: 0px;
+        line-height : 1.8 ;
+        border-bottom: dashed 3px #666666;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 3px;
+        margin-bottom: 30px;
+    }
+    /* 決済サービスの見出し */
+    .payment_service_head{
+        width: 50%;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+    .payment_service_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .cash_label{
+        width: 30%;
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 15px 0 15px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .cash_label:active {
+        border-bottom: dashed 3px black;
+    }
+    /* 折りたたみメニュー */
+    @keyframes bounce {
+        0% { height: 0; opacity: 0; }
+        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
+        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
+    }
+    .fold_tag-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag-label {
+        width: 30%;
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 13px 0px 13px 20px;
+    }
+    .fold_tag-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+    .fold_tag-content_credit {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-content_barcode {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-content_electronic_money {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_credit {
+        /* チェックされたとき：表示 */
+        max-height: 850px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
+        /* チェックされたとき：表示 */
+        max-height: 930px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_electronic_money {
+        /* チェックされたとき：表示 */
+        max-height: 550px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label::after {
+        transform: rotate(180deg);
+    }
+    /* タグの見出し */
+    .tag_head{
+        width: 50%;
+        height: 34px;
+        font-family: Noto Serif JP;
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #333333;
+        margin: 20px 0 20px 0;
+    }
+    .tag_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .tag_commonly_used{
+        margin: 30px 0 25px 0;;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .normal_tag{
+        margin: 35px 0 25px 0;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .tag_content{
+        width: 30%;
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 15px 0 15px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .tag_content:active {
+        border-bottom: dashed 3px black;
+    }    
+    /* 空白入れる */
+    .tag_blank{
+        width: 100%;
+        height: 20px;
     }
     .line{
         height: 0px;
