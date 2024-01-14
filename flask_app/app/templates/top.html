@@ -164,10 +164,13 @@
             </a>
           {% endfor %}
           <div class="normal_tag">50音順</div>
-          {% for tag_id_name in tag_id_name_list %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
-              <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
-            </a>
+          {% for a_dan in tag_id_name_dict_every_gyou %}
+            <div class="normal_tag">{{ a_dan }} 行</div> 
+            {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+                <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
+              </a>
+            {% endfor %}
           {% endfor %}
           <div class="tag_black"></div>
       </div>
@@ -186,25 +189,18 @@
   <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
 </header>
 <body class="background">
-  <script>
-    function getMobileOS(shop_id){
-      const ua = navigator.userAgent
-      var os = "Other"
-      if (/android/i.test(ua)) {
-        os = "Android"
-      }
-      else if ((/iPad|iPhone|iPod/.test(ua)) 
-          || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
-        os = "iOS"
-      }
-      const SCRIPT_ROOT = {{ request.script_root|tojson }}
-      console.log(os);
-      window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
-    }
-  </script>
   <!-- タイトル -->
   <div class="title">Search Shop List</div>
   <div class="line"></div>
+  <div id=myPopup class="popup">
+    <div class="popup-content">
+      <span id=closeBtn onclick="closePopup()">&times;</span>
+      <p>使い方<br><br>現在位置より半径1kmの飲食店・スーパーを表示するブ-。<br>
+         右上の距離を変更して範囲を指定できるブ-。<br>
+        スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
+    </div>
+  </div>
+  <img src="{{ url_for('static', filename='payviewPig1.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
   <div class="shop_category_frame_box">
     <div class="shop_frame_box">
       <!-- web階層の表示 -->
@@ -276,10 +272,13 @@
           </a>
         {% endfor %}
         <div class="normal_tag">50音順</div>
-        {% for tag_id_name in tag_id_name_list %}
-          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
-            <div class="tag_content">{{ tag_id_name["name"] }}</div>
-          </a>
+        {% for a_dan in tag_id_name_dict_every_gyou %}
+          <div class="normal_tag">{{ a_dan }} 行</div> 
+          {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+              <div class="tag_content">{{ tag_id_name["name"] }}</div>
+            </a>
+          {% endfor %}
         {% endfor %}
     </div>
   </div>
@@ -287,5 +286,76 @@
   <footer>
     <p>©PayView All Rights Reserved.</p>
   </footer>
+  <script>
+    var isPopupVisible = false;
+    var popup = document.getElementById("myPopup")
+    window.onload = function() {
+      if (!getCookie("popupDisplayed")) {
+        openPopup();
+        setCookie("popupDisplayed", "true", 1); // クッキーの有効期限を1日に設定
+      }
+    }
+
+    function closePopup() {
+      popup.style.display = "none";
+      isPopupVisible = false;
+    }
+
+    function openPopup() {
+      popup.style.display = "block"
+      isPopupVisible = true;
+    }
+
+    // 画像に触れたときにハイライトする関数
+    function highlightImage() {
+      if (!isPopupVisible) {
+        var image = document.getElementById("scrollPig");
+        image.style.backgroundColor = "rgba(241, 208, 97, 0.2)"; // 任意のボーダー色を指定
+      }
+    }
+
+    // 画像から離れたときにハイライトを解除する関数
+    function resetImageHighlight() {
+      var image = document.getElementById("scrollPig");
+      image.style.backgroundColor = "transparent";
+    }
+
+    // クッキーを設定する関数
+    function setCookie(name, value, days) {
+      var expires = "";
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 12 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+      }
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    // クッキーの値を取得する関数
+    function getCookie(name) {
+      var nameEQ = name + "=";
+      var ca = document.cookie.split(";");
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") c = c.substring(1, c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+      }
+      return null;
+    }
+
+    function getMobileOS(shop_id){
+      const ua = navigator.userAgent
+      var os = "Other"
+      if (/android/i.test(ua)) {
+        os = "Android"
+      }
+      else if ((/iPad|iPhone|iPod/.test(ua)) 
+          || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)){
+        os = "iOS"
+      }
+      const SCRIPT_ROOT = {{ request.script_root|tojson }}
+      console.log(os);
+      window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
+    }
+  </script>
 </body>
 </html>

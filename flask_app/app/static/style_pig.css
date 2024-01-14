@@ -1,0 +1,10 @@
+#scrollPig {
+    position: fixed; /* 固定位置で配置 */
+    width: 100px;
+    height: 100px;
+    margin:0;
+    bottom: 0;
+    right: 0;
+    z-index: 100000;
+    border-radius: 50%;
+}
