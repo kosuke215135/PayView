@@ -200,7 +200,7 @@
         スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
     </div>
   </div>
-  <img id="scrollPig" src="../static/payviewPig1.png" alt="payview-pig 1" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+  <img src="{{ url_for('static', filename='payviewPig1.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
   <div class="shop_category_frame_box">
     <div class="shop_frame_box">
       <!-- web階層の表示 -->
