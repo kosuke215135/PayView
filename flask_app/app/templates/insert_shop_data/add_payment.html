@@ -4,12 +4,21 @@
 {% endblock %}
 {% block body %}
     <h2>新しい決済サービスの正式名称を入力してください</h2>
-    {% if error %}
-    <h3><font color="red">値が正しくありません。</font></h3>
-    {% endif %}
+    {# 入力に不備があった場合フラッシュを表示 #}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <font color="red">{{ message }}</font>
+        {% endfor %}
+    {% endwith %}
     <form action="{{ url_for("insert_shop_data.add_payment")}}" method="POST">
         <p>決済サービス名</p>
         <input type="text" name="payment_name"></p>
+        <select name="payment_group">
+            {% for group_id in drop_down_payment_group_dict %}
+                <option value="{{ group_id }}">{{ drop_down_payment_group_dict[group_id]}}</option>
+            {% endfor %}
+        </select>
         <input class="confirm_button" type="submit"  value="確定">
+       
     </form>
 {% endblock %}
