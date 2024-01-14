@@ -422,6 +422,30 @@
         font-size: 16px;
         color: #333333;
     }
+    .detail_button{
+        display: flex;
+        justify-content: left;
+    }
+    .detail_button a{
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        word-wrap: break-word;
+        border-radius: 10px;
+        padding: 8px 15px;
+        transition: 0.3s ease-in-out;
+        text-decoration:none;
+    }
+    .detail_button a:hover {
+        color: #555555;
+        background-color: #dcdcdc;
+    }
+    .detail_button a:active {
+        color: #ffffff;
+        background-color: #333333;
+        border: 1px solid #222222;
+    }
 
     footer{
         width: 100%;
@@ -585,9 +609,9 @@
         opacity: 0; /* 初期状態で透明 */
         visibility: hidden; /* 初期状態で非表示 */
         box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
-        top: 105px;
-        left: 0px;
-        width: 100%;
+        top: 100px;
+        right: 0;
+        width: 37%;
         height: 75vh;
         position: fixed;
         transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
@@ -626,7 +650,7 @@
     }
     /* 決済サービスの見出し */
     .payment_service_head{
-        width: 50%;
+        width: 70%;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -643,7 +667,7 @@
         width: 20%;
     }
     .cash_label{
-        width: 30%;
+        width: 50%;
         font-size: 14px;
         line-height: 1.8;
         border-bottom: dashed 3px #d3d3d3;
@@ -668,7 +692,7 @@
     }
     /* ラベルの見た目 */
     .fold_tag-label {
-        width: 30%;
+        width: 50%;
         font-size: 14px;
         box-sizing: border-box;
         display: flex;
@@ -747,7 +771,7 @@
     }
     /* タグの見出し */
     .tag_head{
-        width: 50%;
+        width: 70%;
         height: 34px;
         font-family: Noto Serif JP;
         border-bottom: solid 4px #FFEB8F;
@@ -776,7 +800,7 @@
         color: #333333;
     }
     .tag_content{
-        width: 30%;
+        width: 50%;
         font-size: 14px;
         line-height: 1.8;
         border-bottom: dashed 3px #d3d3d3;

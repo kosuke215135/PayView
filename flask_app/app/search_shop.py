@@ -575,6 +575,8 @@ def text_search_map():
                                         user_longitude, 
                                         shop_dict["latitude"], 
                                         shop_dict["longitude"])
+        if (len(shop_dict["name"]) > 15):
+            shop_dict["name"] = shop_dict["name"][:15] + "..."
         # お店のid、名前、距離、緯度経度のリストを作る
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance, shop_dict["latitude"], shop_dict["longitude"]]
         shops_and_payments.append(shop_list)
@@ -592,7 +594,7 @@ def text_search_map():
     get_can_use_services(shops_and_payments)
 
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+    tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
     # webの階層構造の文字のリスト
     web_hierarchy_search='検索結果'
@@ -603,7 +605,7 @@ def text_search_map():
     return render_template(
         "map.html",
         shops_and_payments=shops_and_payments, 
-        tag_id_name_list=tag_id_name_list, 
+        tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
         cash_group=cash_group,
         barcode_names=barcode_names,
         credit_names=credit_names,
@@ -655,6 +657,8 @@ def search_result_map(payment_or_tag_id):
                                         user_longitude, 
                                         shop_dict["latitude"], 
                                         shop_dict["longitude"])
+        if (len(shop_dict["name"]) > 15):
+            shop_dict["name"] = shop_dict["name"][:15] + "..."
         # お店のid、名前、距離、緯度経度のリストを作る
         shop_list = [shop_dict["shop_id"], shop_dict["name"], distance, shop_dict["latitude"], shop_dict["longitude"]]
         shops_and_payments.append(shop_list)
@@ -673,7 +677,7 @@ def search_result_map(payment_or_tag_id):
     get_can_use_services(shops_and_payments) 
         
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+    tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
     
     web_hierarchy_search='検索結果'
     
@@ -683,7 +687,7 @@ def search_result_map(payment_or_tag_id):
     return render_template(
         "map.html", 
         shops_and_payments=shops_and_payments, 
-        tag_id_name_list=tag_id_name_list, 
+        tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
         cash_group=cash_group,
         barcode_names=barcode_names, 
         credit_names=credit_names, 

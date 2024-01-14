@@ -258,6 +258,8 @@ def create_app():
                                             user_longitude, 
                                             shop_dict["latitude"], 
                                             shop_dict["longitude"])
+            if (len(shop_dict["name"]) > 15):
+                shop_dict["name"] = shop_dict["name"][:15] + "..."
             # お店のid、名前、距離、緯度経度のリストを作る
             shop_list = [shop_dict["shop_id"], shop_dict["name"], distance, shop_dict["latitude"], shop_dict["longitude"]]
             shops_and_payments.append(shop_list)
@@ -275,7 +277,7 @@ def create_app():
         get_can_use_services(shops_and_payments)
 
         # カテゴリ欄のデータを取得する
-        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
         
         # .envに書いてあるAPI keyを読み込む
         api_key = load_api_key()
@@ -283,7 +285,7 @@ def create_app():
         return render_template(
             "map.html",
             shops_and_payments=shops_and_payments, 
-            tag_id_name_list=tag_id_name_list, 
+            tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
             cash_group=cash_group,
             barcode_names=barcode_names, 
             credit_names=credit_names, 
