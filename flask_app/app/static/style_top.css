@@ -455,7 +455,7 @@
     }
 
     .popup-content {
-        background-color: #FFF;
+        background-color: #ffcb65;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
@@ -469,7 +469,7 @@
     }
 
     .popup-content p {
-        color: #ffcb65;
+        color: #FFF;
         position:fixed;
         top: 40%;
         left: 50%;
@@ -480,7 +480,7 @@
     }
 
     #closeBtn {
-        color: #ffcb65;
+        color: rgb(252, 242, 212);
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -488,7 +488,7 @@
     }
 
     #closeBtn:hover {
-        color: #ffb520;
+        color: #FFF;
     } 
 
     footer{
@@ -865,7 +865,7 @@
     }
 
     .popup-content {
-        background-color: #FFF;
+        background-color: #ffcb65;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
@@ -879,7 +879,7 @@
     }
 
     .popup-content p {
-        color: #ffcb65;
+        color: #FFF;
         position:fixed;
         top: 40%;
         left: 50%;
@@ -890,7 +890,7 @@
     }
 
     #closeBtn {
-        color: #ffcb65;
+        color: rgb(252, 242, 212);
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -898,7 +898,7 @@
     }
 
     #closeBtn:hover {
-        color: #ffb520;
+        color: #FFF;
     }
 
     footer{
