@@ -34,3 +34,6 @@ def close_db(e=None):
 
 def init_app(app):
     app.teardown_appcontext(close_db)
+    
+def load_api_key():
+    return os.environ['API_KEY']

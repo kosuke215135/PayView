@@ -103,7 +103,10 @@
     }
 
     /* ハンバーガーメニュー */
-    .hamburger_menu {
+    .hamburger_menu{
+        display: none;
+    }
+    .hamburger_menu_phone {
         position: relative;
         background: #fffaf7;
         cursor: pointer;
@@ -112,7 +115,7 @@
         border-radius: 5px;
         margin: 0 10px 0 auto;
     }
-    .hamburger_menu span {
+    .hamburger_menu_phone span {
         display: inline-block;
         transition: all .4s;
         position: absolute;
@@ -122,32 +125,32 @@
         background: #666666;
         width: 45%;
     }
-    .hamburger_menu span:nth-of-type(1) {
+    .hamburger_menu_phone span:nth-of-type(1) {
         top: 15px;
     }
-    .hamburger_menu span:nth-of-type(2) {
+    .hamburger_menu_phone span:nth-of-type(2) {
         top: 23px;
     }
-    .hamburger_menu span:nth-of-type(3) {
+    .hamburger_menu_phone span:nth-of-type(3) {
         top: 31px;
     }
-    .hamburger_menu.active span:nth-of-type(1) {
+    .hamburger_menu_phone.active span:nth-of-type(1) {
         top: 18px;
         left: 18px;
         transform: translateY(6px) rotate(-45deg);
         width: 30%;
     }
-    .hamburger_menu.active span:nth-of-type(2) {
+    .hamburger_menu_phone.active span:nth-of-type(2) {
         opacity: 0;
     }
-    .hamburger_menu.active span:nth-of-type(3) {
+    .hamburger_menu_phone.active span:nth-of-type(3) {
         top: 30px;
         left: 18px;
         transform: translateY(-6px) rotate(45deg);
         width: 30%;
     }
     /* メニュー内 */
-    .menu {
+    .menu_phone {
         background-color: #fffaf7;
         opacity: 0; /* 初期状態で透明 */
         visibility: hidden; /* 初期状態で非表示 */
@@ -160,16 +163,13 @@
         transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
         overflow-y: auto; /* 縦方向のスクロールを許可 */
     }
-    .menu.active {
+    .menu_phone.active {
         display: block;
         opacity: 1; /* アクティブ時に完全に表示 */
         visibility: visible; /* アクティブ時に表示 */
     }
-    .menu.active {
+    .menu_phone.active {
         display: block;
-    }
-    .category_frame_box{
-        display: none;
     }
     /* タグの枠 */
     .category_frame_box_phone{
@@ -331,13 +331,13 @@
         border-bottom: solid 3px #FED121;
         width: 20%;
     }
-    .tag_commonly_used{
+    .tag_commonly_used_phone{
         margin: 30px 0 25px 0;;
         font-size: 14px;
         font-weight: 550;
         color: #333333;
     }
-    .normal_tag{
+    .normal_tag_phone{
         margin: 35px 0 25px 0;
         font-size: 14px;
         font-weight: 550;
@@ -358,7 +358,7 @@
         border-bottom: dashed 3px black;
     }    
     /* 空白入れる */
-    .tag_black{
+    .tag_blank_phone{
         width: 100%;
         height: 20px;
     }
@@ -399,26 +399,9 @@
         letter-spacing: 1px;
         color: #696969;
     }
+    /* web版のお店のスライド非表示 */
     .shop_frame_box{
         display: none;
-    }
-    /* お店のスライド枠の装飾 */
-    .shop_frame {
-        margin: 20px 5px;
-        width: 83%;
-        max-width: 330px;
-        height: 100%;
-        min-height: 230px;
-        text-decoration: none;
-        border: solid 3px #FED121;
-        float: left;
-        position: relative;
-        padding: 0.25em 1em;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    .shop_frame:active{
-        background: #f5f5f5;
     }
     /* お店の名前 */
     .storeName{
@@ -508,7 +491,6 @@
         padding:10px;
         right: 100px;
     }
-
     .select_distance{
         height: 2.8em;
         float: left;
@@ -516,7 +498,6 @@
         background: #dcdcdc;
         color: #696969;
     }
-
     .search_container{
         position: relative;
         box-sizing: border-box;
@@ -570,7 +551,7 @@
         width: 100%;
         max-width: 410px;
         height: 80vh;
-        margin: 0px 0px 70px 20px;
+        margin: 0px 0px 70px 40px;
         overflow: auto;
         padding-left: 10px;
         border-radius: 20px;
@@ -619,9 +600,8 @@
         background-color: #fffaf7;
         margin: 30px 10px;
         width: 330px;
-        min-height: 230px;
-        height: 100%;
-        max-height: 200px;
+        min-height: 250px;
+        height: 30%;
         text-decoration: none;
         border: solid 3px #FED121;
         float: left;
@@ -630,8 +610,15 @@
         border-radius: 10px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    .shop_frame:active{
-        background: #f5f5f5;
+    .shop_frame:hover {
+        background-color: #f0e8e6;
+        border: solid 3px #FED121;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .active {
+        background-color: #e8e0dd;
+        border: solid 3px #FABD70;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
     /* お店の名前 */
     .storeName{
@@ -656,168 +643,29 @@
         font-size: 16px;
         color: #333333;
     }
-
-    /* カテゴリの枠（見出し） */
-    .category_frame_box_phone{
-        display: none;
-    }
-    /* カテゴリの枠 */
-    /* カテゴリの見出し */
-    .payment_service_head{
-        width: 280px;
-        height: 38px;
-        font-family: Noto Serif JP;
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin-bottom: 20px;
-    }
-    .payment_service_head::after{
-        height: 2px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 20%;
-    }
-    .cash_label{
-        font-size: 14px;
-        line-height: 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 30px 0 20px 20px;
-        color: #333333;
-        background-color: transparent;
-        cursor: pointer;
-        position: relative;
-        transition: border-bottom 0.3s ease;
-    }
-    .cash_label:hover{
-        border-bottom: dashed 3px black;
-    }
-    /* 折りたたみメニュー */
-    @keyframes bounce {
-        0% { height: 0; opacity: 0; }
-        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
-        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
-    }
-    .fold_tag-check {
-        display: none;
-    }
-    /* ラベルの見た目 */
-    .fold_tag-label {
-        width: 270px;
-        font-size: 14px;
-        box-sizing: border-box;
+    .detail_button{
         display: flex;
-        justify-content: space-between;
-        line-height : 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 13px 0px 13px 20px;
+        justify-content: left;
     }
-    .fold_tag-label::after {
-        display: flex;
-        align-items: center;
-        font-family: "Font Awesome 5 Free";
-        content: "\f0d7";
-        font-weight: 900;
-        transition: all 0.3s;
-    }
-    .fold_tag-content_credit {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-content_barcode {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-content_electronic_money {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_credit {
-        /* チェックされたとき：表示 */
-        max-height: 850px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
-        /* チェックされたとき：表示 */
-        max-height: 930px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_electronic_money {
-        /* チェックされたとき：表示 */
-        max-height: 550px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label::after {
-        transform: rotate(180deg);
-    }
-    /* タグのテキスト（決済サービスじゃないやつ） */
-    .tag_head{
-        width: 280px;
-        height: 38px;
-        font-family: Noto Serif JP;
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
+    .detail_button a{
         color: #333333;
-        margin: 20px 0 30px 0;
-    }
-    .tag_head::after{
-        height: 2px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 20%;
-    }
-    .tag_commonly_used{
+        background: #f1f1f1;
         font-size: 14px;
-        font-weight: 550;
-        color: #333333;
+        font-family: Inter;
+        word-wrap: break-word;
+        border-radius: 10px;
+        padding: 8px 15px;
+        transition: 0.3s ease-in-out;
+        text-decoration:none;
     }
-    .normal_tag{
-        margin: 30px 0 25px 0;
-        font-size: 14px;
-        font-weight: 550;
-        color: #333333;
+    .detail_button a:hover {
+        color: #555555;
+        background-color: #dcdcdc;
     }
-    .tag_content{
-        font-size: 14px;
-        line-height: 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 15px 0 15px 20px;
-        color: #333333;
-        background-color: transparent;
-        cursor: pointer;
-        position: relative;
-        transition: border-bottom 0.3s ease;
-    }
-    .tag_content:hover{
-        border-bottom: dashed 3px black;
+    .detail_button a:active {
+        color: #ffffff;
+        background-color: #333333;
+        border: 1px solid #222222;
     }
 
     footer{

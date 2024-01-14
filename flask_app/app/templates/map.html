@@ -99,12 +99,12 @@
       </form>
     </div>
     <!-- ハンバーガーメニュー -->
-    <div class="hamburger_menu">
+    <div class="hamburger_menu_phone">
       <span></span>
       <span></span>
       <span></span>
     </div>
-    <div class="menu">
+    <div class="menu_phone">
       <!-- タグ欄 -->
       <div class="category_frame_box_phone">
         <!-- 決済サービスのタグ -->
@@ -148,28 +148,28 @@
           </div>
           <!-- タグ -->
           <div class="tag_head_phone">タグ</div>
-          <div class="tag_commonly_used">よく使われるタグ Top5</div>
+          <div class="tag_commonly_used_phone">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
             <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
-          <div class="normal_tag">50音順</div>
+          <div class="normal_tag_phone">50音順</div>
           {% for tag_id_name in tag_id_name_list %}
             <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
-          <div class="tag_black"></div>
+          <div class="tag_blank_phone"></div>
       </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script>
         $(document).ready(function() {
-            $(".hamburger_menu").click(function() {
+            $(".hamburger_menu_phone").click(function() {
                 $(this).toggleClass('active');
-                $(".menu").toggleClass('active');
+                $(".menu_phone").toggleClass('active');
             });
         });
     </script>
@@ -198,28 +198,37 @@
     <div class="title">Search Shop Map</div>
     <div class="line"></div>
     <!-- web階層の表示 -->
-    <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
+    <div class="web_hierarchy">
       <a href="{{ url_for('top') }}">Top</a>
       <span> ></span>
       <span>map</span>
+      <span> ></span>
+      <span>{{ web_hierarchy_search }}</span>
     </div>
     <div class="map_shop_frame_box">
       <div id="map"></div>
       <!-- Google Maps JavaScript APIの読み込み -->
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key=your_key&callback=initMap"></script>
+      <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>
       <!-- Google MapのJavascript設定 -->
       <script>
         var markersAndInfoWindows = {};
         var currentInfowindow = null;
         function initMap() {
-          // 地図の中心を設定、pythonからユーザの位置情報を渡す。
+          // 地図の中心を設定、pythonからユーザの位置情報を渡す
           var user_latitude = {{ user_latitude }};
           var user_longitude = {{ user_longitude }};
           var center = {lat: user_latitude, lng: user_longitude};
           // 地図を表示
           var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 13,
-              center: center
+              center: center,
+              gestureHandling: 'greedy',
+              styles: [
+                {
+                  featureType: "poi",
+                  elementType: "labels",
+                  stylers: [{ visibility: "off" }]
+                }]
           });
           var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
           var icons = {
@@ -233,43 +242,62 @@
               icon: icons.userLocation.icon,
               map: map
           });
-          // pythonからお店情報を持ってくる。
+          // pythonからお店情報を持ってくる
           var shops_and_payments = '{{shops_and_payments}}';
           var decoded_shops_and_payments = shops_and_payments.replace(/&#39;/g, '"');
           var shops_and_payments_jsList = JSON.parse(decoded_shops_and_payments);
-          // 単一の情報ウィンドウインスタンスを作成
           var infowindow = new google.maps.InfoWindow();
-          // 店舗情報のリストをループしてマーカーと情報ウィンドウを作成
+          // マーカーと吹き出しを作成
           shops_and_payments_jsList.forEach((shop_and_pay) => {
             let location = {lat: shop_and_pay[3], lng: shop_and_pay[4]};
             var marker = new google.maps.Marker({
               position: location,
               map: map
             });
+            marker.shopId = shop_and_pay[0];
             const contentString = 
-              '<a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">' +
-                '<p class="storeName">' + shop_and_pay[1] + '<br></p>' +
-                '<p class="located">' + shop_and_pay[2] + '先<br></p>' +
-                '<p class="payments">' + shop_and_pay[5] + '</p>' +
-              "</a>";
+              '<p class="storeName">' + shop_and_pay[1] + '<br></p>' +
+              '<p class="located">' + shop_and_pay[2] + '先<br></p>' +
+              '<p class="payments">' + shop_and_pay[5] + '</p>' +
+              '<div class="detail_button">' +
+                '<a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">決済情報詳細</a>' +
+              '</div>';
             var infowindow = new google.maps.InfoWindow({
               content: contentString
             });
-            // マーカーと情報ウィンドウの参照を保存
+            // マーカーと吹き出しの参照を保存
             markersAndInfoWindows[shop_and_pay[0]] = { marker: marker, infowindow: infowindow };
             marker.addListener('click', function() {
-              // 以前に開いていた情報ウィンドウがあれば閉じる
+              // 以前に開いていた吹き出しがあれば閉じる
               if (currentInfowindow) {
                 currentInfowindow.close();
               }
               infowindow.setContent(contentString);
               infowindow.open(map, marker);
-              // 現在開いている情報ウィンドウを更新
               currentInfowindow = infowindow;
+              setActiveShopFrame(this.shopId);
             });
           });
+          function setActiveShopFrame(shopId) {
+            // すべての.shop_frameから.activeを削除
+            document.querySelectorAll('.shop_frame_box .shop_frame').forEach(el => {
+              el.classList.remove('active');
+            });
+            // 対応する.shop_frameに.activeを追加し、その要素にスクロール
+            const activeShopFrame = document.querySelector(`.shop_frame[data-shop-id="${shopId}"]`);
+            if (activeShopFrame) {
+              activeShopFrame.classList.add('active');
+              activeShopFrame.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+          }
           document.querySelectorAll('.shop_frame_box .shop_frame').forEach((element, index) => {
             element.addEventListener('click', function() {
+              // お店のスライドが押されたら、他のスライドのボタンactive(css)を削除
+              document.querySelectorAll('.shop_frame_box .shop_frame').forEach(el => {
+                  el.classList.remove('active');
+              });
+              // お店のスライドが押されたら、ボタンactive(css)を追加
+              this.classList.add('active');
               // 店舗IDを取得
               var shopId = shops_and_payments_jsList[index][0];
               // 以前に開いていた情報ウィンドウがあれば閉じる
@@ -284,23 +312,27 @@
               }
             });
           });
-          // マップ上の任意の場所をクリックしたときに情報ウィンドウを閉じる
+          // マップ上の任意の場所をクリックしたときに吹き出しを閉じる
           map.addListener('click', function() {
             if (currentInfowindow) {
               currentInfowindow.close();
             }
+            document.querySelectorAll('.shop_frame_box .shop_frame').forEach(el => {
+              el.classList.remove('active');
+            });
           });
         }
       </script>
       <div class="shop_frame_box">
         {% for shop_and_pay in shops_and_payments %}
-          <a style="text-decoration: none;" id="map_button" href="#">
-            <div class="shop_frame">
+            <div class="shop_frame" data-shop-id="{{ shop_and_pay[0] }}">
               <p class="storeName">{{ shop_and_pay[1] }}<br></p>
               <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
               <p class="payments">{{ shop_and_pay[5] }}</p>
+              <div class="detail_button">
+                <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">決済情報詳細</a>
+              </div>
             </div>
-          </a>
         {% endfor %}
       </div>
       <!-- お店のスライドを入れる欄 -->
