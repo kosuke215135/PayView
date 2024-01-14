@@ -321,14 +321,14 @@ def search_result(payment_or_tag_id):
     get_can_use_services(shops_and_payments) 
         
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+    tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
     
     web_hierarchy_search='検索結果'
     
     return render_template(
         "top.html", 
         shops_and_payments=shops_and_payments, 
-        tag_id_name_list=tag_id_name_list, 
+        tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
         cash_group=cash_group,
         barcode_names=barcode_names, 
         credit_names=credit_names, 
@@ -456,7 +456,7 @@ def text_search():
     get_can_use_services(shops_and_payments)
 
     # カテゴリ欄のデータを取得する
-    tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+    tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
     # webの階層構造の文字のリスト
     web_hierarchy_search='検索結果'
@@ -464,7 +464,7 @@ def text_search():
     return render_template(
         "top.html",
         shops_and_payments=shops_and_payments, 
-        tag_id_name_list=tag_id_name_list, 
+        tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
         cash_group=cash_group,
         barcode_names=barcode_names, 
         credit_names=credit_names, 

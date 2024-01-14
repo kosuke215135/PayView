@@ -122,12 +122,12 @@ def create_app():
         get_can_use_services(shops_and_payments)
 
         # カテゴリ欄のデータを取得する
-        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
         
         return render_template(
             "top.html", 
             shops_and_payments=shops_and_payments, 
-            tag_id_name_list=tag_id_name_list, 
+            tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
             cash_group=cash_group,
             barcode_names=barcode_names, 
             credit_names=credit_names, 
@@ -195,7 +195,7 @@ def create_app():
                 electronic_money_payments.append(pay_scheme)
                 
         # カテゴリ欄のデータを取得する
-        tag_id_name_list, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
+        tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
         # 遷移前のURLを取得
         url = request.referrer
@@ -216,7 +216,7 @@ def create_app():
             barcode_payments=barcode_payments, 
             credit_payments=credit_payments, 
             electronic_money_payments=electronic_money_payments, 
-            tag_id_name_list=tag_id_name_list, 
+            tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
             cash_group=cash_group,
             barcode_names=barcode_names, 
             credit_names=credit_names, 
