@@ -4,9 +4,12 @@
 {% endblock %}
 {% block body %}
     <h2>店名と緯度、経度を入力してください</h2>
-    {% if error %}
-    <h3><font color="red">値が正しくありません。</font></h3>
-    {% endif %}
+    {# 入力に不備があった場合フラッシュを表示 #}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <font color="red">{{ message }}</font>
+        {% endfor %}
+    {% endwith %}
     <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
         <p>店名</p>
         <input type="text" name="shop_name"></p>

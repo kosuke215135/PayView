@@ -115,13 +115,15 @@ def choose_tag(shop_id):
 @bp.route('/add-shop', methods=('GET', 'POST'))
 @login_required
 def add_shop():
-    error = 0 #dbに挿入できたかどうかをチェックする
     if request.method == "GET":
-        return render_template('insert_shop_data/add_shop.html',error=error)
+        return render_template('insert_shop_data/add_shop.html')
     db = get_db()
     cur = db.cursor(dictionary=True)
     if request.method == "POST":
         shop_name = request.form["shop_name"]
+        if shop_name == "":
+            flash("値が正しくありません。")
+            return redirect(url_for("insert_shop_data.add_shop"))
         latitude = request.form["latitude"]
         longitude = request.form["longitude"]
         try:
@@ -129,8 +131,7 @@ def add_shop():
                         (shop_name, latitude, longitude))
             db.commit()
         except:
-            error = 1
-            return render_template('insert_shop_data/add_shop.html', error=error) 
+            flash("値が正しくありません")
         return redirect(url_for("insert_shop_data.add_shop"))
 
 
@@ -165,6 +166,9 @@ def add_payment():
 
         payment_name = request.form["payment_name"]
         payment_group = request.form["payment_group"]
+        if payment_name == "":
+            flash("値が正しくありません。")
+            return redirect(url_for("insert_shop_data.add_payment"))
         try:
             cur.execute("insert into payment_services values (%s, %s, %s);",
                         (next_payment_id, payment_name, payment_group))
@@ -228,6 +232,16 @@ def add_tag():
 
         tag_name = request.form["tag_name"]
         yomi = request.form["hiragana"]
+        # タグに空白文字は含まないため半角スペースを削除
+        tag_name = tag_name.replace(' ', '')
+        yomi = yomi.replace(' ', '')
+        # タグに空白文字は含まないため全角スペースを削除
+        tag_name = tag_name.replace('\u3000', '')
+        yomi = yomi.replace('\u3000', '')
+
+        if tag_name == "" or yomi == "":
+            flash("値が正しくありません。")
+            return redirect(url_for("insert_shop_data.add_tag"))
         try:
             cur.execute("insert into tags values (%s, %s, %s)",
                         (next_tag_id, tag_name, yomi))
