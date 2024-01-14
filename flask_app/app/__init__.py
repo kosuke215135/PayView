@@ -32,7 +32,7 @@ SECRET_KEY = get_random_string(12)
 
 def create_app():
     #Flaskオブジェクトの生成
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='./static')
 
     #シークレットキーを登録
     app.secret_key = SECRET_KEY

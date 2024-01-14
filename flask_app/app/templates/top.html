@@ -200,7 +200,7 @@
         スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
     </div>
   </div>
-  <img src="{{ url_for('static', filename='payviewPig1.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+  <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
   <!-- トップに戻るボタン -->
   <a href="#" id="topbtn"></a>
   <div class="shop_category_frame_box">
@@ -289,9 +289,9 @@
     <p>©PayView All Rights Reserved.</p>
   </footer>
   <script>
-    var rootUrl = "../static";
-    const pig1url = rootUrl + "/payviewPig1.png";
-    const pig2url = rootUrl + "/payviewPig2.png";
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig4.png";
+    const pig2url = rootUrl + "/static/payviewPig5.png";
     const img = [pig1url, pig2url];
     
     let count = -1;
@@ -321,14 +321,18 @@
       }
     }
 
+    var topbtn = document.getElementById("topbtn");
     function closePopup() {
       popup.style.display = "none";
       isPopupVisible = false;
+      if (window.scrollY > 100) {
+        topbtn.style.display = "block";
+      }
     }
-
     function openPopup() {
-      popup.style.display = "block"
+      popup.style.display = "block";
       isPopupVisible = true;
+      topbtn.style.display= "none";
     }
 
     // 画像に触れたときにハイライトする関数

@@ -4,6 +4,7 @@
   <meta charset="UTF-8"> 
   <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style_detail.css')}}">
+  <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
   {# 検索窓の虫眼鏡のフォントを使用するため以下のフォントを追加 #}
@@ -173,7 +174,17 @@
 <body class="background">
   <div class="title">Shop Detail</div>
   <div class="line"></div>
-  <img src="{{ url_for('static', filename='payviewPig1.png')}}" alt="payview-pig 1" id="scrollPig">
+  <div id=myPopup class="popup">
+    <div class="popup-content">
+      <span id=closeBtn onclick="closePopup()">&times;</span>
+      <p>使い方<br><br>現在位置より半径1kmの飲食店・スーパーを表示するブ-。<br>
+         上部の距離を変更して範囲を指定できるブ-。<br>
+        スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
+    </div>
+  </div>
+  <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 4" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+  <!-- トップに戻るボタン -->
+  <a href="#" id="topbtn"></a>
   <div class="detail_category_frame_box">
     <div id="shopDetail" class="detail_frame_box">
       <!-- web階層の表示 -->
@@ -325,8 +336,8 @@
   </footer>
   <script>
     var rootUrl = window.location.origin;
-    const pig1url = rootUrl + "/static/payviewPig1.png";
-    const pig2url = rootUrl + "/static/payviewPig2.png";
+    const pig1url = rootUrl + "/static/payviewPig4.png";
+    const pig2url = rootUrl + "/static/payviewPig5.png";
     const img = [pig1url, pig2url];
     
     let count = -1;
@@ -347,6 +358,45 @@
       setTimeout("picChange()", 500);
     
     }
+    var isPopupVisible = false;
+    var popup = document.getElementById("myPopup")
+    var topbtn = document.getElementById("topbtn");
+    function closePopup() {
+      popup.style.display = "none";
+      isPopupVisible = false;
+      if (window.scrollY > 100) {
+        topbtn.style.display = "block";
+      }
+    }
+
+    function openPopup() {
+      popup.style.display = "block"
+      isPopupVisible = true;
+      topbtn.style.display= "none";
+    }
+
+    // 画像に触れたときにハイライトする関数
+    function highlightImage() {
+      if (!isPopupVisible) {
+        var image = document.getElementById("scrollPig");
+        image.style.backgroundColor = "rgba(241, 208, 97, 0.2)"; // 任意のボーダー色を指定
+      }
+    }
+
+    // 画像から離れたときにハイライトを解除する関数
+    function resetImageHighlight() {
+      var image = document.getElementById("scrollPig");
+      image.style.backgroundColor = "transparent";
+    }
+    //トップに戻るボタン
+    window.addEventListener("scroll", function() {
+      var topbtn = document.getElementById("topbtn");
+      if (window.scrollY > 100){
+        topbtn.style.display = "block";
+      } else {
+        topbtn.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
