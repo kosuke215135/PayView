@@ -132,7 +132,6 @@ def add_shop():
 @bp.route('/add-payment', methods=('GET', 'POST'))
 @login_required
 def add_payment():
-    error = 0 #dbに挿入できたかどうかをチェックする
     db = get_db()
     cur = db.cursor(dictionary=True)
     if request.method == "GET":
@@ -142,7 +141,6 @@ def add_payment():
             group_name = cur.fetchall()[0]["group_name"]
             drop_down_payment_group_dict[group_id] = group_name
         return render_template('insert_shop_data/add_payment.html',
-                               error=error,
                                drop_down_payment_group_dict=drop_down_payment_group_dict)
 
     if request.method == "POST":
@@ -167,7 +165,6 @@ def add_payment():
                         (next_payment_id, payment_name, payment_group))
             db.commit()
         except:
-            error = 1
             flash("値が正しくありません。")
         return redirect(url_for("insert_shop_data.add_payment"))
 
@@ -205,9 +202,8 @@ def delete_payment():
 @bp.route('/add-tag', methods=('GET', 'POST'))
 @login_required
 def add_tag():
-    error = 0 #dbに挿入できたかどうかをチェックする
     if request.method == "GET":
-        return render_template('insert_shop_data/add_tag.html',error=error)
+        return render_template('insert_shop_data/add_tag.html')
     if request.method == "POST":
         db = get_db()
         cur = db.cursor(dictionary=True)
@@ -224,14 +220,15 @@ def add_tag():
         elif len(next_tag_id) == 2:
             next_tag_id = "0" + next_tag_id
         next_tag_id += "T"
+
         tag_name = request.form["tag_name"]
-        print(f"insert into tags values ('{next_tag_id}','{tag_name}');")
+        yomi = request.form["hiragana"]
         try:
-            cur.execute(f"insert into tags values ('{next_tag_id}','{tag_name}');")
+            cur.execute("insert into tags values (%s, %s, %s)",
+                        (next_tag_id, tag_name, yomi))
             db.commit()
         except:
-            error = 1
-            return render_template('insert_shop_data/add_tag.html', error=error) 
+            flash("値が正しくありません。")
         return redirect(url_for("insert_shop_data.add_tag"))
 
 

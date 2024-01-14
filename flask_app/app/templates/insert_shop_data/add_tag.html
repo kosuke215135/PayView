@@ -4,12 +4,17 @@
 {% endblock %}
 {% block body %}
     <h2>新しいタグの正式名称を入力してください</h2>
-    {% if error %}
-    <h3><font color="red">値が正しくありません。</font></h3>
-    {% endif %}
+    {# 入力に不備があった場合フラッシュを表示 #}
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <font color="red">{{ message }}</font>
+        {% endfor %}
+    {% endwith %}
     <form action="{{ url_for("insert_shop_data.add_tag")}}" method="POST">
         <p>タグ名</p>
         <input type="text" name="tag_name"></p>
+        <p>よみかた(ひらがなで入力してください。検索や表示の並び替えで使用します)</p>
+        <input type="text" name="hiragana"></p>
         <input class="confirm_button" type="submit"  value="確定">
     </form>
 {% endblock %}
