@@ -1,3 +1,5 @@
 .env
 make_admin_password.py
 __pycache__
+insert_tags_pronunciation.py
+tags_yomi.csv
