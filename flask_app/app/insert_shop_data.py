@@ -38,10 +38,10 @@ def choose_payment(shop_id):
     if request.method == "GET":
         cur.execute("select * from payment_services;")
         payment_id_name_list = cur.fetchall()
-        cur.execute(f"SELECT * FROM shops WHERE shop_id={shop_id};")
+        cur.execute("SELECT * FROM shops WHERE shop_id=%s;", (shop_id,))
         shop_data = cur.fetchall()
         
-        cur.execute(f"select payment_id from can_use_services where shop_id={shop_id};")
+        cur.execute("select payment_id from can_use_services where shop_id=%s;", (shop_id,))
         can_use_pay_this_shop = cur.fetchall()
         can_use_pay_this_shop_list = list(map(take_out_payment_id, can_use_pay_this_shop))
         
@@ -49,18 +49,20 @@ def choose_payment(shop_id):
 
     if request.method == "POST":
         can_use_pay =request.form.getlist("payment")
-        cur.execute(f"select payment_id from can_use_services where shop_id={shop_id}")
+        cur.execute("select payment_id from can_use_services where shop_id=%s", (shop_id,))
         now_use_pay = cur.fetchall()
         now_use_pay_list = list(map(take_out_payment_id, now_use_pay))
         for i in can_use_pay:
             if i not in now_use_pay_list:
-                cur.execute(f"insert into can_use_services values ({shop_id},'{i}');")
+                cur.execute("insert into can_use_services values (%s, %s);", (shop_id, i))
         db.commit()
 
-        query = f"DELETE FROM can_use_services WHERE shop_id={shop_id}" 
+        delete_query_var_tuple = (shop_id,)
+        query = "DELETE FROM can_use_services WHERE shop_id=%s" 
         for i in range(len(can_use_pay)):
-            query += f" and payment_id!='{can_use_pay[i]}'"
-        cur.execute(query)
+            query += " and payment_id!=%s"
+            delete_query_var_tuple += (can_use_pay[i],)
+        cur.execute(query, delete_query_var_tuple)
         db.commit()
     return redirect(url_for("insert_shop_data.choose_shop", tag_or_payment="payment"))
 
@@ -78,10 +80,10 @@ def choose_tag(shop_id):
     if request.method == "GET":
         cur.execute("select * from tags;")
         tag_id_name_list = cur.fetchall()
-        cur.execute(f"SELECT * FROM shops WHERE shop_id={shop_id};")
+        cur.execute("SELECT * FROM shops WHERE shop_id=%s;", (shop_id,))
         shop_data = cur.fetchall()
         
-        cur.execute(f"select tag_id from allocated_tags where shop_id={shop_id};")
+        cur.execute("select tag_id from allocated_tags where shop_id=%s;", (shop_id,))
         assigned_tag_this_shop = cur.fetchall()
         assigned_tag_this_shop_list = list(map(take_out_tag_id, assigned_tag_this_shop))
         
@@ -89,18 +91,20 @@ def choose_tag(shop_id):
 
     if request.method == "POST":
         assigned_tag =request.form.getlist("tag")
-        cur.execute(f"select tag_id from allocated_tags where shop_id={shop_id}")
+        cur.execute("select tag_id from allocated_tags where shop_id=%s", (shop_id,))
         now_assigned_tag = cur.fetchall()
         now_assigned_tag_list = list(map(take_out_tag_id, now_assigned_tag))
         for i in assigned_tag:
             if i not in now_assigned_tag_list:
-                cur.execute(f"insert into allocated_tags values ({shop_id},'{i}');")
+                cur.execute("insert into allocated_tags values (%s, %s);", (shop_id, i))
         db.commit()
 
-        query = f"DELETE FROM allocated_tags WHERE shop_id={shop_id}" 
+        delete_query_var_tuple = (shop_id,)
+        query = "DELETE FROM allocated_tags WHERE shop_id=%s" 
         for i in range(len(assigned_tag)):
-            query += f" and tag_id!='{assigned_tag[i]}'"
-        cur.execute(query)
+            query += " and tag_id!=%s"
+            delete_query_var_tuple += (assigned_tag[i],)
+        cur.execute(query, delete_query_var_tuple)
         db.commit()
     return redirect(url_for("insert_shop_data.choose_shop", tag_or_payment="tag"))
 
@@ -121,7 +125,8 @@ def add_shop():
         latitude = request.form["latitude"]
         longitude = request.form["longitude"]
         try:
-            cur.execute(f"insert into shops (name, latitude, longitude) values ('{shop_name}','{latitude}','{longitude}');")
+            cur.execute("insert into shops (name, latitude, longitude) values (%s, %s, %s);",
+                        (shop_name, latitude, longitude))
             db.commit()
         except:
             error = 1
@@ -177,7 +182,7 @@ def delete_shop():
     if request.method == "POST":
         delete_shop_id_list =request.form.getlist("shop")
         for i in delete_shop_id_list:
-            cur.execute(f"DELETE FROM shops where shop_id = {i};")
+            cur.execute("DELETE FROM shops where shop_id = %s;", (i,))
         db.commit()
     cur.execute("select shop_id,name from shops;")
     shop_id_name_list = cur.fetchall()
@@ -192,7 +197,7 @@ def delete_payment():
     if request.method == "POST":
         delete_payment_id_list =request.form.getlist("payment")
         for i in delete_payment_id_list:
-            cur.execute(f"DELETE FROM payment_services where payment_id = '{i}';")
+            cur.execute("DELETE FROM payment_services where payment_id = %s;", (i,))
         db.commit()
     cur.execute("select payment_id,name from payment_services;")
     payment_id_name_list = cur.fetchall()
@@ -240,7 +245,7 @@ def delete_tag():
     if request.method == "POST":
         delete_tag_id_list =request.form.getlist("tag")
         for i in delete_tag_id_list:
-            cur.execute(f"DELETE FROM tags where tag_id = '{i}';")
+            cur.execute("DELETE FROM tags where tag_id = %s;", (i,))
         db.commit()
     cur.execute("select tag_id,name from tags;")
     tag_id_name_list = cur.fetchall()
