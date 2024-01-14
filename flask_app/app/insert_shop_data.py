@@ -168,7 +168,7 @@ def add_payment():
             db.commit()
         except:
             error = 1
-            return render_template('insert_shop_data/add_payment.html', error=error) 
+            flash("値が正しくありません。")
         return redirect(url_for("insert_shop_data.add_payment"))
 
 
