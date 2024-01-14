@@ -10,6 +10,12 @@
     <form action="{{ url_for("insert_shop_data.add_payment")}}" method="POST">
         <p>決済サービス名</p>
         <input type="text" name="payment_name"></p>
+        <select name="payment_group">
+            {% for group_id in drop_down_payment_group_dict %}
+                <option value="{{ group_id }}">{{ drop_down_payment_group_dict[group_id]}}</option>
+            {% endfor %}
+        </select>
         <input class="confirm_button" type="submit"  value="確定">
+       
     </form>
 {% endblock %}

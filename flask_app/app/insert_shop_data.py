@@ -5,6 +5,13 @@ from flask import (
 from db import get_db
 from admin_privacy import login_required
 
+CASH_GROUP = "01PG"
+BARCODE_GROUP = "02PG"
+CREDIT_GROUP = "03PG"
+ELECTRONIC_MONEY_GROUP = "04PG"
+TRANSPORTATION_GROUP = "05PG"
+DROP_DOWN_PAYMENT_GROUP_LIST = ["02PG","03PG","04PG","05PG"]
+
 bp = Blueprint('insert_shop_data', __name__, url_prefix='/insert-shop-data')
 
 
@@ -126,11 +133,19 @@ def add_shop():
 @login_required
 def add_payment():
     error = 0 #dbに挿入できたかどうかをチェックする
+    db = get_db()
+    cur = db.cursor(dictionary=True)
     if request.method == "GET":
-        return render_template('insert_shop_data/add_payment.html',error=error)
+        drop_down_payment_group_dict = {}
+        for group_id in DROP_DOWN_PAYMENT_GROUP_LIST:
+            cur.execute("select * from payment_groups where group_id=%s", (group_id,))
+            group_name = cur.fetchall()[0]["group_name"]
+            drop_down_payment_group_dict[group_id] = group_name
+        return render_template('insert_shop_data/add_payment.html',
+                               error=error,
+                               drop_down_payment_group_dict=drop_down_payment_group_dict)
+
     if request.method == "POST":
-        db = get_db()
-        cur = db.cursor(dictionary=True)
         cur.execute("select MAX(payment_id) from payment_services;")
         max_payment_id = cur.fetchall()[0]["MAX(payment_id)"]
         # payment_servicesにデータが入っていないとNULLが返ってくる.
@@ -144,9 +159,12 @@ def add_payment():
         elif len(next_payment_id) == 2:
             next_payment_id = "0" + next_payment_id
         next_payment_id += "P"
+
         payment_name = request.form["payment_name"]
+        payment_group = request.form["payment_group"]
         try:
-            cur.execute(f"insert into payment_services values ('{next_payment_id}','{payment_name}');")
+            cur.execute("insert into payment_services values (%s, %s, %s);",
+                        (next_payment_id, payment_name, payment_group))
             db.commit()
         except:
             error = 1
