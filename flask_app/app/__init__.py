@@ -2,7 +2,6 @@ from flask import Flask, render_template, session, redirect, url_for
 import os
 from flask import request
 from db import get_db
-from db import load_api_key
 import random
 from datetime import timedelta #時間情報を用いるため
 from calculation_location import location_distance, get_distanced_lat_lng, conversion_km_or_m, accurately_determine_distance
@@ -12,10 +11,6 @@ import string
 from urllib.parse import urlparse
 import json
 import requests
-from dotenv import load_dotenv
-
-# .envファイルの内容を読み込見込む
-load_dotenv()
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -284,9 +279,6 @@ def create_app():
         # カテゴリ欄のデータを取得する
         tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
         
-        # .envに書いてあるAPI keyを読み込む
-        api_key = load_api_key()
-        
         return render_template(
             "map.html",
             shops_and_payments=shops_and_payments, 
@@ -300,8 +292,7 @@ def create_app():
             selected_distance="", 
             searched_strings="",
             user_latitude=user_latitude,
-            user_longitude=user_longitude,
-            api_key=api_key)
+            user_longitude=user_longitude)
 
     # API keyをjsへ渡す
     @app.route("/getapijs")

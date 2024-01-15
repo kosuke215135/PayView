@@ -4,7 +4,6 @@ from flask import (
 from calculation_location import location_distance, get_distanced_lat_lng,conversion_km_or_m, accurately_determine_distance
 from create_display_common_data import get_category_data, get_can_use_services
 from db import get_db
-from db import load_api_key
 import random
 import MeCab
 import neologdn
@@ -598,9 +597,6 @@ def text_search_map():
 
     # webの階層構造の文字のリスト
     web_hierarchy_search='検索結果'
-    
-    # .envに書いてあるAPI keyを読み込む
-    api_key = load_api_key()
         
     return render_template(
         "map.html",
@@ -616,8 +612,7 @@ def text_search_map():
         searched_strings=search_strings,
         web_hierarchy_search=web_hierarchy_search,
         user_latitude=user_latitude,
-        user_longitude=user_longitude,
-        api_key=api_key)
+        user_longitude=user_longitude)
 
 @bp.route('/map-search-result/<string:payment_or_tag_id>')
 def search_result_map(payment_or_tag_id):
@@ -681,9 +676,6 @@ def search_result_map(payment_or_tag_id):
     
     web_hierarchy_search='検索結果'
     
-    # .envに書いてあるAPI keyを読み込む
-    api_key = load_api_key()
-    
     return render_template(
         "map.html", 
         shops_and_payments=shops_and_payments, 
@@ -698,5 +690,4 @@ def search_result_map(payment_or_tag_id):
         searched_strings=searched_strings,
         web_hierarchy_search=web_hierarchy_search,
         user_latitude=user_latitude,
-        user_longitude=user_longitude,
-        api_key=api_key)
+        user_longitude=user_longitude)
