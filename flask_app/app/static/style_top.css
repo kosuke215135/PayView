@@ -2,6 +2,10 @@
 @import url("./style_pig.css");
 /* 以下スマホの表示 */
 @media (max-width: 840px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body{
         margin: 0;
         padding: 0;
@@ -188,6 +192,22 @@
         word-wrap: break-word;
         margin-top: 3px;
         margin-bottom: 30px;
+    }
+    .to_map_phone{
+        margin-top: -20px;
+        margin-bottom: 10px;
+    }
+    .to_map_phone a{
+        color: #696969;
+        font-size: 18px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        padding: 5px;
+    }
+    .to_map_phone a:hover{
+        background: #CCC0B0;
+        color: #FFF;
     }
     /* 決済サービスの見出し */
     .payment_service_head_phone{
@@ -491,6 +511,29 @@
         color: #FFF;
     } 
 
+    #topbtn {
+        position: fixed;
+        bottom: 100px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        background-color: #ffc342;
+        display: none;
+        text-align: center;
+        border-radius: 24px;
+        z-index: 100000; /* ブタちゃんと同じ階層 */
+      }
+      
+    #topbtn::before {
+        content: '\f062';
+        font-family: 'Font Awesome 6 Free';
+        font-size: 30px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 42px;
+      }
+
     footer{
         width: 100%;
         height: 100px;
@@ -504,6 +547,10 @@
 
 /* =====以下 pcの表示===== */
 @media (min-width: 841px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body{
         margin: 0;
         padding: 0;
@@ -531,6 +578,23 @@
         width: 190px;
         height: 70px;
         float: left;        
+    }
+    .to_map{
+        top: 50px;
+        left: 25%;
+        position: absolute;
+    }
+    .to_map a{
+        color: #696969;
+        font-size: 18px;
+        letter-spacing: 1px;
+        border-radius: 5px;
+        transition: 0.3s ease-in-out;
+        padding: 5px;
+    }
+    .to_map a:hover{
+        background: #CCC0B0;
+        color: #FFF;
     }
     .title{
         color: #666666;
@@ -885,7 +949,7 @@
         left: 50%;
         width: 80%;
         transform: translate(-50%, -50%);
-        font-size: 45px;
+        font-size: 40px;
         font-family: 'M PLUS Rounded 1c';
     }
 
@@ -900,6 +964,29 @@
     #closeBtn:hover {
         color: #FFF;
     }
+
+    #topbtn {
+        position: fixed;
+        bottom: 100px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        background-color: #ffc342;
+        display: none;
+        text-align: center;
+        border-radius: 24px;
+        z-index: 100000; /* ブタちゃんと同じ階層 */
+      }
+      
+    #topbtn::before {
+        content: '\f062';
+        font-family: 'Font Awesome 6 Free';
+        font-size: 30px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 42px;
+      }
 
     footer{
         width: 100%;
