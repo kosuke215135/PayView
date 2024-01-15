@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask, request, redirect, Blueprint, url_for, session
+from flask import Flask, request, redirect, Blueprint, url_for, session, g
 from oauthlib.oauth2 import WebApplicationClient
 from dotenv import load_dotenv
 import os
@@ -79,6 +79,24 @@ def g_callback():
     userinfo_response = userinfo_response.json() 
 
     # 認証情報をsessionに保存
+    session['user_id'] = userinfo_response["sub"]
     session['user_name'] = userinfo_response["name"]
     session['user_email'] = userinfo_response["email"]
     session["user_picture_url"] = userinfo_response["picture"]
+
+    return redirect(url_for("render_map"))
+
+
+
+# gはリクエストごとに変数を保存できる。主に表示に用いる
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get('user_id')
+    user_name = session.get('user_name')
+    user_email = session.get('user_email')
+    user_picture_url = session.get('user_picture_url')
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = {'user_name': user_name, 'user_email': user_email, 'user_picture_url':user_picture_url}

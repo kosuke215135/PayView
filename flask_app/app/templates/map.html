@@ -63,6 +63,15 @@
         </div>
       </form>
     </div>
+    <div class="login_user">
+      {% if g.user %}
+        <a class="user_name">{{ g.user['user_name'] }}</a>
+        <img class="user_picture" src="{{ g.user['user_picture_url'] }}">
+      {% else %}
+        <a class="user_name">ログイン</a>
+        <img class="user_picture" src="{{ g.user['user_picture_url'] }}">
+      {% endif %}
+    </div>
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu">
       <span></span>
