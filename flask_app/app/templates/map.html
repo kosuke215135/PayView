@@ -33,7 +33,7 @@
   {# ====PC用のヘッダー==== #}
   <div class="header_div">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('top') }}">
+    <a href="{{ url_for('render_map') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
     <!-- 検索窓 -->
@@ -145,7 +145,7 @@
   {# ====スマホ用のヘッダー==== #}
   <div class="header_div_phone">
     <!-- ロゴの画像挿入 --> 
-    <a href="{{ url_for('top') }}">
+    <a href="{{ url_for('render_map') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
     <!-- 検索窓 -->
@@ -276,11 +276,97 @@
     <!-- タイトル -->
     <div class="title">Search Shop Map</div>
     <div class="line"></div>
+    <div id=myPopup class="popup">
+      <div class="popup-content">
+        <span id=closeBtn onclick="closePopup()">&times;</span>
+        <p>使い方<br><br>現在位置より半径1kmの飲食店・スーパーを表示するブ-。<br>
+           右上の距離を変更して範囲を指定できるブ-。<br>
+          スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
+      </div>
+    </div>
+    <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+    <script>
+      var rootUrl = window.location.origin;
+      const pig1url = rootUrl + "/static/payviewPig4.png";
+      const pig2url = rootUrl + "/static/payviewPig5.png";
+      const img = [pig1url, pig2url];
+      
+      let count = -1;
+      
+      picChange(); // 関数を実行
+      
+      function picChange() {
+      
+        count++;
+      
+        // カウントが最大になれば配列を初期値に戻すため「0」を指定する
+        if (count == img.length) count = 0;
+      
+        // 画像選択
+        document.getElementById("scrollPig").src = img[count];
+      
+        // 1秒ごとに実行
+        setTimeout("picChange()", 500);
+      
+      }
+      var isPopupVisible = false;
+      var popup = document.getElementById("myPopup")
+      window.onload = function() {
+        if (!getCookie("popupDisplayed")) {
+          openPopup();
+          setCookie("popupDisplayed", "true", 1); // クッキーの有効期限を1日に設定
+        }
+      }
+
+      function closePopup() {
+        popup.style.display = "none";
+        isPopupVisible = false;
+      }
+
+      function openPopup() {
+        popup.style.display = "block";
+        isPopupVisible = true;
+      }
+
+      // 画像に触れたときにハイライトする関数
+      function highlightImage() {
+        if (!isPopupVisible) {
+          var image = document.getElementById("scrollPig");
+          image.style.backgroundColor = "rgba(241, 208, 97, 0.2)"; // 任意のボーダー色を指定
+        }
+      }
+
+      // 画像から離れたときにハイライトを解除する関数
+      function resetImageHighlight() {
+        var image = document.getElementById("scrollPig");
+        image.style.backgroundColor = "transparent";
+      }
+
+      // クッキーを設定する関数
+      function setCookie(name, value, days) {
+        var expires = "";
+        if (days) {
+          var date = new Date();
+          date.setTime(date.getTime() + (days * 12 * 60 * 60 * 1000));
+          expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+      }
+      // クッキーの値を取得する関数
+      function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(";");
+        for (var i = 0; i < ca.length; i++) {
+          var c = ca[i];
+          while (c.charAt(0) == " ") c = c.substring(1, c.length);
+          if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+      }
+    </script>
     <!-- web階層の表示 -->
     <div class="web_hierarchy">
-      <a href="{{ url_for('top') }}">Top</a>
-      <span> ></span>
-      <span>map</span>
+      <a href="{{ url_for('render_map') }}">Top</a>
       <span> ></span>
       <span>{{ web_hierarchy_search }}</span>
     </div>
@@ -413,6 +499,7 @@
           });
         };
       </script>
+      
       <div class="shop_frame_box">
         {% for shop_and_pay in shops_and_payments %}
             <div class="shop_frame" data-shop-id="{{ shop_and_pay[0] }}">

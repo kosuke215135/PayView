@@ -69,7 +69,7 @@ def create_app():
         # ルートurlにアクセスする場合と検索にアクセスしようとしている場合はtopにリダイレクトする
         # 検索はpostしか受け付けていないため
         if redirect_url == "/" or "text-search" in redirect_url:
-            return redirect(url_for("top"))
+            return redirect(url_for("render_map"))
         return redirect(redirect_url)
 
     # jsからhttp経由のPOST方式で、現在地のデータを受け取る。
@@ -298,7 +298,7 @@ def create_app():
     @app.route("/getapijs")
     def get_api_js():
         url = 'https://maps.googleapis.com/maps/api/js'
-        key = os.environ['GOOGLE_MAPS_API_KEY'] # .envからAPIキーを取得
+        key = os.environ['API_KEY'] # .envからAPIキーを取得
         if not key:
             return "APIキーが設定されていません", 500
 
