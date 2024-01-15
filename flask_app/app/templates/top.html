@@ -4,7 +4,7 @@
   <meta charset="UTF-8"> 
   <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
   <link rel="stylesheet" href="{{ url_for('static', filename='style_top.css')}}">
-
+  <link rel ="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
   {# 検索窓の虫眼鏡のフォントを使用するため以下のフォントを追加 #}
@@ -200,7 +200,9 @@
         スマホだと詳細画面でお手持ちのアプリに飛ぶことができるブヒッ</p>
     </div>
   </div>
-  <img src="{{ url_for('static', filename='payviewPig1.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+  <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 1" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
+  <!-- トップに戻るボタン -->
+  <a href="#" id="topbtn"></a>
   <div class="shop_category_frame_box">
     <div class="shop_frame_box">
       <!-- web階層の表示 -->
@@ -287,6 +289,29 @@
     <p>©PayView All Rights Reserved.</p>
   </footer>
   <script>
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig4.png";
+    const pig2url = rootUrl + "/static/payviewPig5.png";
+    const img = [pig1url, pig2url];
+    
+    let count = -1;
+    
+    picChange(); // 関数を実行
+    
+    function picChange() {
+    
+      count++;
+    
+      // カウントが最大になれば配列を初期値に戻すため「0」を指定する
+      if (count == img.length) count = 0;
+    
+      // 画像選択
+      document.getElementById("scrollPig").src = img[count];
+    
+      // 1秒ごとに実行
+      setTimeout("picChange()", 500);
+    
+    }
     var isPopupVisible = false;
     var popup = document.getElementById("myPopup")
     window.onload = function() {
@@ -296,14 +321,18 @@
       }
     }
 
+    var topbtn = document.getElementById("topbtn");
     function closePopup() {
       popup.style.display = "none";
       isPopupVisible = false;
+      if (window.scrollY > 100) {
+        topbtn.style.display = "block";
+      }
     }
-
     function openPopup() {
-      popup.style.display = "block"
+      popup.style.display = "block";
       isPopupVisible = true;
+      topbtn.style.display= "none";
     }
 
     // 画像に触れたときにハイライトする関数
@@ -356,6 +385,16 @@
       console.log(os);
       window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
     }
+
+    //トップに戻るボタン
+    window.addEventListener("scroll", function() {
+      var topbtn = document.getElementById("topbtn");
+      if (window.scrollY > 100) {
+        topbtn.style.display = "block";
+      } else {
+        topbtn.style.display = "none";
+      }
+    });
   </script>
 </body>
 </html>
