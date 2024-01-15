@@ -113,4 +113,6 @@ def get_can_use_services(shops_and_payments):
                 payments_str = payments_str + payments_name_list[l]["name"]
                 continue
             payments_str = payments_str + payments_name_list[l]["name"] + ", "
+        if (len(payments_str) > 100):
+            payments_str = payments_str[:100] + "etc..."
         shops_and_payments[i].append(payments_str)
