@@ -12,6 +12,10 @@ import string
 from urllib.parse import urlparse
 import json
 import requests
+from dotenv import load_dotenv
+
+# .envファイルの内容を読み込見込む
+load_dotenv()
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -303,7 +307,7 @@ def create_app():
     @app.route("/getapijs")
     def get_api_js():
         url = 'https://maps.googleapis.com/maps/api/js'
-        key = os.environ.get('GOOGLE_MAPS_API_KEY')  # 環境変数からAPIキーを取得
+        key = os.environ['GOOGLE_MAPS_API_KEY'] # .envからAPIキーを取得
         if not key:
             return "APIキーが設定されていません", 500
 
