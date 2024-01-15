@@ -1,6 +1,10 @@
 @import url("./style_pig.css");
 /* 以下スマホの表示 */
 @media (max-width: 840px) {
+    html {
+        scroll-behavior: smooth;
+    }
+
     body{
         margin: 0;
         padding: 0;
@@ -563,6 +567,77 @@
         background: #313131;
         color: #FFF;
     }
+
+    #myPopup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .popup-content {
+        background-color: #ffcb65;
+        padding: 20px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        box-shadow: 0px 5px #dab367;
+        z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .popup-content p {
+        color: #FFF;
+        position:fixed;
+        top: 40%;
+        left: 50%;
+        width: 80%;
+        transform: translate(-50%, -50%);
+        font-size: 20px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+
+    #closeBtn {
+        color: rgb(252, 242, 212);
+        float: right;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #closeBtn:hover {
+        color: #FFF;
+    } 
+
+    #topbtn {
+        position: fixed;
+        bottom: 100px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        background-color: #ffc342;
+        display: none;
+        text-align: center;
+        border-radius: 24px;
+        z-index: 1; /* 他のものより上の階層 */
+      }
+      
+    #topbtn::before {
+        content: '\f062';
+        font-family: 'Font Awesome 6 Free';
+        font-size: 30px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 42px;
+      }
     
     footer{
         width: 100%;
@@ -1060,6 +1135,77 @@
     .tag_content:hover{
         border-bottom: dashed 3px black;
     }
+
+    #myPopup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .popup-content {
+        background-color: #ffcb65;
+        padding: 20px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        height: 80%;
+        box-shadow: 0px 10px #dab367;
+        z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .popup-content p {
+        color: #FFF;
+        position:fixed;
+        top: 40%;
+        left: 50%;
+        width: 80%;
+        transform: translate(-50%, -50%);
+        font-size: 40px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+
+    #closeBtn {
+        color: rgb(252, 242, 212);
+        float: right;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #closeBtn:hover {
+        color: #FFF;
+    }
+
+    #topbtn {
+        position: fixed;
+        bottom: 100px;
+        right: 12px;
+        width: 40px;
+        height: 40px;
+        text-decoration: none;
+        background-color: #ffc342;
+        display: none;
+        text-align: center;
+        border-radius: 24px;
+        z-index: 1; /* 他のものより上の階層 */
+      }
+      
+    #topbtn::before {
+        content: '\f062';
+        font-family: 'Font Awesome 6 Free';
+        font-size: 30px;
+        font-weight: 900;
+        color: #fff;
+        line-height: 42px;
+      }
 
     footer{
         width: 100%;
