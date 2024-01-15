@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask, request, redirect, Blueprint, url_for
+from flask import Flask, request, redirect, Blueprint, url_for, session
 from oauthlib.oauth2 import WebApplicationClient
 from dotenv import load_dotenv
 import os
@@ -75,4 +75,10 @@ def g_callback():
     uri, headers, body = client.add_token(userinfo_endpoint)
     userinfo_response = requests.get(uri, headers=headers, data=body)
 
-    print(json.dumps(userinfo_response.json()))
+    # 辞書に変換
+    userinfo_response = userinfo_response.json() 
+
+    # 認証情報をsessionに保存
+    session['user_name'] = userinfo_response["name"]
+    session['user_email'] = userinfo_response["email"]
+    session["user_picture_url"] = userinfo_response["picture"]
