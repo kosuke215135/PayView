@@ -1,6 +1,6 @@
 import requests
 import json
-from flask import Flask, request, redirect, Blueprint
+from flask import Flask, request, redirect, Blueprint, url_for
 from oauthlib.oauth2 import WebApplicationClient
 from dotenv import load_dotenv
 import os
@@ -33,7 +33,7 @@ def g_login():
     # ユーザのID,メールアドレス、プロファイルのリクエスト
     request_uri = client.prepare_request_uri(
         authorization_endpoint,
-        redirect_uri = request.base_url + '/callback',
+        redirect_uri = (request.url_root)[:-1] + url_for("google_login.g_callback"),
         scope=['openid', 'email', 'profile'],
     )
 
@@ -50,6 +50,8 @@ def g_callback():
     google_provider_cfg = get_google_provider_cfg()
     token_endpoint = google_provider_cfg["token_endpoint"]
 
+    print(request.url)
+    print(request.base_url)
     # トークン取得用の情報を生成
     token_url, headers, body = client.prepare_token_request(
         token_endpoint,
