@@ -286,8 +286,6 @@
     </div>
     <div class="map_shop_frame_box">
       <div id="map"></div>
-      <!-- Google Maps JavaScript APIの読み込み -->
-      <script async defer src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&callback=initMap"></script>
       <!-- Google MapのJavascript設定 -->
       <script>
         var markersAndInfoWindows = {};
@@ -402,6 +400,18 @@
             });
           });
         }
+        window.onload = function() {
+          fetch("/getapijs").then(res => {
+              return res.text();
+          }).then(mytext => {
+              eval(mytext);
+          }).then(() => {
+              initMap()
+              console.log("マップの読み込みに成功しました");
+          }).catch(() => {
+              console.log("マップの読み込みに失敗しました");
+          });
+        };
       </script>
       <div class="shop_frame_box">
         {% for shop_and_pay in shops_and_payments %}

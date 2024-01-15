@@ -11,6 +11,7 @@ import secrets
 import string
 from urllib.parse import urlparse
 import json
+import requests
 
 this_dir_path = os.path.dirname(os.path.abspath(__file__))
 
@@ -298,4 +299,19 @@ def create_app():
             user_longitude=user_longitude,
             api_key=api_key)
 
+    # API keyをjsへ渡す
+    @app.route("/getapijs")
+    def get_api_js():
+        url = 'https://maps.googleapis.com/maps/api/js'
+        key = os.environ.get('GOOGLE_MAPS_API_KEY')  # 環境変数からAPIキーを取得
+        if not key:
+            return "APIキーが設定されていません", 500
+
+        mysrc = f"{url}?key={key}"
+        response = requests.get(mysrc)
+
+        if response.status_code != 200:
+            return "Google Mapsの読み込みに失敗しました", 500
+
+        return response.text, {'Content-Type': 'text/javascript; charset=UTF-8'}
     return app
