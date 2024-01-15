@@ -51,6 +51,9 @@ def create_app():
 
     import admin_privacy
     app.register_blueprint(admin_privacy.bp)
+
+    import google_login
+    app.register_blueprint(google_login.bp)
     
     @app.route("/")
     def loading():
