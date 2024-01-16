@@ -48,7 +48,7 @@
     </a>
     <!-- 検索窓 -->
     <div class="search_div">
-      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
             {% if i == -1%}
@@ -74,7 +74,7 @@
     </a>
     <!-- 検索窓 -->
     <div class="search_div">
-      <form action="{{ url_for('search_shop.text_search')}}" method="POST">
+      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
             {% if i == -1%}
@@ -105,7 +105,7 @@
         <div class="payment_service_head_phone">決済サービス</div>
           <!-- 現金の表示 -->
           {% for cash in cash_group %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=cash['payment_id'])}}" role="button">
               <div class="cash_label_phone">{{ cash["name"] }}</div>
             </a> 
           {% endfor %}
@@ -113,7 +113,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check1">クレジットカード</label>
           <div class="fold_tag_phone-content_credit">
             {% for credit_name in credit_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ credit_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -123,7 +123,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check2">バーコード・QRコード決済</label>
           <div class="fold_tag_phone-content_barcode">
             {% for barcode_name in barcode_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ barcode_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -133,7 +133,7 @@
           <label class="fold_tag_phone-label" for="fold_tag_phone-check3">電子マネー</label>
           <div class="fold_tag_phone-content_electronic_money">
             {% for electronic_money_name in electronic_money_names %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
                 <div class="tag_content_phone">{{ electronic_money_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -142,7 +142,7 @@
           <div class="tag_head_phone">タグ</div>
           <div class="tag_commonly_used">よく使われるタグ Top5</div>
           {% for tag_commonly in tag_commonly_used_list %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
               <div class="tag_content_phone">{{ tag_commonly["name"] }}</div>
             </a>
           {% endfor %}
@@ -150,7 +150,7 @@
           {% for a_dan in tag_id_name_dict_every_gyou %}
             <div class="normal_tag">{{ a_dan }} 行</div> 
             {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
-              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+              <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
                 <div class="tag_content_phone">{{ tag_id_name["name"] }}</div>
               </a>
             {% endfor %}
@@ -184,12 +184,12 @@
   </div>
   <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 4" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
   <!-- トップに戻るボタン -->
-  <a href="#" id="topbtn"></a>
+  <a href="#" id="renderbtn"></a>
   <div class="detail_category_frame_box">
     <div id="shopDetail" class="detail_frame_box">
       <!-- web階層の表示 -->
       <div class="web_hierarchy"><!-- "hierarchy"は階層のこと -->
-        <a href="{{ url_for('top') }}">Top</a>
+        <a href="{{ url_for('render_map') }}">Top</a>
         {% if web_hierarchy_list[0]=='' %}
           <span> ></span>
           <span>{{ web_hierarchy_list[1] }}</span>
@@ -278,7 +278,7 @@
       <div class="payment_service_head">決済サービス</div>
         <!-- 現金の表示 -->
         {% for cash in cash_group %}
-          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=cash['payment_id'])}}" role="button">
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=cash['payment_id'])}}" role="button">
             <div class="cash_label">{{ cash["name"] }}</div>
           </a> 
         {% endfor %}
@@ -286,7 +286,7 @@
         <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
         <div class="fold_tag-content_credit">
           {% for credit_name in credit_names %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=credit_name['payment_id'])}}" role="button">
               <div class="tag_content">{{ credit_name["name"] }}</div>
             </a> 
           {% endfor %}
@@ -296,7 +296,7 @@
         <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
         <div class="fold_tag-content_barcode">
           {% for barcode_name in barcode_names %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=barcode_name['payment_id'])}}" role="button">
               <div class="tag_content">{{ barcode_name["name"] }}</div>
             </a> 
           {% endfor %}
@@ -306,7 +306,7 @@
         <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
         <div class="fold_tag-content_electronic_money">
           {% for electronic_money_name in electronic_money_names %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=electronic_money_name['payment_id'])}}" role="button">
               <div class="tag_content">{{ electronic_money_name["name"] }}</div>
             </a> 
           {% endfor %}
@@ -315,7 +315,7 @@
         <div class="tag_head">タグ</div>
         <div class="tag_commonly_used">よく使われるタグ Top5</div>
         {% for tag_commonly in tag_commonly_used_list %}
-          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
+          <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_commonly['tag_id'])}}" role="button">
             <div class="tag_content">{{ tag_commonly["name"] }}</div>
           </a>
         {% endfor %}
@@ -323,7 +323,7 @@
         {% for a_dan in tag_id_name_dict_every_gyou %}
           <div class="normal_tag">{{ a_dan }} 行</div> 
           {% for tag_id_name in tag_id_name_dict_every_gyou[a_dan] %}
-            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
+            <a style="text-decoration: none;" href="{{ url_for('search_shop.search_result_map', payment_or_tag_id=tag_id_name['tag_id'])}}" role="button">
               <div class="tag_content">{{ tag_id_name["name"] }}</div>
             </a>
           {% endfor %}
