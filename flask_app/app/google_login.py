@@ -100,3 +100,14 @@ def load_logged_in_user():
         g.user = None
     else:
         g.user = {'user_name': user_name, 'user_email': user_email, 'user_picture_url':user_picture_url}
+
+
+@bp.route('/g-logout')
+def g_logout():
+    session.clear()
+
+    return redirect(url_for("loading"))
+
+
+
+

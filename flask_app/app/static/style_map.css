@@ -502,6 +502,53 @@
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
     }
+    .login_user{
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        right: 250px;
+    }
+    .user_picture{
+        position: absolute;
+        cursor:pointer;
+        padding: 10px;
+        border-radius:50%;
+        width: 50px;
+    }
+    .loginpopup{
+        display: none;
+        position: absolute;
+        top:70px;
+        right: 5px;
+        background: #fffaf7;
+        width: 200px;
+        height: 80px;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .userNameIndex{
+        position: absolute;
+        top: 10px;
+        left: 30px;
+        font-size:13px;
+        color: #a7a7a7;
+    }
+    .user_name{
+        position: absolute;
+        top: 25px;
+        left: 30px;
+    }
+    .logout_btn{
+        position: absolute;
+        top: 60px;
+        left: 30px;
+    }
+    .login_btn{
+        position: absolute;
+        top: 35px;
+        left: 60px;
+    }
     .search_div{
         width: 380px;
         height: 80px;
@@ -509,7 +556,7 @@
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
         top: 70px;
-        right: 240px;
+        right: 260px;
     }
     .select_distance{
         height: 2.8em;
