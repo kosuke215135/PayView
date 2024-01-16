@@ -119,6 +119,22 @@
       <span></span>
     </div>
     <div class="menu">
+      <!-- ログイン -->
+      <div class="login_user">
+        {% if g.user %}
+          <img class="user_picture" src="{{ g.user['user_picture_url'] }}">
+          <div class="userData">
+            <a class="userNameIndex">ユーザーネーム</a>
+            <a class="user_name">{{ g.user['user_name'] }}</a>
+            <a class="logout_btn" href="{{ url_for('google_login.g_logout') }}">ログアウトする</a>
+          </div>
+        {% else %}
+          <img class="user_picture" src="{{ url_for('static', filename='default_user_icon.png') }}">
+          <div class="userData">
+            <a class="login_btn" href="{{ url_for('google_login.g_login') }}">ログインする</a>
+          </div>
+        {% endif %}
+      </div>
       <!-- タグ欄 -->
       <div class="category_frame_box_phone">
         <!-- 決済サービスのタグ -->
