@@ -507,30 +507,60 @@
         font-size: 16px;
         color: #333333;
     }
-    .detail_button{
-        float: left;
+    .map_detail_button{
+        display: flex;
+        justify-content: left;
     }
-    .detail_button a{
+    .map_detail_button1{
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button1 a{
         color: #333333;
         background: #f1f1f1;
-        font-size: 14px;
+        font-size: 12px;
         font-family: Inter;
-        word-wrap: break-word;
         border-radius: 10px;
-        padding: 10px 15px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 8px 13px;
         transition: 0.3s ease-in-out;
-        margin-right: 30px;
-        text-decoration:none;
     }
-    .detail_button a:hover {
-        color: #555555;
-        background-color: #dcdcdc;
-    }
-    .detail_button a:active {
-        color: #ffffff;
+    .map_detail_button1 a:active {
+        color: #FFF;
         background-color: #333333;
-        border: 1px solid #222222;
     }
+    .map_detail_button2 {
+        position: relative;
+        display: inline-block;
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button2 a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_detail_button2 a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_detail_button2_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
+    }
+
 
     #myPopup {
         display: none;
@@ -1177,10 +1207,12 @@
         color: #FFF;
         background-color: #333333;
     }
-    .map_detail_button2{
+    .map_detail_button2 {
+        position: relative;
+        display: inline-block;
         margin: 10px 15px 10px 0px;
     }
-    .map_detail_button2 a{
+    .map_detail_button2 a {
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
@@ -1188,21 +1220,26 @@
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
-        padding: 8px 35px 8px 13px;
+        padding: 5px 40px 5px 13px;
         transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
     }
-    .map_detail_button2 a:hover{
+    .map_detail_button2 a:hover {
         background-color: #dcdcdc;
     }
     .map_detail_button2 a:active {
         color: #FFF;
         background-color: #333333;
     }
-    .map_detail_button2_img{
-        position: relative;
-        top: -35px;
-        left: 40px;
-        width: 60px;
+    .map_detail_button2_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
     }
 
 
