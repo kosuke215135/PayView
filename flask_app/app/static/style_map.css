@@ -137,7 +137,7 @@
     }
 
     /* 検索窓 */
-    .search_div{
+    .search_div_phone{
         top: 70px;
         width: 90%;
         height: 40px;
@@ -725,6 +725,9 @@
         background: #313131;
         color: #FFF;
     } 
+    .search_div_phone{
+        display:none; 
+    }
     .search_div{
         width: 380px;
         height: 80px;
