@@ -337,9 +337,8 @@
               '<p class="storeName">' + shop_and_pay[1] + '<br></p>' +
               '<p class="located">' + shop_and_pay[2] + '先<br></p>' +
               '<p class="payments">' + shop_and_pay[5] + '</p>' +
-              '<div class="detail_button">' +
-                '<a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">決済情報詳細</a>' +
-              '</div>';
+              '<div class="map_detail_button1"><a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">決済情報詳細</a></div>' +
+              '<div class="map_detail_button2"><a href="https://maps.google.co.jp/maps?q=' + shop_and_pay[1] + '">Google Map</a><img src="' + '{{ url_for('static', filename='pin.png') }}' + '" alt="payview" class="map_detail_button2_img"></div>';
             var infowindow = new google.maps.InfoWindow({
               content: contentString
             });
@@ -419,8 +418,13 @@
               <p class="storeName">{{ shop_and_pay[1] }}<br></p>
               <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
               <p class="payments">{{ shop_and_pay[5] }}</p>
-              <div class="detail_button">
-                <a style="text-decoration: none;" onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">決済情報詳細</a>
+              <div class="credit_flex">
+                <div class="credit_text">クレジットカード</div>
+                <div class="credit_image"></div>
+              </div>
+              <div class="map_detail_button">
+                <div class="map_detail_button1"><a onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">決済情報詳細</a></div>
+                <div class="map_detail_button2"><a href="https://maps.google.co.jp/maps?q={{ shop_and_pay[1] }}">Google Map<img src="{{ url_for('static', filename='pin.png')}}" alt="payview" class="map_detail_button2_img"></a></div>
               </div>
             </div>
         {% endfor %}

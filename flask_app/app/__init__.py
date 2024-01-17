@@ -298,7 +298,7 @@ def create_app():
     @app.route("/getapijs")
     def get_api_js():
         url = 'https://maps.googleapis.com/maps/api/js'
-        key = os.environ['GOOGLE_MAPS_API_KEY'] # .envからAPIキーを取得
+        key = os.environ['API_KEY'] # .envからAPIキーを取得
         if not key:
             return "APIキーが設定されていません", 500
 
