@@ -25,10 +25,6 @@ def get_google_provider_cfg():
 
 @bp.route('/g_login')
 def g_login():
-    # ログイン後もログインを行った画面に遷移する
-    from_url = request.referrer
-    session['from'] = from_url
-
     # 認証用のエンドポイントを取得
     google_provider_cfg = get_google_provider_cfg()
     authorization_endpoint = google_provider_cfg['authorization_endpoint']
@@ -87,8 +83,7 @@ def g_callback():
     session['user_email'] = userinfo_response["email"]
     session["user_picture_url"] = userinfo_response["picture"]
 
-    # 元いた画面に遷移する
-    return redirect(session['from'])
+    return redirect(url_for("render_map"))
 
 
 
@@ -108,10 +103,9 @@ def load_logged_in_user():
 
 @bp.route('/g-logout')
 def g_logout():
-    from_url = request.referrer
     session.clear()
 
-    return redirect(from_url)
+    return redirect(url_for("render_map"))
 
 
 
