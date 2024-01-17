@@ -416,9 +416,37 @@
           var user_latitude = {{ user_latitude }};
           var user_longitude = {{ user_longitude }};
           var center = {lat: user_latitude, lng: user_longitude};
+          // OSと選択された距離に基づいてズームサイズを設定
+          function isMobileDevice() {
+              return /Mobi|Android/i.test(navigator.userAgent);
+          }
+          // 選択された距離に基づいてズームサイズを設定
+          function getZoomSize(selected_distance) {
+              let zoom_size;
+              switch (selected_distance) {
+                  case -1:
+                      zoom_size = isMobileDevice() ? 11.3 : 12;
+                      break;
+                  case 1:
+                      zoom_size = isMobileDevice() ? 14.5 : 15.5;
+                      break;
+                  case 3:
+                      zoom_size = isMobileDevice() ? 13 : 13.6;
+                      break;
+                  case 5:
+                      zoom_size = isMobileDevice() ? 12.4 : 13.2;
+                      break;
+                  case 10:
+                      zoom_size = isMobileDevice() ? 11.3 : 12.3;
+                      break;
+                  default:
+                      zoom_size = isMobileDevice() ? 14.5 : 15.5; // デフォルト値
+              }
+              return zoom_size;
+          }
           // 地図を表示
           var map = new google.maps.Map(document.getElementById('map'), {
-              zoom: 13,
+              zoom: getZoomSize({{ selected_distance }}),
               center: center,
               gestureHandling: 'greedy',
               mapTypeControl: false,
