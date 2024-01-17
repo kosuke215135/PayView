@@ -471,10 +471,46 @@
         letter-spacing: 1px;
         color: #696969;
     }
+    .shopName_mapButton{
+        display: flex;
+    }
     .shopName {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: 550;
         color: #333333;
+        display: flex;
+    }
+    .map_button {
+        position: relative;
+        display: inline-block;
+        top: 25px;
+        margin-left: 5px;
+    }
+    .map_button a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 30px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_button a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_button_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
     }
     .usePymentsStr{
         width: 100%;
@@ -946,10 +982,49 @@
         letter-spacing: 1px;
         color: #696969;
     }
+    .shopName_mapButton{
+        display: flex;
+    }
     .shopName {
         font-size: 26px;
         font-weight: 550;
         color: #333333;
+        display: flex;
+    }
+    .map_button {
+        position: relative;
+        display: inline-block;
+        top: 23px;
+        left: 40px;
+    }
+    .map_button a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_button a:hover {
+        background-color: #dcdcdc;
+    }
+    .map_button a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_button_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
     }
     .usePymentsStr{
         width: 100%;

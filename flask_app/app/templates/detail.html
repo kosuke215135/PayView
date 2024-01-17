@@ -235,7 +235,14 @@
           <span>{{ web_hierarchy_list[1] }}</span>
         {% endif %}
       </div>
-      <h1 class="shopName">{{ shop_name }}</h1> 
+      <div class="shopName_mapButton">
+        <h1 class="shopName">{{ shop_name }}</h1>
+        <div class="map_button">
+          <a href="https://maps.google.co.jp/maps?q={{ shop_name }}">Google Map
+            <img src="{{ url_for('static', filename='pin.png')}}" alt="payview" class="map_button_img">
+          </a>
+        </div>
+      </div>
       <div class="usePymentsStr">使用できる決済サービス等一覧</div>
       {# クレジットカード #}
       <div class="credit_flex">
