@@ -104,9 +104,10 @@ def load_logged_in_user():
 
 @bp.route('/g-logout')
 def g_logout():
+    from_url = request.referrer
     session.clear()
 
-    return redirect(url_for("loading"))
+    return redirect(from_url)
 
 
 
