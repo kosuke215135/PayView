@@ -1470,7 +1470,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 60%;
-        height: 50%;
+        height: 500px;
         z-index: 100002; /* 他の要素よりも前に表示されるように高い値を指定 */
     }
 
@@ -1480,11 +1480,12 @@
         font-size: 30px;
         font-family: 'M PLUS Rounded 1c';
     }
+   
     .add_shop_popup-content input[type="text"]{
         position: relative;
         border: 1px solid #696969;
         font-size: 20px;
-        height: 30px;
+        height: 10%;
         width: 90%;
         left: 50px;
         padding: 5px;
@@ -1495,8 +1496,8 @@
         border-radius: 10px;
         top: 80%;
         left: 45%;
-        width: 100px;
-        height: 50px;
+        width: 10%;
+        height: 10%;
         font-size: 20px;
         color: #696969;
         cursor: pointer;

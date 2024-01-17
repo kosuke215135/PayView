@@ -602,9 +602,9 @@
           <p>追加したいお店の名前と住所を入力してください。</p>
           <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
             <p>店名</p>
-            <input type="text" name="shop_name">
+            <input type="text" name="shop_name" placeholder="お店の正式名称を入力してください">
             <p>住所</p>
-            <input type="text" name="address">
+            <input type="text" name="address" placeholder="住所を入力してください">
             <input class="confirm_button" type="submit"  value="確定">
           </form>
       </div>
