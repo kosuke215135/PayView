@@ -1,11 +1,15 @@
-@import url("./style_pig.css");
 @import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c');
+@import url("./style_pig.css");
 /* 以下スマホの表示 */
 @media (max-width: 840px) {
     html {
         scroll-behavior: smooth;
     }
-
+    /* 地図を表示するためのコンテナのスタイル */
+    #map {
+        width: 100%;
+        height: 80vh;
+    }
     body{
         margin: 0;
         padding: 0;
@@ -53,6 +57,7 @@
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
     }
+
     /* 検索窓 */
     .search_div{
         width: 50%;
@@ -61,6 +66,7 @@
         position: absolute;
         left: 25%;
     }
+
     .select_distance{
         height: 25px;
         width: 30%;
@@ -101,52 +107,56 @@
         top: -5px;
         outline : none;
     }
+
     /* ハンバーガーメニュー */
-    .hamburger_menu {
-        position: relative;
+    .hamburger_menu{
+        display: none;
+    }
+    .hamburger_menu_phone {
+        position: absolute;
         background: #fffaf7;
+        right: 20px;
         cursor: pointer;
         width: 50px;
-        height: 50px;
+        height: 47px;
         border-radius: 5px;
-        margin: 0 10px 0 auto;
     }
-    .hamburger_menu span {
+    .hamburger_menu_phone span {
         display: inline-block;
         transition: all .4s;
         position: absolute;
-        left: 14px;
+        left: 12px;
         height: 3px;
         border-radius: 2px;
         background: #666666;
         width: 45%;
     }
-    .hamburger_menu span:nth-of-type(1) {
+    .hamburger_menu_phone span:nth-of-type(1) {
         top: 15px;
     }
-    .hamburger_menu span:nth-of-type(2) {
+    .hamburger_menu_phone span:nth-of-type(2) {
         top: 23px;
     }
-    .hamburger_menu span:nth-of-type(3) {
+    .hamburger_menu_phone span:nth-of-type(3) {
         top: 31px;
     }
-    .hamburger_menu.active span:nth-of-type(1) {
+    .hamburger_menu_phone.active span:nth-of-type(1) {
         top: 18px;
         left: 18px;
         transform: translateY(6px) rotate(-45deg);
         width: 30%;
     }
-    .hamburger_menu.active span:nth-of-type(2) {
+    .hamburger_menu_phone.active span:nth-of-type(2) {
         opacity: 0;
     }
-    .hamburger_menu.active span:nth-of-type(3) {
+    .hamburger_menu_phone.active span:nth-of-type(3) {
         top: 30px;
         left: 18px;
         transform: translateY(-6px) rotate(45deg);
         width: 30%;
     }
     /* メニュー内 */
-    .menu {
+    .menu_phone {
         background-color: #fffaf7;
         opacity: 0; /* 初期状態で透明 */
         visibility: hidden; /* 初期状態で非表示 */
@@ -159,16 +169,13 @@
         transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
         overflow-y: auto; /* 縦方向のスクロールを許可 */
     }
-    .menu.active {
+    .menu_phone.active {
         display: block;
         opacity: 1; /* アクティブ時に完全に表示 */
         visibility: visible; /* アクティブ時に表示 */
     }
-    .menu.active {
+    .menu_phone.active {
         display: block;
-    }
-    .category_frame_box{
-        display: none;
     }
     /* タグの枠 */
     .category_frame_box_phone{
@@ -194,7 +201,7 @@
     /* 決済サービスの見出し */
     .payment_service_head_phone{
         height: 34px;
-        font-family: 'M PLUS Rounded 1c';
+        font-family:'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -326,13 +333,13 @@
         border-bottom: solid 3px #FED121;
         width: 20%;
     }
-    .tag_commonly_used{
+    .tag_commonly_used_phone{
         margin: 30px 0 25px 0;;
         font-size: 14px;
         font-weight: 550;
         color: #333333;
     }
-    .normal_tag{
+    .normal_tag_phone{
         margin: 35px 0 25px 0;
         font-size: 14px;
         font-weight: 550;
@@ -353,17 +360,19 @@
         border-bottom: dashed 3px black;
     }    
     /* 空白入れる */
-    .tag_black{
+    .tag_blank_phone{
         width: 100%;
         height: 20px;
     }
 
-    .detail_frame_box{
-        height: 100%;
-        padding: 0 20px;
+    /* お店のスライドを入れる欄 */
+    .map_shop_frame_box{
+        padding: 0 20px 20px 20px;
+        margin: 0 auto;
     }
+    /* web階層の表示 */
     .web_hierarchy{
-        margin: 15px 0 10px 0;
+        margin: 15px 0 15px 20px;
     }
     .web_hierarchy:before {
         content: '';
@@ -380,10 +389,10 @@
         font-size: 16px;
         letter-spacing: 1px;
         border-radius: 5px;
-        transition: 0.1s ease-in-out;
+        transition: 0.3s ease-in-out;
         padding: 5px;
     }
-    .web_hierarchy a:active{
+    .web_hierarchy a:hover{
         background: #CCC0B0;
         color: #FFF;
     }
@@ -392,191 +401,58 @@
         letter-spacing: 1px;
         color: #696969;
     }
-    .shopName {
-        font-size: 22px;
-        font-weight: 550;
-        color: #333333;
+    /* web版のお店のスライド非表示 */
+    .shop_frame_box{
+        display: none;
     }
-    .usePymentsStr{
-        width: 100%;
+    /* お店の名前 */
+    .storeName{
+        font-size: 18px;
+        font-weight: 700;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 5px;
+        color: #333333;
+        font-family: 'M PLUS Rounded 1c';
+    }
+    /* お店の距離テキスト */
+    .located{
         font-size: 14px;
-        margin: 15px 0 20px 0;
-    }
-    .cash_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .cash_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 70px;
-        height: 50px;
-        top: -20px;
-        background: url('cash.png');
-        background-size: cover;
-        position: relative;
-    }
-    .cash_p {
-        margin-top: 0;
-        font-size: 14px;
-    }
-    .credit_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .credit_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 70px;
-        height: 50px;
-        top: -20px;
-        background: url('credit.png');
-        background-size: cover;
-        position: relative;
-    }
-    .credit_text{
-        height: 30px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 15px;
-        color: #333333;
-        margin-bottom: 20px;
-    }
-    .credit_text::after{
-        height: 7px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 40%;
-    }
-    .barcode_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .barcode_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 53px;
-        height: 50px;
-        top: -20px;
-        background: url('barcode.png');
-        background-size: cover;
-        position: relative;
-    }
-    .barcode_text{
-        height: 30px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 15px;
-        color: #333333;
-        margin-bottom: 20px;
-    }
-    .barcode_text::after{
-        height: 7px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 40%;
-    }
-    .electronic_money_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .electronic_money_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 58px;
-        height: 50px;
-        top: -20px;
-        background: url('electronic_money.png');
-        background-size: cover;
-        position: relative;
-    }
-    .electronic_money_text{
-        height: 30px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 15px;
+        font-family: Inter;
+        font-weight: 600;
+        word-wrap: break-word;
         color: #333333;
     }
-    .electronic_money_text::after{
-        height: 7px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 50%;
-    }
-    /* 決済がない場合の×表示 */
-    .content_credit_is_none {
-        margin-top: 0;
-        margin-bottom: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-bottom: 20px;
-        font-size: 20px;
-    }
-
-    /* 決済サービスボタン設定 */
-    .button_flex{
-        top: 20px;
-        width: 100%;
-        margin-bottom: 50px;
-        position: relative;
-    }
-    .button {
-        margin: 6px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .button_text{
-        color: #2d2d2d;
-        font-size: .8em;
-        letter-spacing: 1.5px;
-        border-radius: 10px;
-        border: 1.5px solid #2d2d2d;
+    .payments{
+        font-size: 16px;
+        color: #333333;
         font-family: 'M PLUS Rounded 1c';
-        padding: 10px;
     }
-    #button_pushed {
-        font-size: .8em;
-        letter-spacing: 1.5px;
-        border-radius: 10px;
-        border: 1.5px solid #2d2d2d;
-        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
-        padding: 10px;
-        transition: 0.1s ease-in-out;
-    }
-    #button_pushed a{
-        color: #2d2d2d;
-    }
-    #button_pushed:active{
-        background: #CCC0B0;
-    }
-    #button_pushed:active a{
-        color: #FFF;
-    }
-    
-    .back_button{
-        margin-top: 50px;
-        margin-bottom: 30px;
+    .detail_button{
         display: flex;
-        justify-content: center;
+        justify-content: left;
     }
-    .back_button a{
-        color: #2d2d2d;
-        background: #eee;
-        font-size: 14px;
-        letter-spacing: 1px;
+    .detail_button a{
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        word-wrap: break-word;
         border-radius: 10px;
-        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
-        padding: 10px 40px;
+        padding: 8px 15px;
         transition: 0.3s ease-in-out;
-        font-weight: 500;
         text-decoration:none;
     }
-    .back_button a:hover{
-        background: #313131;
-        color: #FFF;
+    .detail_button a:hover {
+        color: #555555;
+        background-color: #dcdcdc;
+    }
+    .detail_button a:active {
+        color: #ffffff;
+        background-color: #333333;
+        border: 1px solid #222222;
     }
 
     #myPopup {
@@ -599,7 +475,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         width: 80%;
-        height: 80%;
+        height: 60%;
         box-shadow: 0px 5px #dab367;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
     }
@@ -625,31 +501,8 @@
 
     #closeBtn:hover {
         color: #FFF;
-    } 
+    }
 
-    #topbtn {
-        position: fixed;
-        bottom: 100px;
-        right: 12px;
-        width: 40px;
-        height: 40px;
-        text-decoration: none;
-        background-color: #ffc342;
-        display: none;
-        text-align: center;
-        border-radius: 24px;
-        z-index: 1; /* 他のものより上の階層 */
-      }
-      
-    #topbtn::before {
-        content: '\f062';
-        font-family: 'Font Awesome 6 Free';
-        font-size: 30px;
-        font-weight: 900;
-        color: #fff;
-        line-height: 42px;
-      }
-    
     footer{
         width: 100%;
         height: 100px;
@@ -660,19 +513,26 @@
         padding-top: 10px;
     }
 }
+
 /* =====以下 pcの表示===== */
 @media (min-width: 841px) {
     html {
         scroll-behavior: smooth;
     }
+    /* 地図を表示するためのコンテナのスタイル */
+    #map {
+        width: 70%;
+        height: 80vh;
+        flex-grow: 1;
+    }
     body{
         margin: 0;
         padding: 0;
-        font-family: 'M PLUS Rounded 1c';
     }
     .background{
         background-color: #fffaf7;
     }
+
     .header_div_phone{
         display:none;
     }
@@ -691,9 +551,8 @@
     .logo{
         width: 190px;
         height: 70px;
-        float: left;   
+        float: left;        
     }
-
     .title{
         color: #666666;
         font-size: 36px;
@@ -706,12 +565,11 @@
         width: 380px;
         height: 80px;
         position: absolute;
-        top: 60%;
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
-        right: 100px;
+        top: 70px;
+        right: 240px;
     }
-
     .select_distance{
         height: 2.8em;
         float: left;
@@ -719,7 +577,6 @@
         background: #dcdcdc;
         color: #696969;
     }
-
     .search_container{
         position: relative;
         box-sizing: border-box;
@@ -752,8 +609,270 @@
         right:0px;
         top: -5px;
         outline : none;
-    } 
-
+    }
+    /* ハンバーガーメニュー */
+    .hamburger_menu_phone{
+        display: none;
+    }
+    .hamburger_menu{
+        position: absolute;
+        background: #f1f1f1;
+        cursor: pointer;
+        width: 50px;
+        height: 50px;
+        top: 30px;
+        right: 190px;
+        border-radius: 5px;
+    }
+    .hamburger_menu span {
+        display: inline-block;
+        transition: all .4s;
+        position: absolute;
+        left: 14px;
+        height: 3px;
+        border-radius: 2px;
+        background: #666666;
+        width: 45%;
+    }
+    .hamburger_menu span:nth-of-type(1) {
+        top: 15px;
+    }
+    .hamburger_menu span:nth-of-type(2) {
+        top: 23px;
+    }
+    .hamburger_menu span:nth-of-type(3) {
+        top: 31px;
+    }
+    .hamburger_menu.active{
+        background-color: #f1f1f1;
+        border: none;
+    }
+    .hamburger_menu.active span:nth-of-type(1) {
+        top: 18px;
+        left: 18px;
+        transform: translateY(6px) rotate(-45deg);
+        width: 30%;
+    }
+    .hamburger_menu.active span:nth-of-type(2) {
+        opacity: 0;
+    }
+    .hamburger_menu.active span:nth-of-type(3) {
+        top: 30px;
+        left: 18px;
+        transform: translateY(-6px) rotate(45deg);
+        width: 30%;
+    }
+    /* メニュー内 */
+    .menu {
+        background-color: #fffaf7;
+        opacity: 0; /* 初期状態で透明 */
+        visibility: hidden; /* 初期状態で非表示 */
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.22);
+        top: 100px;
+        right: 0;
+        width: 37%;
+        height: 75vh;
+        position: fixed;
+        transition: opacity 0.3s, visibility 0.3s; /* トランジションの追加 */
+        overflow-y: auto; /* 縦方向のスクロールを許可 */
+    }
+    .menu.active {
+        display: block;
+        opacity: 1; /* アクティブ時に完全に表示 */
+        visibility: visible; /* アクティブ時に表示 */
+        background-color: #fffaf7;
+        border: none;
+    }
+    .menu.active {
+        display: block;
+    }
+    /* タグの枠 */
+    .category_frame_box{
+        height: 100%;
+        margin: 0 20px;
+    }
+    /* 見出し */
+    .category_memu{
+        font-family: 'M PLUS Rounded 1c';
+        font-size: 24px;
+        margin-top: 15px;
+        color: #666666;
+    }
+    .category_menu_line{
+        height: 0px;
+        line-height : 1.8 ;
+        border-bottom: dashed 3px #666666;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 3px;
+        margin-bottom: 30px;
+    }
+    /* 決済サービスの見出し */
+    .payment_service_head{
+        height: 34px;
+        font-family: 'M PLUS Rounded 1c';
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #333333;
+        margin-bottom: 20px;
+    }
+    .payment_service_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .cash_label{
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 15px 0 15px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .cash_label:hover {
+        border-bottom: dashed 3px black;
+    }
+    /* 折りたたみメニュー */
+    @keyframes bounce {
+        0% { height: 0; opacity: 0; }
+        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
+        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
+    }
+    .fold_tag-check {
+        display: none;
+    }
+    /* ラベルの見た目 */
+    .fold_tag-label {
+        font-size: 14px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: space-between;
+        line-height : 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 13px 0px 13px 20px;
+    }
+    .fold_tag-label::after {
+        display: flex;
+        align-items: center;
+        font-family: "Font Awesome 5 Free";
+        content: "\f0d7";
+        font-weight: 900;
+        transition: all 0.3s;
+    }
+    .fold_tag-content_credit {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-content_barcode {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-content_electronic_money {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: opacity 0.3s, max-height 0.7s;
+        width: 230px;
+        height: 1000px;
+        margin-left: 30px;
+        word-break: break-all;
+        top: -20px;
+        position: relative;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_credit {
+        /* チェックされたとき：表示 */
+        max-height: 850px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
+        /* チェックされたとき：表示 */
+        max-height: 930px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_electronic_money {
+        /* チェックされたとき：表示 */
+        max-height: 550px;  /* この値は内容に応じて調整 */
+        opacity: 1;
+        padding: 15px 0;
+        visibility: visible;
+    }
+    .fold_tag-check:checked + .fold_tag-label::after {
+        transform: rotate(180deg);
+    }
+    /* タグの見出し */
+    .tag_head{
+        height: 34px;
+        font-family: 'M PLUS Rounded 1c';
+        border-bottom: solid 4px #FFEB8F;
+        font-size: 20px;
+        color: #333333;
+        margin: 20px 0 20px 0;
+    }
+    .tag_head::after{
+        height: 3px;
+        position: relative;
+        content: " ";
+        display: block;
+        border-bottom: solid 3px #FED121;
+        width: 20%;
+    }
+    .tag_commonly_used{
+        margin: 30px 0 25px 0;;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .normal_tag{
+        margin: 35px 0 25px 0;
+        font-size: 14px;
+        font-weight: 550;
+        color: #333333;
+    }
+    .tag_content{
+        font-size: 14px;
+        line-height: 1.8;
+        border-bottom: dashed 3px #d3d3d3;
+        margin: 15px 0 15px 20px;
+        color: #333333;
+        background-color: transparent;
+        cursor: pointer;
+        position: relative;
+        transition: border-bottom 0.3s ease;
+    }
+    .tag_content:hover {
+        border-bottom: dashed 3px black;
+    }    
+    /* 空白入れる */
+    .tag_blank{
+        width: 100%;
+        height: 20px;
+    }
     .line{
         height: 0px;
         line-height : 1.8 ;
@@ -762,19 +881,34 @@
         word-wrap: break-word;
         margin: -5px 50px 0 80px;
     }
-    .detail_category_frame_box{
+    
+    .map_shop_frame_box{
         display: flex;
-        justify-content: flex-end;
-        margin: 60px 50px 0 80px;
+        justify-content: flex-start;
+        margin: 20px 50px 0 80px;
     }
-    .detail_frame_box{
-        width: 70%;
-        height: 100%;
-        position: static;
-        margin: -50px auto 400px 0;
+    .shop_frame_box{
+        background-color: #f1f1f1;
+        float: right;
+        width: 100%;
+        max-width: 410px;
+        height: 80vh;
+        margin: 0px 0px 70px 40px;
+        overflow: auto;
+        padding-left: 10px;
+        border-radius: 20px;
     }
+    .shop_frame_box::-webkit-scrollbar{
+        width: 10px;
+        border-radius: 20px;
+    }
+    .shop_frame_box::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        background-color: #ccc8c6;
+    }
+    /* web階層の表示 */
     .web_hierarchy{
-        margin: 15px 0 10px 0;
+        margin: 20px 0 0px 80px;
     }
     .web_hierarchy:before {
         content: '';
@@ -803,362 +937,79 @@
         letter-spacing: 1px;
         color: #696969;
     }
-    .shopName {
-        font-size: 26px;
-        font-weight: 550;
-        color: #333333;
-    }
-    .usePymentsStr{
-        width: 100%;
-        font-size: 14px;
-        margin: 20px 0;
-    }
-    .cash_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .cash_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 70px;
-        height: 57px;
-        top: -20px;
-        background: url('cash.png');
-        background-size: cover;
+    /* お店のスライド枠の装飾 */
+    .shop_frame {
+        background-color: #fffaf7;
+        margin: 30px 10px;
+        width: 330px;
+        min-height: 250px;
+        height: 30%;
+        text-decoration: none;
+        border: solid 3px #FED121;
+        float: left;
         position: relative;
+        padding: 0.25em 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-    .cash_p {
-        margin-top: 0;
-        margin-bottom: 10px;
-        font-size: 14px;
+    .shop_frame:hover {
+        background-color: #f0e8e6;
+        border: solid 3px #FED121;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     }
-    .credit_flex{
-        width: 100%;
-        display: flex; /*横並び*/
+    .active {
+        background-color: #e8e0dd;
+        border: solid 3px #FABD70;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
-    .credit_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 80px;
-        height: 60px;
-        top: -23px;
-        background: url('credit.png');
-        background-size: cover;
-        position: relative;
-    }
-    .credit_text{
-        height: 37px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin-bottom: 20px;
-        padding-right: 15px;
-    }
-    .credit_text::after{
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 50%;
-    }
-    .barcode_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .barcode_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 63px;
-        height: 60px;
-        top: -23px;
-        background: url('barcode.png');
-        background-size: cover;
-        position: relative;
-    }
-    .barcode_text{
-        height: 37px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin-bottom: 20px;
-        padding-right: 15px;
-    }
-    .barcode_text::after{
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 50%;
-    }
-    .electronic_money_flex{
-        width: 100%;
-        display: flex; /*横並び*/
-    }
-    .electronic_money_image{
-        border-bottom: solid 4px #FFEB8F;
-        width: 68px;
-        height: 60px;
-        top: -23px;
-        background: url('electronic_money.png');
-        background-size: cover;
-        position: relative;
-    }
-    .electronic_money_text{
-        height: 37px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin-bottom: 20px;
-        padding-right: 15px;
-    }
-    .electronic_money_text::after{
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 50%;
-    }
-    /* 決済がない場合の×表示 */
-    .content_credit_is_none {
-        margin-top: 0;
-        margin-bottom: 20px;
-        margin-left: auto;
-        margin-right: auto;
+    /* お店の名前 */
+    .storeName{
         font-size: 20px;
+        font-weight: 700;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 5px;
+        color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
-
-    /* ================== */
-    /* 決済サービスボタン設定 */
-    .button_flex{
-        top: 20px;
-        margin-bottom: 50px;
-        position: relative;
+    /* お店の距離テキスト */
+    .located{
+        font-size: 16px;
+        font-family: Inter;
+        font-weight: 600;
+        word-wrap: break-word;
+        color: #333333;
     }
-    .button {
-        margin: 6px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+    .payments{
+        font-size: 16px;
+        color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
-    .button_text{
-        color: #2d2d2d;
-        font-size: .8em;
-        letter-spacing: 1.5px;
-        border-radius: 10px;
-        border: 1.5px solid #2d2d2d;
-        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
-        padding: 10px;
-    }
-    #button_pushed {
-        font-size: .8em;
-        letter-spacing: 1.5px;
-        border-radius: 10px;
-        border: 1.5px solid #2d2d2d;
-        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
-        padding: 10px;
-        transition: 0.1s ease-in-out;
-    }
-    #button_pushed a{
-        color: #2d2d2d;
-    }
-    #button_pushed:hover{
-        background: #CCC0B0;
-    }
-    #button_pushed:hover a{
-        color: #FFF;
-    }
-
-    .back_button{
-        margin-top: 80px;
-        margin-bottom: 30px;
+    .detail_button{
         display: flex;
-        justify-content: center;
+        justify-content: left;
     }
-    .back_button a{
-        color: #2d2d2d;
-        background: #eee;
+    .detail_button a{
+        color: #333333;
+        background: #f1f1f1;
         font-size: 14px;
-        letter-spacing: 1px;
+        font-family: 'M PLUS Rounded 1c';
+        word-wrap: break-word;
         border-radius: 10px;
-        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
-        padding: 10px 40px;
+        padding: 8px 15px;
         transition: 0.3s ease-in-out;
-        font-weight: 500;
         text-decoration:none;
     }
-    .back_button a:hover{
-        background: #313131;
-        color: #FFF;
+    .detail_button a:hover {
+        color: #555555;
+        background-color: #dcdcdc;
     }
-
-    /* カテゴリの枠（見出し） */
-    .category_frame_box_phone{
-        display: none;
-    }
-    /* カテゴリの枠（見出し） */
-    .category_frame_box{
-        float: right;
-        width: 100%;
-        height: 100%;
-        max-width: 300px;
-        padding-bottom: 70px;
-    }
-    /* カテゴリの見出し */
-    .payment_service_head{
-        width: 280px;
-        height: 38px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin-bottom: 20px;
-    }
-    .payment_service_head::after{
-        height: 3px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 20%;
-    }
-    .cash_label{
-        font-size: 14px;
-        line-height: 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 30px 0 20px 20px;
-        color: #333333;
-        background-color: transparent;
-        cursor: pointer;
-        position: relative;
-        transition: border-bottom 0.3s ease;
-    }
-    .cash_label:hover{
-        border-bottom: dashed 3px black;
-    }
-    /* 折りたたみメニュー */
-    @keyframes bounce {
-        0% { height: 0; opacity: 0; }
-        50% { height: 5%; opacity: 1; } /* 一度目標の高さを超える */
-        100% { height: 10%; opacity: 1; } /* 最終的な高さに落ち着く */
-    }
-    .fold_tag-check {
-        display: none;
-    }
-    /* ラベルの見た目 */
-    .fold_tag-label {
-        width: 270px;
-        font-size: 14px;
-        box-sizing: border-box;
-        display: flex;
-        justify-content: space-between;
-        line-height : 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 13px 0px 13px 20px;
-    }
-    .fold_tag-label::after {
-        display: flex;
-        align-items: center;
-        font-family: "Font Awesome 5 Free";
-        content: "\f0d7";
-        font-weight: 900;
-        transition: all 0.3s;
-    }
-    .fold_tag-content_credit {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-content_barcode {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-content_electronic_money {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: opacity 0.3s, max-height 0.7s;
-        width: 230px;
-        height: 1000px;
-        margin: 0 auto;
-        word-break: break-all;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_credit {
-        /* チェックされたとき：表示 */
-        max-height: 850px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
-        /* チェックされたとき：表示 */
-        max-height: 930px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_electronic_money {
-        /* チェックされたとき：表示 */
-        max-height: 550px;  /* この値は内容に応じて調整 */
-        opacity: 1;
-        padding: 15px 0;
-        visibility: visible;
-    }
-    .fold_tag-check:checked + .fold_tag-label::after {
-        transform: rotate(180deg);
-    }
-    /* タグのテキスト（決済サービスじゃないやつ） */
-    .tag_head{
-        width: 280px;
-        height: 38px;
-        font-family: 'M PLUS Rounded 1c';
-        border-bottom: solid 4px #FFEB8F;
-        font-size: 24px;
-        color: #333333;
-        margin: 20px 0 30px 0;
-    }
-    .tag_head::after{
-        height: 3px;
-        position: relative;
-        content: " ";
-        display: block;
-        border-bottom: solid 3px #FED121;
-        width: 20%;
-    }
-    .tag_commonly_used{
-        font-size: 14px;
-        font-weight: 550;
-        color: #333333;
-    }
-    .normal_tag{
-        margin: 30px 0 25px 0;
-        font-size: 14px;
-        font-weight: 550;
-        color: #333333;
-    }
-    .tag_content{
-        font-size: 14px;
-        line-height: 1.8;
-        border-bottom: dashed 3px #d3d3d3;
-        margin: 15px 0 15px 20px;
-        color: #333333;
-        background-color: transparent;
-        cursor: pointer;
-        position: relative;
-        transition: border-bottom 0.3s ease;
-    }
-    .tag_content:hover{
-        border-bottom: dashed 3px black;
+    .detail_button a:active {
+        color: #ffffff;
+        background-color: #333333;
+        border: 1px solid #222222;
     }
 
     #myPopup {
@@ -1180,7 +1031,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
+        width: 60%;
         height: 80%;
         box-shadow: 0px 10px #dab367;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
@@ -1193,7 +1044,7 @@
         left: 50%;
         width: 80%;
         transform: translate(-50%, -50%);
-        font-size: 40px;
+        font-size: 30px;
         font-family: 'M PLUS Rounded 1c';
     }
 
@@ -1209,29 +1060,6 @@
         color: #FFF;
     }
 
-    #topbtn {
-        position: fixed;
-        bottom: 100px;
-        right: 12px;
-        width: 40px;
-        height: 40px;
-        text-decoration: none;
-        background-color: #ffc342;
-        display: none;
-        text-align: center;
-        border-radius: 24px;
-        z-index: 1; /* 他のものより上の階層 */
-      }
-      
-    #topbtn::before {
-        content: '\f062';
-        font-family: 'Font Awesome 6 Free';
-        font-size: 30px;
-        font-weight: 900;
-        color: #fff;
-        line-height: 42px;
-      }
-
     footer{
         width: 100%;
         height: 100px;
@@ -1242,3 +1070,4 @@
         padding-top: 10px;
     }
 }
+/* =====以上pcの表示====== */

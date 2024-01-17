@@ -1,32 +1,78 @@
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+<head prefix="og: https://ogp.me/ns#">
   <meta charset="UTF-8"> 
   <link rel="icon" type="image/png" href="{{url_for('static', filename='icon.png')}}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style_top.css')}}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style_loading.css')}}">
   <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro" rel="stylesheet">    	
   <link href="https://fonts.googleapis.com/css?family=Noto+Serif+JP" rel="stylesheet">
   <title>PayView</title>
-  <style>
-    /* すべての画像のスタイル */
-    img {
-      display: block; /* 画像をブロック要素として扱う */
-      margin: auto;    /* 画像を中央に配置 */
-    }
-
-    /* 特定の画像のスタイル */
-    .custom-image {
-      width: 30%; /* 幅を50%に設定 */
-    }
-  </style>
-  {# 位置情報を取得する geolocation.jsを追加 by kouya#}
+  <!-- 位置情報を取得する geolocation.jsを追加 -->
   <script src="{{ url_for('static', filename='javascript/geolocation.js') }}"></script>
-  {# bootstrap setting #}
   <!-- 画像の大きさを取得 -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:url" content="https://payview.st.ie.u-ryukyu.ac.jp"/>
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="PayView" />
+  <meta property="og:description" content="お店の決済サービスを調べることができます" />
+  <meta property="og:site_name" content="PayView" />
+  <meta property="og:image" content="https://payview.st.ie.u-ryukyu.ac.jp/static/payviewPig3.png" />
+  <meta name=”twitter:card” content="summary_large_image"/>
 </head>
-<body onload="post_position('/top')">
-  <h1>loading...</h1>
+<body onload="setTimeout(function() { post_position('/get-location', '{{ to_url }}'); }, 3000);">
+  <div class="spinner"></div>
+  <div class="ImagePig">
+    <img id="pic" src="../static/payviewPig1.png" alt="payview-pig 1">
+  </div>
+  <h1 class="title">
+    <span>l</span>
+    <span>o</span>
+    <span>a</span>
+    <span>d</span>
+    <span>i</span>
+    <span>n</span>
+    <span>g</span>
+    <span>.</span>
+    <span>.</span>
+    <span>.</span>
+  </h1>
+  <script>
+    // ルートurlを取得する
+    var rootUrl = window.location.origin;
+    const pig1url = rootUrl + "/static/payviewPig1.png";
+    const pig2url = rootUrl + "/static/payviewPig2.png";
+    const img = [pig1url, pig2url];
+    
+    let count = -1;
+    
+    picChange(); // 関数を実行
+    
+    function picChange() {
+    
+      count++;
+    
+      // カウントが最大になれば配列を初期値に戻すため「0」を指定する
+      if (count == img.length) count = 0;
+    
+      // 画像選択
+      document.getElementById("pic").src = img[count];
+    
+      // 1秒ごとに実行
+      setTimeout("picChange()", 100);
+    
+    }
+
+    const titleElement = document.querySelector(".title");
+    const CLASSNAME = "-visible";
+    const TIMEOUT = 1500;
+
+    setInterval(() => {
+      titleElement.classList.add(CLASSNAME);
+      setTimeout(() => {
+        titleElement.classList.remove(CLASSNAME);
+      }, TIMEOUT);
+    }, TIMEOUT * 2);
+  </script>
 </body>
 </html>

@@ -1,17 +1,19 @@
 // jsで現在地の位置情報（緯度経度）を取得する。 by kouya
 
-function post_position(path) {
+function post_position(path, to_url) {
   if ("geolocation" in navigator) {
       console.log("execute post_position")
+      console.log(to_url)
       navigator.geolocation.getCurrentPosition(
         // 成功時のコールバック関数
         function(position) {
-          post(path, {latitude: position.coords.latitude, longitude: position.coords.longitude});
+          post(path, {latitude: position.coords.latitude, longitude: position.coords.longitude, redirect_url: to_url});
         },
         // 失敗時のコールバック関数
         function(error) {
           // エラーメッセージを表示するか、適切な処理を行う
           console.error("位置情報の取得に失敗しました:", error.message);
+          window.alert('位置情報をオンにしてください')
         }
       );
   } else {
@@ -49,10 +51,4 @@ function post(path, params, method='post') {
   form.submit();
 }
 
-function call_post(position) {
-  post("/top", {latitude: position.coords.latitude, longitude: position.coords.longitude});
-}
 
-function fail(error){
- window.alert('位置情報の取得に失敗しました。エラーコード：' + error.code);
-}

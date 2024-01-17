@@ -33,6 +33,27 @@ def get_distanced_lat_lng(lat, lng, distance):
     return {'n': lat + diff, 'e': lng + diff, 's': lat - diff, 'w': lng - diff}
 
 
+# SQLだけでは正確な距離制限を掛けることができないため、正確に弾く
+def accurately_determine_distance(shops_data_list, limit_distance):
+    """
+    Args:
+        shops_data_list [[str]]: お店の情報が格納された2重リスト
+        limit_distance int: 1,3,5,10,-1のいずれかの値を取る(-1は範囲指定をしない)
+    Returns:
+        [[str]]: お店の情報が格納された2重リスト
+    """
+    if limit_distance == -1:
+        return shops_data_list
+
+    return_list = []
+    for i in range(len(shops_data_list)):
+        shop = shops_data_list[i]
+        # 距離の情報を取り出す
+        distance = shop[2]
+        if distance <= limit_distance:
+            return_list.append(shop)
+    return return_list
+
 # リストを受け取り、各要素の3番目([2])の距離をkmもしくはmに変換する
 def conversion_km_or_m(shop_data_list):
     distance = shop_data_list[2]
