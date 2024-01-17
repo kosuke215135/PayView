@@ -63,6 +63,23 @@
         </div>
       </form>
     </div>
+    <!-- ログイン -->
+    <div class="login_user">
+      {% if g.user %}
+        <img id="loginPopupButton" class="user_picture" src="{{ g.user['user_picture_url'] }}">
+        <div id="loginpopupContainer" class="loginpopup" >
+          <a class="userNameIndex">ユーザーネーム</a>
+          <a class="user_name">{{ g.user['user_name'] }}</a>
+          <div class="logout_btn">
+            <a type="button" href="{{ url_for('google_login.g_logout') }}">Logout</a>
+          </div>
+        </div>
+      {% else %}
+      <div class="login_btn">
+        <a type="button" href="{{ url_for('google_login.g_login') }}">Login</a>
+      </div>
+      {% endif %}
+    </div>
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu">
       <span></span>
@@ -148,32 +165,22 @@
     <a href="{{ url_for('render_map') }}">
       <img src="{{ url_for('static', filename='logo.png')}}" alt="payview" class="logo">
     </a>
-    <!-- 検索窓 -->
-    <div class="search_div">
-      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
-        <select class="select_distance" name="select_distance">
-          {% for i in DROP_DOWN_DISTANCE %}
-            {% if i == selected_distance%}
-              {% set selected = "selected"%}
-            {% else %}
-              {% set selected = "" %}
-            {% endif %}
-            {% if i == -1%}
-              <option value="{{ i }}" {{ selected }}>すべて</option>
-            {% else %}
-              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-        <div class="search_container">
-          {% if searched_strings == ""%}
-            <input type="text" name="search_strings" placeholder="キーワードを入力">
-          {% else %}
-            <input type="text" name="search_strings" value="{{ searched_strings }}">
-          {% endif%}
-          <input type="submit" value="&#xf002">
+    <!-- ログイン -->
+    <div class="login_user">
+      {% if g.user %}
+        <img id="loginPopupButton_phone" class="user_picture" src="{{ g.user['user_picture_url'] }}">
+        <div id="loginpopupContainer_phone" class="loginpopup" >
+          <a class="userNameIndex">ユーザーネーム</a>
+          <a class="user_name">{{ g.user['user_name'] }}</a>
+          <div class="logout_btn">
+            <a type="button" href="{{ url_for('google_login.g_logout') }}">Logout</a>
+          </div>
         </div>
-      </form>
+      {% else %}
+      <div class="login_btn">
+        <a type="button" href="{{ url_for('google_login.g_login') }}">Login</a>
+      </div>
+      {% endif %}
     </div>
     <!-- ハンバーガーメニュー -->
     <div class="hamburger_menu_phone">
@@ -182,6 +189,7 @@
       <span></span>
     </div>
     <div class="menu_phone">
+      
       <!-- タグ欄 -->
       <div class="category_frame_box_phone">
         <!-- 決済サービスのタグ -->
@@ -273,6 +281,33 @@
         window.location.href = `${SCRIPT_ROOT}/detail/${os}/${shop_id}`
       }
     </script>
+    <!-- 検索窓 -->
+    <div class="search_div_phone">
+      <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
+        <select class="select_distance" name="select_distance">
+          {% for i in DROP_DOWN_DISTANCE %}
+            {% if i == selected_distance%}
+              {% set selected = "selected"%}
+            {% else %}
+              {% set selected = "" %}
+            {% endif %}
+            {% if i == -1%}
+              <option value="{{ i }}" {{ selected }}>すべて</option>
+            {% else %}
+              <option value="{{ i }}" {{ selected }}>{{ i }} km</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <div class="search_container">
+          {% if searched_strings == ""%}
+            <input type="text" name="search_strings" placeholder="キーワードを入力">
+          {% else %}
+            <input type="text" name="search_strings" value="{{ searched_strings }}">
+          {% endif%}
+          <input type="submit" value="&#xf002">
+        </div>
+      </form>
+    </div>
     <!-- タイトル -->
     <div class="title">Search Shop Map</div>
     <div class="line"></div>
@@ -518,5 +553,7 @@
     <footer>
         <p>©PayView All Rights Reserved.</p>
     </footer>
+    <!-- ログインのpopup表示のスクリプト読み込み -->
+    <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
 </body>
 </html>

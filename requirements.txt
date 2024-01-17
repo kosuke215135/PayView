@@ -3,3 +3,5 @@ python-dotenv
 mysql-connector-python
 gunicorn
 mecab-python3
+oauthlib
+neologdn
