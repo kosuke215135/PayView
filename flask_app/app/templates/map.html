@@ -568,7 +568,9 @@
     </div>
     <div id=add_shop_Popup class="add_shop_popup">
       <div class="add_shop_popup-content">
-        <span id="add_shop_closeBtn" onclick="close_add_shop_Popup()">&times;</span>
+        <div class="add_shop_closeBtn">
+          <span  onclick="close_add_shop_Popup()">&times;</span>
+        </div>
           <p>追加したいお店の名前と住所を入力してください。</p>
           <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
             <p>店名</p>

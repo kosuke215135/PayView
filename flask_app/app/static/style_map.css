@@ -1385,49 +1385,69 @@
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        z-index: 9999; /* 他の要素よりも前に表示されるように高い値を指定 */
+        z-index: 100001; /* 他の要素よりも前に表示されるように高い値を指定 */
     }
 
     .add_shop_popup-content {
         background-color: #ffffff;
-        padding: 20px;
+        padding: 50px;
         border-radius: 10px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 60%;
-        height: 80%;
-        z-index: 100000; /* 他の要素よりも前に表示されるように高い値を指定 */
+        height: 50%;
+        z-index: 100002; /* 他の要素よりも前に表示されるように高い値を指定 */
     }
 
     .add_shop_popup-content p {
         color: #696969;
         position: relative; 
-        /* top: 20%;
-        left: 50%;
-        width: 80%; */
-        /* transform: translate(-50%, -50%); */
         font-size: 30px;
         font-family: 'M PLUS Rounded 1c';
     }
-    .add_shop_popup-content input {
+    .add_shop_popup-content input[type="text"]{
         position: relative;
-        /* position:fixed; */
-        /* top: 20%; */
+        border: 1px solid #696969;
+        font-size: 20px;
+        height: 30px;
+        width: 90%;
         left: 50px;
-        /* width: 80%; */
+        padding: 5px;
+    }
+    .add_shop_popup-content input[type="submit"] {
+        position: absolute; 
+        border: 1px solid #696969;
+        border-radius: 10px;
+        top: 80%;
+        left: 45%;
+        width: 100px;
+        height: 50px;
+        font-size: 20px;
+        color: #696969;
+        cursor: pointer;
+        padding: 10px;
     }
 
-    #add_shop_closeBtn {
+    .add_shop_closeBtn {
+        position: relative;
+        display:block;
         color: #696969;
         float: right;
+        width: 50px;
+        height:  60px;
         font-size: 40px;
         font-weight: bold;
         cursor: pointer;
     }
+    .add_shop_closeBtn span {
+        position: absolute;
+        display:block; 
+        bottom: 20px;
+    }
 
-    #add_shop_closeBtn:hover {
+    .add_shop_closeBtn span:hover {
         color: #a9a9a9;
     }
 
