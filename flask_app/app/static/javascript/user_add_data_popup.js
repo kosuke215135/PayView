@@ -26,5 +26,14 @@ window.addEventListener('click', function(event) {
     }
 });
 
+const add_shop_Popup = document.getElementById('add_shop_Popup');
+
+function open_add_shop_Popup(){
+    add_shop_Popup.style.display = 'block';
+}
+
+function close_add_shop_Popup(){
+    add_shop_Popup.style.display = 'none';
+}
 
 

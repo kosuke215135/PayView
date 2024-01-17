@@ -1377,6 +1377,59 @@
         line-height : 1.8 ;
         border-bottom: dashed 2px #d3d3d3;
     }
+    #add_shop_Popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        height: 80%;
+        z-index: 100000; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content p {
+        color: #696969;
+        position: relative; 
+        /* top: 20%;
+        left: 50%;
+        width: 80%; */
+        /* transform: translate(-50%, -50%); */
+        font-size: 30px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+    .add_shop_popup-content input {
+        position: relative;
+        /* position:fixed; */
+        /* top: 20%; */
+        left: 50px;
+        /* width: 80%; */
+    }
+
+    #add_shop_closeBtn {
+        color: #696969;
+        float: right;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    #add_shop_closeBtn:hover {
+        color: #a9a9a9;
+    }
 
     footer{
         width: 100%;

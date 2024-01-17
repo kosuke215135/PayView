@@ -562,8 +562,21 @@
       <img id="addPopupButton" class="user_add_data_btn" src="{{ url_for('static', filename='plus.png') }}"> 
       <div id="addpopupContainer" class="addpopup" >
           <div class="add_shop_btn">
-            <a type="button" href="#">お店を追加する</a>
+            <a type="button" href="#" onclick="open_add_shop_Popup(); return false;">お店を追加する</a>
           </div>
+      </div>
+    </div>
+    <div id=add_shop_Popup class="add_shop_popup">
+      <div class="add_shop_popup-content">
+        <span id="add_shop_closeBtn" onclick="close_add_shop_Popup()">&times;</span>
+          <p>追加したいお店の名前と住所を入力してください。</p>
+          <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
+            <p>店名</p>
+            <input type="text" name="shop_name">
+            <p>住所</p>
+            <input type="text" name="address">
+            <input class="confirm_button" type="submit"  value="確定">
+          </form>
       </div>
     </div>
     {# ====フッター==== #}
