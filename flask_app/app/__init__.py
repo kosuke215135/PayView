@@ -53,6 +53,9 @@ def create_app():
 
     import admin_privacy
     app.register_blueprint(admin_privacy.bp)
+
+    import google_login
+    app.register_blueprint(google_login.bp)
     
     @app.route("/")
     def loading():
@@ -224,7 +227,7 @@ def create_app():
             electronic_money_names=electronic_money_names, 
             tag_commonly_used_list=tag_commonly_used_list, 
             DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE, 
-            selected_distance="", 
+            selected_distance=1, 
             searched_strings="",
             user_latitude=user_latitude,
             user_longitude=user_longitude)

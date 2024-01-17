@@ -53,17 +53,98 @@
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
     }
+    .login_user{
+        position: absolute;
+        width: 10%;
+        right: 70px;
+    }
+    .user_picture{
+        position: absolute;
+        cursor:pointer;
+        border-radius:50%;
+        width: 100%;
+        right: 10px;
+    }
+    .loginpopup{
+        display: none;
+        position: absolute;
+        background: #fffaf7;
+        right:  10px;
+        top: 45px;
+        width: 150px;
+        height: 70px;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .userNameIndex{
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-size:13px;
+        color: #a7a7a7;
+    }
+    .user_name{
+        position: absolute;
+        top: 25px;
+        left: 20px;
+        font-size:13px;
+    }
+    .logout_btn{
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        font-size:13px;
+    }
+    .logout_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #fffaf7;
+        background: #a9a9a9;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 5px 10px 5px 8px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
+    .login_btn{
+        position: absolute;
+        border-radius: 10px;
+        right: 70px;
+    }
+    .login_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #a9a9a9;
+        background: #fffaf7;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 7px 3px 7px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
     /* 検索窓 */
-    .search_div{
-        width: 50%;
+    .search_div_phone{
+        top: 70px;
+        width: 90%;
         height: 40px;
         padding: 5px;
-        position: absolute;
-        left: 25%;
+        position: relative;
+        margin: 10px 10px 0px 10px;
     }
+
     .select_distance{
-        height: 25px;
-        width: 30%;
+        height: 30px;
+        width: 20%;
         float: left;
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
@@ -75,13 +156,13 @@
         box-sizing: border-box;
         border: 0.1px solid #d3d3d3;
         display: block;
-        height: 25px;
-        width: 70%;
+        height: 30px;
+        width: 80%;
         overflow: hidden;
     }
     .search_container input[type="text"]{
         border: none;
-        height: 25px;
+        height: 30px;
         width: 70%;
         background-color: #fffaf7
     }
@@ -95,12 +176,12 @@
         background: #FFEB8F;
         color: #000000;
         position: absolute;
-        width: 20%;
-        height: 30px;
+        width: 15%;
+        height: 35px;
         right:0px;
         top: -5px;
         outline : none;
-    }
+    } 
     /* ハンバーガーメニュー */
     .hamburger_menu {
         position: relative;
@@ -392,10 +473,46 @@
         letter-spacing: 1px;
         color: #696969;
     }
+    .shopName_mapButton{
+        display: flex;
+    }
     .shopName {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: 550;
         color: #333333;
+        display: flex;
+    }
+    .map_button {
+        position: relative;
+        display: inline-block;
+        top: 25px;
+        margin-left: 5px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+    .map_button a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 30px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_button a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_button_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
     }
     .usePymentsStr{
         width: 100%;
@@ -702,14 +819,104 @@
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
     }
+    .login_user{
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        right: 150px;
+    }
+    .user_picture{
+        position: absolute;
+        cursor:pointer;
+        padding: 10px;
+        border-radius:50%;
+        width: 50px;
+    }
+    .loginpopup{
+        display: none;
+        position: absolute;
+        top:70px;
+        right: 5px;
+        background: #fffaf7;
+        width: 200px;
+        height: 90px;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .userNameIndex{
+        position: absolute;
+        top: 10px;
+        left: 30px;
+        font-size:13px;
+        color: #a7a7a7;
+    }
+    .user_name{
+        position: absolute;
+        top: 25px;
+        left: 30px;
+    }
+    .logout_btn{
+        position: absolute;
+        top: 60px;
+        left:  60px;
+    }
+    .logout_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #fffaf7;
+        background: #a9a9a9;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 8px 20px 10px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
+    .logout_btn a:hover{
+        background: #FFF;
+        color: #313131;  
+    } 
+    .login_btn{
+        position: absolute;
+        top: 15px;
+        border-radius: 10px;
+        right: 63px;
+    }
+    .login_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #a9a9a9;
+        border: 0.5px solid #a9a9a9;
+        background: #fffaf7; 
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 10px 5px 10px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+    }
+    .login_btn a:hover{
+        background: #313131;
+        color: #FFF;
+    }  
+    .search_div_phone{
+        display:none; 
+    }
     .search_div{
         width: 380px;
         height: 80px;
         position: absolute;
-        top: 60%;
+        top: 70px;
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
-        right: 100px;
+        right: 170px;
     }
 
     .select_distance{
@@ -803,10 +1010,49 @@
         letter-spacing: 1px;
         color: #696969;
     }
+    .shopName_mapButton{
+        display: flex;
+    }
     .shopName {
         font-size: 26px;
         font-weight: 550;
         color: #333333;
+        display: flex;
+    }
+    .map_button {
+        position: relative;
+        display: inline-block;
+        top: 23px;
+        left: 40px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+    .map_button a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_button a:hover {
+        background-color: #dcdcdc;
+    }
+    .map_button a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_button_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
     }
     .usePymentsStr{
         width: 100%;

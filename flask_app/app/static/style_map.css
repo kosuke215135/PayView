@@ -57,19 +57,99 @@
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
     }
+    .login_user{
+        position: absolute;
+        width: 10%;
+        right: 70px;
+    }
+    .user_picture{
+        position: absolute;
+        cursor:pointer;
+        border-radius:50%;
+        width: 100%;
+        right: 10px;
+    }
+    .loginpopup{
+        display: none;
+        position: absolute;
+        background: #fffaf7;
+        right:  10px;
+        top: 45px;
+        width: 150px;
+        height: 70px;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .userNameIndex{
+        position: absolute;
+        top: 10px;
+        left: 20px;
+        font-size:13px;
+        color: #a7a7a7;
+    }
+    .user_name{
+        position: absolute;
+        top: 25px;
+        left: 20px;
+        font-size:13px;
+    }
+    .logout_btn{
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        font-size:13px;
+    }
+    .logout_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #fffaf7;
+        background: #a9a9a9;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 5px 10px 5px 8px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
+    .login_btn{
+        position: absolute;
+        border-radius: 10px;
+        right: 70px;
+    }
+    .login_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #a9a9a9;
+        background: #fffaf7;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 7px 3px 7px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
 
     /* 検索窓 */
-    .search_div{
-        width: 50%;
+    .search_div_phone{
+        top: 70px;
+        width: 90%;
         height: 40px;
         padding: 5px;
-        position: absolute;
-        left: 25%;
+        position: relative;
+        margin: 10px 10px 0px 10px;
     }
 
     .select_distance{
-        height: 25px;
-        width: 30%;
+        height: 30px;
+        width: 20%;
         float: left;
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
@@ -81,13 +161,13 @@
         box-sizing: border-box;
         border: 0.1px solid #d3d3d3;
         display: block;
-        height: 25px;
-        width: 70%;
+        height: 30px;
+        width: 80%;
         overflow: hidden;
     }
     .search_container input[type="text"]{
         border: none;
-        height: 25px;
+        height: 30px;
         width: 70%;
         background-color: #fffaf7
     }
@@ -101,8 +181,8 @@
         background: #FFEB8F;
         color: #000000;
         position: absolute;
-        width: 20%;
-        height: 30px;
+        width: 15%;
+        height: 35px;
         right:0px;
         top: -5px;
         outline : none;
@@ -430,30 +510,60 @@
         color: #333333;
         font-family: 'M PLUS Rounded 1c';
     }
-    .detail_button{
+    .map_detail_button{
         display: flex;
         justify-content: left;
+        font-family: 'M PLUS Rounded 1c';
     }
-    .detail_button a{
+    .map_detail_button1{
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button1 a{
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 8px 13px;
+        transition: 0.3s ease-in-out;
+    }
+    .map_detail_button1 a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_detail_button2 {
+        position: relative;
+        display: inline-block;
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button2 a {
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
         font-family: Inter;
-        word-wrap: break-word;
         border-radius: 10px;
-        padding: 8px 15px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
         transition: 0.3s ease-in-out;
-        text-decoration:none;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
     }
-    .detail_button a:hover {
-        color: #555555;
-        background-color: #dcdcdc;
-    }
-    .detail_button a:active {
-        color: #ffffff;
+    .map_detail_button2 a:active {
+        color: #FFF;
         background-color: #333333;
-        border: 1px solid #222222;
     }
+    .map_detail_button2_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
+    }
+
 
     #myPopup {
         display: none;
@@ -561,6 +671,96 @@
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
     }
+    .login_user{
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        right: 250px;
+    }
+    .user_picture{
+        position: absolute;
+        cursor:pointer;
+        padding: 10px;
+        border-radius:50%;
+        width: 50px;
+    }
+    .loginpopup{
+        display: none;
+        position: absolute;
+        top:70px;
+        right: 5px;
+        background: #fffaf7;
+        width: 200px;
+        height: 90px;
+        border: 0.5px solid #d3d3d3;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .userNameIndex{
+        position: absolute;
+        top: 10px;
+        left: 30px;
+        font-size:13px;
+        color: #a7a7a7;
+    }
+    .user_name{
+        position: absolute;
+        top: 25px;
+        left: 30px;
+    }
+    .logout_btn{
+        position: absolute;
+        top: 60px;
+        left:  60px;
+    }
+    .logout_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #fffaf7;
+        background: #a9a9a9;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 8px 20px 10px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+        border: 0.5px solid #a9a9a9;
+    }
+    .logout_btn a:hover{
+        background: #FFF;
+        color: #313131;  
+    } 
+    .login_btn{
+        position: absolute;
+        top: 15px;
+        border-radius: 10px;
+        right: 63px;
+    }
+    .login_btn a{
+        position: absolute;
+        width: 50px;
+        height: 20px;
+        color: #a9a9a9;
+        border: 0.5px solid #a9a9a9;
+        background: #fffaf7;
+        font-size: 14px;
+        letter-spacing: 1px;
+        border-radius: 10px;
+        font-family: serif;
+        padding: 10px 5px 10px 10px;
+        transition: 0.3s ease-in-out;
+        font-weight: bold;
+        text-decoration:none;
+    }
+    .login_btn a:hover{
+        background: #313131;
+        color: #FFF;
+    } 
+    .search_div_phone{
+        display:none; 
+    }
     .search_div{
         width: 380px;
         height: 80px;
@@ -568,7 +768,7 @@
         margin-top: -40px; /* この要素の高さの半分 */
         padding:10px;
         top: 70px;
-        right: 240px;
+        right: 260px;
     }
     .select_distance{
         height: 2.8em;
@@ -810,7 +1010,7 @@
     }
     .fold_tag-check:checked + .fold_tag-label + .fold_tag-content_barcode {
         /* チェックされたとき：表示 */
-        max-height: 930px;  /* この値は内容に応じて調整 */
+        max-height: 940px;  /* この値は内容に応じて調整 */
         opacity: 1;
         padding: 15px 0;
         visibility: visible;
@@ -987,30 +1187,66 @@
         color: #333333;
         font-family: 'M PLUS Rounded 1c';
     }
-    .detail_button{
+    .map_detail_button{
         display: flex;
         justify-content: left;
+        font-family: 'M PLUS Rounded 1c';
     }
-    .detail_button a{
+    .map_detail_button1{
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button1 a{
         color: #333333;
         background: #f1f1f1;
-        font-size: 14px;
+        font-size: 12px;
         font-family: 'M PLUS Rounded 1c';
-        word-wrap: break-word;
         border-radius: 10px;
-        padding: 8px 15px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 8px 13px;
         transition: 0.3s ease-in-out;
-        text-decoration:none;
     }
-    .detail_button a:hover {
-        color: #555555;
+    .map_detail_button1 a:hover {
         background-color: #dcdcdc;
     }
-    .detail_button a:active {
-        color: #ffffff;
+    .map_detail_button1 a:active {
+        color: #FFF;
         background-color: #333333;
-        border: 1px solid #222222;
     }
+    .map_detail_button2 {
+        position: relative;
+        display: inline-block;
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button2 a {
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-top: -5px;
+    }
+    .map_detail_button2 a:hover {
+        background-color: #dcdcdc;
+    }
+    .map_detail_button2 a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_detail_button2_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
+    }
+
 
     #myPopup {
         display: none;
