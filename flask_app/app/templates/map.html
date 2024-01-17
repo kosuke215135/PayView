@@ -558,11 +558,21 @@
       </div>
       <!-- お店のスライドを入れる欄 -->
     </div>
+    <div class="user_add_data">
+      <img id="addPopupButton" class="user_add_data_btn" src="{{ url_for('static', filename='plus.png') }}"> 
+      <div id="addpopupContainer" class="addpopup" >
+          <div class="add_shop_btn">
+            <a type="button" href="#">お店を追加する</a>
+          </div>
+      </div>
+    </div>
     {# ====フッター==== #}
     <footer>
         <p>©PayView All Rights Reserved.</p>
     </footer>
     <!-- ログインのpopup表示のスクリプト読み込み -->
     <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
+    <!--  ユーザーが情報を追加する際のポップアップを出す -->
+    <script src="{{ url_for('static', filename='javascript/user_add_data_popup.js') }}"></script>
 </body>
 </html>
