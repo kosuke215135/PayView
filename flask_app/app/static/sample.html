@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>店舗情報サイト</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+        }
+        
+        .sidebar a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        
+        .sidebar a:hover {
+            color: #f1f1f1;
+        }
+        
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
+        
+        .open-btn {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #555;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+        }
+        
+        .open-btn:hover {
+            background-color: #444;
+        }
+        
+        #main-content {
+            transition: margin-left .5s;
+            padding: 16px;
+        }
+        
+        /* 画面が展開された時にメインコンテンツを押し出す */
+        .body-pushed-right {
+            margin-left: 250px;
+        }        
+    </style>
+</head>
+<body>
+    <div id="sidebar" class="sidebar">
+        <button class="close-btn" onclick="toggleSidebar()">×</button>
+        <a href="#" onclick="loadStore('store1')">店舗1</a>
+        <a href="#" onclick="loadStore('store2')">店舗2</a>
+        <a href="#" onclick="loadStore('store3')">店舗3</a>
+        <!-- 他の店舗リンクを追加 -->
+    </div>
+    <button class="open-btn" onclick="toggleSidebar()">探す</button>
+    <div id="main-content">
+        <!-- 店舗情報がここに表示されます -->
+    </div>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("main-content");
+            
+            if (sidebar.style.width === '250px') {
+                sidebar.style.width = '0';
+                mainContent.style.marginLeft = '0';
+            } else {
+                sidebar.style.width = '250px';
+                mainContent.style.marginLeft = '250px';
+            }
+        }
+        
+        function loadStore(storeId) {
+            // ここで店舗情報をロードするコードを追加
+            console.log("Loading store information for:", storeId);
+        }
+        
+    </script>
+</body>
+</html>
