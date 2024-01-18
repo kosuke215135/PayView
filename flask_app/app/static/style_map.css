@@ -1485,7 +1485,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 60%;
+        width: 700px;
         height: 500px;
         z-index: 100002; /* 他の要素よりも前に表示されるように高い値を指定 */
     }
@@ -1497,7 +1497,7 @@
         font-family: 'M PLUS Rounded 1c';
     }
     .not_login_aleart_add_shop{
-        left: 20%;
+        left: 80px;
         top: 150px;
     }
    
@@ -1515,7 +1515,7 @@
         position: absolute; 
         border: 1px solid #696969;
         border-radius: 10px;
-        top: 80%;
+        top: 85%;
         left: 45%;
         width: 10%;
         height: 10%;
