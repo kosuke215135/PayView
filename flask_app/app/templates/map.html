@@ -405,6 +405,16 @@
       <span> ></span>
       <span>{{ web_hierarchy_search }}</span>
     </div>
+    <!-- お店を追加する際に不備があった場合フラッシュを表示する -->
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+          {% if message == "お店を追加できました" %}
+            <font color="green">{{ message }}</font> 
+          {% else %}
+            <font color="red">{{ message }}</font>
+          {% endif %}
+        {% endfor %}
+    {% endwith %}
     <div class="map_shop_frame_box">
       <div id="map"></div>
       <!-- Google MapのJavascript設定 -->
@@ -601,7 +611,7 @@
         </div>
           {% if g.user %}
             <p>追加したいお店の名前と住所を入力してください。</p>
-            <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
+            <form action="{{ url_for('user_add.add_shop')}}" method="POST">
               <p>店名</p>
               <input type="text" name="shop_name" placeholder="お店の正式名称を入力してください">
               <p>住所</p>
