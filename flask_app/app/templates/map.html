@@ -612,12 +612,12 @@
           <span  onclick="close_add_shop_Popup()">&times;</span>
         </div>
           {% if g.user %}
-            <p>追加したいお店の名前と住所を入力してください。</p>
+            <p>追加したいお店の名前と住所を入力してください。店名はGoogleMap等で確認できる正式名称を記入してください。</p>
             <form action="{{ url_for('user_add.add_shop')}}" method="POST">
               <p>店名</p>
-              <input type="text" name="shop_name" placeholder="お店の正式名称を入力してください">
+              <input type="text" name="shop_name" placeholder="GoogleMap等で確認できる店名の正式名称を記入してください">
               <p>住所</p>
-              <input type="text" name="address" placeholder="住所を入力してください">
+              <input type="text" name="address" placeholder="例) 〇〇県✗✗市△△町□丁目□-□">
               <input class="confirm_button" type="submit"  value="確定">
             </form>
           {% else %}
