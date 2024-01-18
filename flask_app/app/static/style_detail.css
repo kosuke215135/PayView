@@ -1437,7 +1437,7 @@
 
     .popup-content p {
         color: #B38F00;
-        position:fixed;
+        position:relative;
         top: 40%;
         left: 50%;
         width: 80%;
