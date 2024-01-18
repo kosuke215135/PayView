@@ -612,6 +612,11 @@
     #closeBtn:hover {
         color: #FFF;
     }
+    .add_shop_messsage{
+        margin: 15px 0 15px 20px;
+        width: 90%;
+        font-family:'M PLUS Rounded 1c'; 
+    }
     .user_add_data{
         position: fixed; /* 固定位置で配置 */
         width: 100px;
@@ -1421,7 +1426,10 @@
     #closeBtn:hover {
         color: #FFF;
     }
-
+    .add_shop_messsage{
+        margin: 20px 0 0px 80px;
+        font-family:'M PLUS Rounded 1c'; 
+    }
     .user_add_data{
         position: fixed; /* 固定位置で配置 */
         width: 100px;

@@ -408,11 +408,13 @@
     <!-- お店を追加する際に不備があった場合フラッシュを表示する -->
     {% with messages = get_flashed_messages() %}
         {% for message in messages %}
-          {% if message == "お店を追加できました" %}
-            <font color="green">{{ message }}</font> 
-          {% else %}
-            <font color="red">{{ message }}</font>
-          {% endif %}
+          <div class="add_shop_messsage" >
+            {% if message == "お店を追加できました" %}
+              <font color="green">{{ message }}</font> 
+            {% else %}
+              <font color="red">{{ message }}</font>
+            {% endif %}
+          </div>
         {% endfor %}
     {% endwith %}
     <div class="map_shop_frame_box">
