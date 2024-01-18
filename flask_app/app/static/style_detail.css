@@ -1569,18 +1569,19 @@
         font-family:'M PLUS Rounded 1c';
     }
     .add_pay_popup-content input[type="submit"] {
-        position: relative;
+        position: absolute;
         border: 1px solid #696969;
         border-radius: 10px;
-        top: 100px;
+        top: 800px;
+        left: 360px;
         width: 10%;
         height: 10%;
         color: #696969;
         cursor: pointer;
         padding: 10px;
         font-family: 'M PLUS Rounded 1c';
-        right: 240px;
         font-size: 20px;
+        margin: 20px;
     }
 
     .add_pay_closeBtn {

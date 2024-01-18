@@ -413,18 +413,18 @@
         <span  onclick="close_pay_shop_Popup()">&times;</span>
       </div>
       {% if g.user %}
-        <p>追加したいお店の名前と住所を入力してください。店名はGoogleMap等で確認できる正式名称を記入してください。</p>
-        <form action="{{ url_for('user_add.add_shop')}}" method="POST">
-          <p>クレジットカード</p>
-          {% for credit_name in credit_names %}
+        <p>今登録されていない決済サービスの中から"{{ shop_name }}"で使えるものがあればチェックしてください。</p>
+        <form action="{{ url_for('user_add.add_payment', shop_id=shop_id )}}" method="POST">
+          <p>登録されていないクレジットカード</p>
+          {% for credit_name in not_can_use_credit_payment_names %}
             <input type="checkbox" class="pay_checkbox"name="payment" value="{{ credit_name['payment_id']}}" >{{ credit_name["name"]}}
           {% endfor %}
-          <p>バーコード・QRコード決済</p>
-          {% for barcode_name in barcode_names %}
+          <p>登録されていないバーコード・QRコード決済</p>
+          {% for barcode_name in not_can_use_barcode_payment_names %}
             <input type="checkbox" class="pay_checkbox"name="payment" value="{{ barcode_name['payment_id']}}" >{{ barcode_name["name"]}}
           {% endfor %}
-          <p>電子マネー</p>
-          {% for electronic_money_name in electronic_money_names %}
+          <p>登録されていない電子マネー</p>
+          {% for electronic_money_name in not_can_use_electronic_money_payment_names %}
             <input type="checkbox" class="pay_checkbox"name="payment" value="{{ electronic_money_name['payment_id']}}" >{{ electronic_money_name["name"]}}
           {% endfor %}
           <input class="confirm_button" type="submit"  value="確定">
