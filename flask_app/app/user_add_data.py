@@ -5,9 +5,12 @@ import os
 from dotenv import load_dotenv
 import googlemaps
 from db import get_db
+from datetime import datetime
 
 # .envファイルの内容を読み込見込む
 load_dotenv()
+
+LIMIT_EXE_USER_QUERY_NUM = 5
 
 bp = Blueprint('user_add', __name__, url_prefix='/user-add')
 
@@ -16,6 +19,23 @@ bp = Blueprint('user_add', __name__, url_prefix='/user-add')
 def add_shop():
     shop_name = request.form["shop_name"]
     shop_address = request.form["address"]
+
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+
+    # ユーザーの1日に追加できる数を制限する
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # google以外の認証も今後追加されるかもしれないのでuser_idはstr型でDB上に管理しておく
+    user_id = str(session.get('user_id'))
+    cur.execute("select count(*) from user_exe_queries where (user_id=%s) and (%s >= DATE_SUB(NOW(),INTERVAL 24 HOUR)) ",
+                (user_id, current_date))
+    num_exe_user_query_today = cur.fetchall()[0]['count(*)']
+    print(num_exe_user_query_today)
+
+    if num_exe_user_query_today >= LIMIT_EXE_USER_QUERY_NUM:
+        flash("1日にお店を追加する件数を越えています")
+        return redirect(url_for("render_map"))
+
 
     if (shop_name == "" or shop_address == ""):
         flash("値が入力されていません")
@@ -42,12 +62,13 @@ def add_shop():
 
         return redirect(url_for("render_map"))
     
-    db = get_db()
-    cur = db.cursor(dictionary=True)
-
     try:
         cur.execute("insert into shops (name, latitude, longitude) values (%s, %s, %s);",
                     (shop_name, lat_lnb_from_shop_name['lat'], lat_lnb_from_shop_name['lng']))
+
+        query_content = f"{user_id}のユーザーが{shop_name}というお店を追加しました"
+        cur.execute("insert into user_exe_queries (user_id, query_content, exe_time) values (%s, %s, %s)",
+                (user_id, query_content, current_date))
 
         db.commit()
     except:
