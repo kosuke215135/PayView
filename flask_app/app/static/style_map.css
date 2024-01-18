@@ -201,6 +201,11 @@
         height: 47px;
         border-radius: 5px;
     }
+    .hamburger_menu_phone.active{
+        background-color: #fffaf7;
+        border: none;
+        box-shadow: none;
+    }
     .hamburger_menu_phone span {
         display: inline-block;
         transition: all .4s;
@@ -250,6 +255,9 @@
         overflow-y: auto; /* 縦方向のスクロールを許可 */
     }
     .menu_phone.active {
+        background-color: #fffaf7;
+        border: none;
+        box-shadow: none;
         display: block;
         opacity: 1; /* アクティブ時に完全に表示 */
         visibility: visible; /* アクティブ時に表示 */
