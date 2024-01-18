@@ -1477,7 +1477,11 @@
         color: #fff;
         line-height: 42px;
       }
-
+      .add_pay_messsage{
+        margin: 15px 0 15px 20px;
+        width: 90%;
+        font-family:'M PLUS Rounded 1c'; 
+    }
       /* ユーザーが情報を追加する */
       .user_add_data{
         position: fixed; /* 固定位置で配置 */

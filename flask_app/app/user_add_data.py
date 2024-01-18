@@ -84,6 +84,7 @@ def add_shop():
 def add_payment(shop_id):
     db = get_db()
     cur = db.cursor(dictionary=True)
+    from_url = request.referrer
 
     # ユーザーの1日に追加できる数を制限する
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -93,20 +94,20 @@ def add_payment(shop_id):
                 (user_id, current_date))
     num_user_add_pay_today = cur.fetchall()[0]['count(*)']
 
-    if num_user_add_pay_today >= LIMIT_USER_ADD_SHOP_NUM:
-        flash("1日に追加できる決済サービスの件数をを越えています")
-        return redirect(url_for("detail"))
+    if num_user_add_pay_today >= LIMIT_USER_ADD_PAY_NUM:
+        flash("1日に追加できる決済サービスの件数を越えています")
+        return redirect(from_url)
 
     user_name = session.get('user_name')
     add_pay =request.form.getlist("payment")
     for i in add_pay:
         cur.execute("insert into can_use_services values (%s, %s);", (shop_id, i))
-        cur.execute("insert into user_add_pay_queries (user_id, user_name, payment_id, shop_name, exe_time) values (%s, %s, %s, %s, %s)",
+        cur.execute("insert into user_add_pay_queries (user_id, user_name, payment_id, shop_id, exe_time) values (%s, %s, %s, %s, %s)",
                 (user_id, user_name, i, shop_id, current_date))
     db.commit()
 
     flash("決済サービスを追加できました！") 
-    return redirect(url_for("detail"))
+    return redirect(from_url)
 
     
         

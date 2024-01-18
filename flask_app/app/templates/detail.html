@@ -235,6 +235,18 @@
           <span>{{ web_hierarchy_list[1] }}</span>
         {% endif %}
       </div>
+      <!-- お店を追加する際に不備があった場合フラッシュを表示する -->
+      {% with messages = get_flashed_messages() %}
+          {% for message in messages %}
+            <div class="add_pay_messsage" >
+              {% if message == "決済サービスを追加できました！" %}
+                <font color="green">{{ message }}</font> 
+              {% else %}
+                <font color="red">{{ message }}</font>
+              {% endif %}
+            </div>
+          {% endfor %}
+      {% endwith %}
       <div class="shopName_mapButton">
         <h1 class="shopName">{{ shop_name }}</h1>
         <div class="map_button">
