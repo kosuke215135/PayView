@@ -60,7 +60,7 @@
     .explanatory_text p {
         color: #8d867c;
         font-size: 9px;
-        margin: 0px 0px 15px 20px
+        margin: 45px 0px 5px 20px;
     }
     .login_user{
         position: absolute;
@@ -206,6 +206,11 @@
         height: 47px;
         border-radius: 5px;
     }
+    .hamburger_menu_phone.active{
+        background-color: #fffaf7;
+        border: none;
+        box-shadow: none;
+    }
     .hamburger_menu_phone span {
         display: inline-block;
         transition: all .4s;
@@ -255,6 +260,9 @@
         overflow-y: auto; /* 縦方向のスクロールを許可 */
     }
     .menu_phone.active {
+        background-color: #fffaf7;
+        border: none;
+        box-shadow: none;
         display: block;
         opacity: 1; /* アクティブ時に完全に表示 */
         visibility: visible; /* アクティブ時に表示 */
@@ -457,7 +465,7 @@
     }
     /* web階層の表示 */
     .web_hierarchy{
-        margin: 15px 0 15px 20px;
+        margin: 10px 0 10px 20px;
     }
     .web_hierarchy:before {
         content: '';
@@ -560,13 +568,13 @@
     }
     .open-btn {
         position: fixed;
-        top: 275px;
+        top: 220px;
         left: -5px;
         width: 90px;
         height: 30px;
         font-size: 14px;
         cursor: pointer;
-        background-color: #ffcb65;
+        background-color: rgba(255, 203, 101, 0.8);
         border-radius: 10px;
         color: #FFF;
         border: none;
