@@ -13,6 +13,7 @@
     body{
         margin: 0;
         padding: 0;
+        font-family: 'M PLUS Rounded 1c';
     }
     .background{
         background-color: #fffaf7;
@@ -43,7 +44,7 @@
     .title{
         color: #666666;
         font-size: 26px;
-        font-family: Source Serif Pro;
+        font-family: 'M PLUS Rounded 1c';
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 80px 20px 0 20px;
@@ -263,7 +264,7 @@
     }
     /* 見出し */
     .category_memu_phone{
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         font-size: 24px;
         margin-top: 15px;
         color: #666666;
@@ -280,7 +281,7 @@
     /* 決済サービスの見出し */
     .payment_service_head_phone{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family:'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -398,7 +399,7 @@
     /* タグの見出し */
     .tag_head_phone{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -490,6 +491,7 @@
         word-wrap: break-word;
         margin-top: 5px;
         color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
     /* お店の距離テキスト */
     .located{
@@ -502,10 +504,12 @@
     .payments{
         font-size: 16px;
         color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_detail_button{
         display: flex;
         justify-content: left;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_detail_button1{
         margin: 10px 15px 10px 0px;
@@ -514,7 +518,6 @@
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
-        font-family: Inter;
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
@@ -820,7 +823,7 @@
     .title{
         color: #666666;
         font-size: 36px;
-        font-family: Source Serif Pro;
+        font-family: 'M PLUS Rounded 1c';
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
@@ -1047,7 +1050,7 @@
     }
     /* 見出し */
     .category_memu{
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         font-size: 24px;
         margin-top: 15px;
         color: #666666;
@@ -1064,7 +1067,7 @@
     /* 決済サービスの見出し */
     .payment_service_head{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -1182,7 +1185,7 @@
     /* タグの見出し */
     .tag_head{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -1329,6 +1332,7 @@
         word-wrap: break-word;
         margin-top: 5px;
         color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
     /* お店の距離テキスト */
     .located{
@@ -1341,10 +1345,12 @@
     .payments{
         font-size: 16px;
         color: #333333;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_detail_button{
         display: flex;
         justify-content: left;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_detail_button1{
         margin: 10px 15px 10px 0px;
@@ -1353,7 +1359,7 @@
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
-        font-family: Inter;
+        font-family: 'M PLUS Rounded 1c';
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
@@ -1376,7 +1382,6 @@
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
-        font-family: Inter;
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
