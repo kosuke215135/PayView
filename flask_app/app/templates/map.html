@@ -311,6 +311,7 @@
     <!-- タイトル -->
     <div class="title">Search Shop Map</div>
     <div class="line"></div>
+    <!-- body -->
     <div id=myPopup class="popup">
       <div class="popup-content">
         <span id=closeBtn onclick="closePopup()">&times;</span>
@@ -404,6 +405,12 @@
       <a href="{{ url_for('render_map') }}">Top</a>
       <span> ></span>
       <span>{{ web_hierarchy_search }}</span>
+    </div>
+    <!-- 説明文 -->
+    <div class="explanatory_text">
+      <p>pinを選択するとお店の名前と距離が出てきます<br>
+          下部の詳細ボタンから決済情報が確認できます
+      </p>
     </div>
     <div class="map_shop_frame_box">
       <div id="map"></div>
