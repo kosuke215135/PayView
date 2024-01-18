@@ -57,6 +57,11 @@
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
     }
+    .explanatory_text p {
+        color: #8d867c;
+        font-size: 9px;
+        margin: 0px 0px 15px 20px
+    }
     .login_user{
         position: absolute;
         width: 10%;
@@ -577,7 +582,7 @@
     }
 
     .popup-content {
-        background-color: #ffcb65;
+        background-color: #EEDDBB;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
@@ -588,21 +593,24 @@
         height: 60%;
         box-shadow: 0px 5px #dab367;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+        overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
     .popup-content p {
-        color: #FFF;
+        color: #B38F00;
         position:fixed;
         top: 40%;
         left: 50%;
         width: 80%;
+        max-height: 80%;
         transform: translate(-50%, -50%);
         font-size: 20px;
         font-family: 'M PLUS Rounded 1c';
+        max-height: 80%;
     }
 
     #closeBtn {
-        color: rgb(252, 242, 212);
+        color: #cebe7d;
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -610,7 +618,7 @@
     }
 
     #closeBtn:hover {
-        color: #FFF;
+        color: #B38F00;
     }
     .add_shop_messsage{
         margin: 15px 0 15px 20px;
@@ -801,6 +809,9 @@
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
+    }
+    .explanatory_text {
+        display: none;
     }
     .login_user{
         position: absolute;
@@ -1391,7 +1402,7 @@
     }
 
     .popup-content {
-        background-color: #ffcb65;
+        background-color: #EEDDBB;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
@@ -1400,23 +1411,25 @@
         transform: translate(-50%, -50%);
         width: 60%;
         height: 80%;
-        box-shadow: 0px 10px #dab367;
+        box-shadow: 0px 10px #c4b28d;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+        overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
     .popup-content p {
-        color: #FFF;
-        position:fixed;
+        color: #B38F00;
+        position:relative;
         top: 40%;
         left: 50%;
         width: 80%;
         transform: translate(-50%, -50%);
-        font-size: 30px;
+        font-size: 25px;
         font-family: 'M PLUS Rounded 1c';
+        max-height: 80%;
     }
 
     #closeBtn {
-        color: rgb(252, 242, 212);
+        color: #cebe7d;
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -1424,7 +1437,7 @@
     }
 
     #closeBtn:hover {
-        color: #FFF;
+        color: #B38F00;
     }
     .add_shop_messsage{
         margin: 20px 0 0px 80px;

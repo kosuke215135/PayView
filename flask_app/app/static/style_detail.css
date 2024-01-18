@@ -708,21 +708,22 @@
     }
 
     .popup-content {
-        background-color: #ffcb65;
+        background-color: #EEDDBB;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
+        width: 60%;
         height: 80%;
-        box-shadow: 0px 5px #dab367;
+        box-shadow: 0px 5px #c4b28d;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+        overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
     .popup-content p {
-        color: #FFF;
+        color: #B38F00;
         position:fixed;
         top: 40%;
         left: 50%;
@@ -730,10 +731,11 @@
         transform: translate(-50%, -50%);
         font-size: 20px;
         font-family: 'M PLUS Rounded 1c';
+        max-height: 80%;
     }
 
     #closeBtn {
-        color: rgb(252, 242, 212);
+        color: #cebe7d;
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -741,7 +743,7 @@
     }
 
     #closeBtn:hover {
-        color: #FFF;
+        color: #B38F00;
     } 
 
     #topbtn {
@@ -1544,32 +1546,34 @@
     }
 
     .popup-content {
-        background-color: #ffcb65;
+        background-color: #EEDDBB;
         padding: 20px;
         border-radius: 10px;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
+        width: 60%;
         height: 80%;
-        box-shadow: 0px 10px #dab367;
+        box-shadow: 0px 10px #c4b28d;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
+        overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
     .popup-content p {
-        color: #FFF;
-        position:fixed;
+        color: #B38F00;
+        position:relative;
         top: 40%;
         left: 50%;
         width: 80%;
         transform: translate(-50%, -50%);
-        font-size: 40px;
+        font-size: 25px;
         font-family: 'M PLUS Rounded 1c';
+        max-height: 80%;
     }
 
     #closeBtn {
-        color: rgb(252, 242, 212);
+        color: #cebe7d;
         float: right;
         font-size: 40px;
         font-weight: bold;
@@ -1577,7 +1581,7 @@
     }
 
     #closeBtn:hover {
-        color: #FFF;
+        color: #B38F00;
     }
 
     #topbtn {
