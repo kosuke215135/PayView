@@ -126,6 +126,7 @@ def create_app():
         barcode_payments = []
         credit_payments = []
         electronic_money_payments = []
+        cash_payment = []
         for pay_scheme in scheme_data:
             payment_group = pay_scheme[2]
             if payment_group == BARCODE_GROUP:
@@ -134,6 +135,8 @@ def create_app():
                 credit_payments.append(pay_scheme)
             elif payment_group == ELECTRONIC_MONEY_GROUP or payment_group == TRANSPORTATION_GROUP:
                 electronic_money_payments.append(pay_scheme)
+            elif payment_group == CASH_GROUP:
+                cash_payment.append(pay_scheme)
                 
         # カテゴリ欄のデータを取得する
         tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
@@ -157,6 +160,7 @@ def create_app():
             barcode_payments=barcode_payments, 
             credit_payments=credit_payments, 
             electronic_money_payments=electronic_money_payments, 
+            cash_payment=cash_payment,
             tag_id_name_dict_every_gyou=tag_id_name_dict_every_gyou, 
             cash_group=cash_group,
             barcode_names=barcode_names, 

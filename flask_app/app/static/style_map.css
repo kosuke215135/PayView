@@ -57,6 +57,11 @@
         word-wrap: break-word;
         margin: 0px 20px 0 20px;
     }
+    .explanatory_text p {
+        color: #8d867c;
+        font-size: 9px;
+        margin: 0px 0px 15px 20px
+    }
     .login_user{
         position: absolute;
         width: 10%;
@@ -804,6 +809,9 @@
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
+    }
+    .explanatory_text {
+        display: none;
     }
     .login_user{
         position: absolute;
