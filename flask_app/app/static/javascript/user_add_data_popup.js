@@ -36,4 +36,14 @@ function close_add_shop_Popup(){
     add_shop_Popup.style.display = 'none';
 }
 
+const add_pay_Popup = document.getElementById('add_pay_Popup');
+
+function open_add_pay_Popup(){
+    add_pay_Popup.style.display = 'block';
+}
+
+function close_pay_shop_Popup(){
+    add_pay_Popup.style.display = 'none';
+}
+
 
