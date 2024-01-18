@@ -405,6 +405,18 @@
       <span> ></span>
       <span>{{ web_hierarchy_search }}</span>
     </div>
+    <!-- お店を追加する際に不備があった場合フラッシュを表示する -->
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+          <div class="add_shop_messsage" >
+            {% if message == "お店を追加できました" %}
+              <font color="green">{{ message }}</font> 
+            {% else %}
+              <font color="red">{{ message }}</font>
+            {% endif %}
+          </div>
+        {% endfor %}
+    {% endwith %}
     <div class="map_shop_frame_box">
       <div id="map"></div>
       <!-- Google MapのJavascript設定 -->
@@ -586,11 +598,40 @@
       </div>
       <!-- お店のスライドを入れる欄 -->
     </div>
+    <div class="user_add_data">
+      <img id="addPopupButton" class="user_add_data_btn" src="{{ url_for('static', filename='plus.png') }}"> 
+      <div id="addpopupContainer" class="addpopup" >
+          <div class="add_shop_btn">
+            <a type="button" href="#" onclick="open_add_shop_Popup(); return false;">お店を追加する</a>
+          </div>
+      </div>
+    </div>
+    <div id=add_shop_Popup class="add_shop_popup">
+      <div class="add_shop_popup-content">
+        <div class="add_shop_closeBtn">
+          <span  onclick="close_add_shop_Popup()">&times;</span>
+        </div>
+          {% if g.user %}
+            <p>追加したいお店の名前と住所を入力してください。店名はGoogleMap等で確認できる正式名称を記入してください。</p>
+            <form action="{{ url_for('user_add.add_shop')}}" method="POST">
+              <p>店名</p>
+              <input type="text" name="shop_name" placeholder="GoogleMap等で確認できる店名の正式名称を記入してください">
+              <p>住所</p>
+              <input type="text" name="address" placeholder="例) 〇〇県✗✗市△△町□丁目□-□">
+              <input class="confirm_button" type="submit"  value="確定">
+            </form>
+          {% else %}
+            <p class="not_login_aleart_add_shop">ログインするとお店を追加できます。</p>
+          {% endif %}
+      </div>
+    </div>
     {# ====フッター==== #}
     <footer>
         <p>©PayView All Rights Reserved.</p>
     </footer>
     <!-- ログインのpopup表示のスクリプト読み込み -->
     <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
+    <!--  ユーザーが情報を追加する際のポップアップを出す -->
+    <script src="{{ url_for('static', filename='javascript/user_add_data_popup.js') }}"></script>
 </body>
 </html>
