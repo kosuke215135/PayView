@@ -654,6 +654,7 @@
         font-size: 12px;
         line-height : 1.8 ;
         border-bottom: dashed 2px #d3d3d3;
+        font-family:'M PLUS Rounded 1c';
     }
     #add_shop_Popup {
         display: none;
@@ -684,6 +685,7 @@
         position: relative; 
         font-size: 15px;
         font-family: 'M PLUS Rounded 1c';
+        font-family:'M PLUS Rounded 1c';
     }
     .add_shop_popup-content input[type="text"]{
         position: relative;
@@ -693,6 +695,7 @@
         width: 90%;
         left: 10%;
         padding: 5px;
+        font-family:'M PLUS Rounded 1c';
     }
     .add_shop_popup-content input[type="submit"] {
         position: absolute; 
@@ -706,6 +709,7 @@
         color: #696969;
         cursor: pointer;
         padding: 5px;
+        
     }
 
     .add_shop_closeBtn {
@@ -1454,6 +1458,7 @@
         font-size: 20px;
         line-height : 1.8 ;
         border-bottom: dashed 2px #d3d3d3;
+        font-family:'M PLUS Rounded 1c';
     }
     #add_shop_Popup {
         display: none;
@@ -1494,6 +1499,7 @@
         width: 90%;
         left: 50px;
         padding: 5px;
+        font-family:'M PLUS Rounded 1c';
     }
     .add_shop_popup-content input[type="submit"] {
         position: absolute; 
@@ -1507,6 +1513,7 @@
         color: #696969;
         cursor: pointer;
         padding: 10px;
+        font-family:'M PLUS Rounded 1c';
     }
 
     .add_shop_closeBtn {
