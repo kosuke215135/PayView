@@ -27,13 +27,13 @@ def add_shop():
     current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     # google以外の認証も今後追加されるかもしれないのでuser_idはstr型でDB上に管理しておく
     user_id = str(session.get('user_id'))
-    cur.execute("select count(*) from user_exe_queries where (user_id=%s) and (%s >= DATE_SUB(NOW(),INTERVAL 24 HOUR)) ",
+    cur.execute("select count(*) from user_add_shop_queries where (user_id=%s) and (%s >= DATE_SUB(NOW(),INTERVAL 24 HOUR)) ",
                 (user_id, current_date))
     num_exe_user_query_today = cur.fetchall()[0]['count(*)']
     print(num_exe_user_query_today)
 
     if num_exe_user_query_today >= LIMIT_EXE_USER_QUERY_NUM:
-        flash("1日にお店を追加する件数を越えています")
+        flash("1日にお店を追加できる件数を越えています")
         return redirect(url_for("render_map"))
 
 
@@ -66,9 +66,9 @@ def add_shop():
         cur.execute("insert into shops (name, latitude, longitude) values (%s, %s, %s);",
                     (shop_name, lat_lnb_from_shop_name['lat'], lat_lnb_from_shop_name['lng']))
 
-        query_content = f"{user_id}のユーザーが{shop_name}というお店を追加しました"
-        cur.execute("insert into user_exe_queries (user_id, query_content, exe_time) values (%s, %s, %s)",
-                (user_id, query_content, current_date))
+        user_name = session.get('user_name')
+        cur.execute("insert into user_add_shop_queries (user_id, user_name, shop_name, exe_time) values (%s, %s, %s, %s)",
+                (user_id, user_name, shop_name, current_date))
 
         db.commit()
     except:
