@@ -1,4 +1,5 @@
 @import url("./style_pig.css");
+@import url('https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c');
 /* 以下スマホの表示 */
 @media (max-width: 840px) {
     html {
@@ -8,6 +9,7 @@
     body{
         margin: 0;
         padding: 0;
+        font-family: 'M PLUS Rounded 1c';
     }
     .background{
         background-color: #fffaf7;
@@ -38,7 +40,7 @@
     .title{
         color: #666666;
         font-size: 26px;
-        font-family: Source Serif Pro;
+        font-family: 'M PLUS Rounded 1c';
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 80px 20px 0 20px;
@@ -256,7 +258,7 @@
     }
     /* 見出し */
     .category_memu_phone{
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         font-size: 24px;
         margin-top: 15px;
         color: #666666;
@@ -273,7 +275,7 @@
     /* 決済サービスの見出し */
     .payment_service_head_phone{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -391,7 +393,7 @@
     /* タグの見出し */
     .tag_head_phone{
         height: 34px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 20px;
         color: #333333;
@@ -485,12 +487,12 @@
         display: inline-block;
         top: 25px;
         margin-left: 5px;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_button a {
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
-        font-family: Inter;
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
@@ -517,6 +519,23 @@
         font-size: 14px;
         margin: 15px 0 20px 0;
     }
+    .cash_flex{
+        width: 100%;
+        display: flex; /*横並び*/
+    }
+    .cash_image{
+        border-bottom: solid 4px #FFEB8F;
+        width: 70px;
+        height: 50px;
+        top: -20px;
+        background: url('cash.png');
+        background-size: cover;
+        position: relative;
+    }
+    .cash_p {
+        margin-top: 0;
+        font-size: 14px;
+    }
     .credit_flex{
         width: 100%;
         display: flex; /*横並び*/
@@ -532,7 +551,7 @@
     }
     .credit_text{
         height: 30px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 15px;
         color: #333333;
@@ -561,7 +580,7 @@
     }
     .barcode_text{
         height: 30px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 15px;
         color: #333333;
@@ -578,7 +597,6 @@
     .electronic_money_flex{
         width: 100%;
         display: flex; /*横並び*/
-        margin-top: 60px;
     }
     .electronic_money_image{
         border-bottom: solid 4px #FFEB8F;
@@ -591,7 +609,7 @@
     }
     .electronic_money_text{
         height: 30px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 15px;
         color: #333333;
@@ -603,6 +621,15 @@
         display: block;
         border-bottom: solid 3px #FED121;
         width: 50%;
+    }
+    /* 決済がない場合の×表示 */
+    .content_credit_is_none {
+        margin-top: 0;
+        margin-bottom: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        padding-bottom: 20px;
+        font-size: 20px;
     }
 
     /* 決済サービスボタン設定 */
@@ -624,7 +651,7 @@
         letter-spacing: 1.5px;
         border-radius: 10px;
         border: 1.5px solid #2d2d2d;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c';
         padding: 10px;
     }
     #button_pushed {
@@ -632,7 +659,7 @@
         letter-spacing: 1.5px;
         border-radius: 10px;
         border: 1.5px solid #2d2d2d;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
         padding: 10px;
         transition: 0.1s ease-in-out;
     }
@@ -658,7 +685,7 @@
         font-size: 14px;
         letter-spacing: 1px;
         border-radius: 10px;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
         padding: 10px 40px;
         transition: 0.3s ease-in-out;
         font-weight: 500;
@@ -758,6 +785,7 @@
     body{
         margin: 0;
         padding: 0;
+        font-family: 'M PLUS Rounded 1c';
     }
     .background{
         background-color: #fffaf7;
@@ -786,7 +814,7 @@
     .title{
         color: #666666;
         font-size: 36px;
-        font-family: Source Serif Pro;
+        font-family: 'M PLUS Rounded 1c';
         text-transform: uppercase;
         word-wrap: break-word;
         margin: 140px 50px 0 80px;
@@ -996,12 +1024,12 @@
         display: inline-block;
         top: 23px;
         left: 40px;
+        font-family: 'M PLUS Rounded 1c';
     }
     .map_button a {
         color: #333333;
         background: #f1f1f1;
         font-size: 12px;
-        font-family: Inter;
         border-radius: 10px;
         word-wrap: break-word;
         text-decoration: none;
@@ -1031,6 +1059,24 @@
         font-size: 14px;
         margin: 20px 0;
     }
+    .cash_flex{
+        width: 100%;
+        display: flex; /*横並び*/
+    }
+    .cash_image{
+        border-bottom: solid 4px #FFEB8F;
+        width: 70px;
+        height: 57px;
+        top: -20px;
+        background: url('cash.png');
+        background-size: cover;
+        position: relative;
+    }
+    .cash_p {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
     .credit_flex{
         width: 100%;
         display: flex; /*横並び*/
@@ -1046,7 +1092,7 @@
     }
     .credit_text{
         height: 37px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 24px;
         color: #333333;
@@ -1075,7 +1121,7 @@
     }
     .barcode_text{
         height: 37px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 24px;
         color: #333333;
@@ -1104,7 +1150,7 @@
     }
     .electronic_money_text{
         height: 37px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 24px;
         color: #333333;
@@ -1117,6 +1163,14 @@
         display: block;
         border-bottom: solid 3px #FED121;
         width: 50%;
+    }
+    /* 決済がない場合の×表示 */
+    .content_credit_is_none {
+        margin-top: 0;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        font-size: 20px;
     }
 
     /* ================== */
@@ -1138,7 +1192,7 @@
         letter-spacing: 1.5px;
         border-radius: 10px;
         border: 1.5px solid #2d2d2d;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
         padding: 10px;
     }
     #button_pushed {
@@ -1146,7 +1200,7 @@
         letter-spacing: 1.5px;
         border-radius: 10px;
         border: 1.5px solid #2d2d2d;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
         padding: 10px;
         transition: 0.1s ease-in-out;
     }
@@ -1172,7 +1226,7 @@
         font-size: 14px;
         letter-spacing: 1px;
         border-radius: 10px;
-        font-family: proxima-nova, monospace;
+        font-family: 'M PLUS Rounded 1c', proxima-nova, monospace;
         padding: 10px 40px;
         transition: 0.3s ease-in-out;
         font-weight: 500;
@@ -1199,7 +1253,7 @@
     .payment_service_head{
         width: 280px;
         height: 38px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 24px;
         color: #333333;
@@ -1313,7 +1367,7 @@
     .tag_head{
         width: 280px;
         height: 38px;
-        font-family: Noto Serif JP;
+        font-family: 'M PLUS Rounded 1c';
         border-bottom: solid 4px #FFEB8F;
         font-size: 24px;
         color: #333333;

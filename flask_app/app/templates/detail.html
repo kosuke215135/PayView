@@ -219,7 +219,7 @@
   </div>
   <img src="{{ url_for('static', filename='payviewPig4.png')}}" alt="payview-pig 4" id="scrollPig" onclick="openPopup()" onmouseover="highlightImage()" onmouseout="resetImageHighlight()">
   <!-- トップに戻るボタン -->
-  <a href="#" id="renderbtn"></a>
+  <a href="#" id="topbtn"></a>
   <div class="detail_category_frame_box">
     <div id="shopDetail" class="detail_frame_box">
       <!-- web階層の表示 -->
@@ -244,72 +244,96 @@
         </div>
       </div>
       <div class="usePymentsStr">使用できる決済サービス等一覧</div>
+      {# 現金　#}
+      <div class="cash_flex">
+        <div class="credit_text">現金</div>
+        <div class="cash_image"></div>
+      </div>
+      <p class="cash_p">使用可</p>
       {# クレジットカード #}
       <div class="credit_flex">
         <div class="credit_text">クレジットカード</div>
         <div class="credit_image"></div>
       </div>
-      <div class="button_flex">
-        {% for credit_payment in credit_payments%}
-          {% set name = credit_payment[0] %}
-          {% set scheme = credit_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
-            {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
+      {% if credit_payments|length == 0 %}
+        <div class="content_credit_is_none">
+          &times; <!-- バツの表示 -->
+        </div>
+      {% else %}
+        <div class="button_flex">
+          {% for credit_payment in credit_payments%}
+            {% set name = credit_payment[0] %}
+            {% set scheme = credit_payment[1] %}
+            <div class="button">
+              {% if scheme is not none %}
+                <div id="button_pushed">
+                  <a href="{{scheme}}">{{name}}</a>
+                </div>
+              {% else %}
+                <div class="button_text">
+                  <a>{{name}}</a>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
       {# バーコード・QRコード決済 #}
       <div class="barcode_flex">
         <span class="barcode_text">バーコード・QRコード決済</span>
         <span class="barcode_image"></span>
       </div>
-      <div class="button_flex">
-        {% for barcode_payment in barcode_payments %}
-          {% set name = barcode_payment[0] %}
-          {% set scheme = barcode_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
-            {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
+      {% if barcode_payments|length == 0 %}
+        <div class="content_credit_is_none">
+          &times; <!-- バツの表示 -->
+        </div>
+      {% else %}
+        <div class="button_flex">
+          {% for barcode_payment in barcode_payments %}
+            {% set name = barcode_payment[0] %}
+            {% set scheme = barcode_payment[1] %}
+            <div class="button">
+              {% if scheme is not none %}
+                <div id="button_pushed">
+                  <a href="{{scheme}}">{{name}}</a>
+                </div>
+              {% else %}
+                <div class="button_text">
+                  <a>{{name}}</a>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
       {# 電子マネー #}
       <div class="electronic_money_flex">
         <span class="electronic_money_text">電子マネー</span>
         <span class="electronic_money_image"></span>
       </div>
-      <div class="button_flex">
-        {% for electronic_money_payment in electronic_money_payments %}
-          {% set name = electronic_money_payment[0] %}
-          {% set scheme = electronic_money_payment[1] %}
-          <div class="button">
-            {% if scheme is not none %}
-              <div id="button_pushed">
-                <a href="{{scheme}}">{{name}}</a>
-              </div>
-            {% else %}
-              <div class="button_text">
-                <a>{{name}}</a>
-              </div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
+      {% if electronic_money_payments|length == 0 %}
+        <div class="content_credit_is_none">
+          &times; <!-- バツの表示 -->
+        </div>
+      {% else %}
+        <div class="button_flex">
+          {% for electronic_money_payment in electronic_money_payments %}
+            {% set name = electronic_money_payment[0] %}
+            {% set scheme = electronic_money_payment[1] %}
+            <div class="button">
+              {% if scheme is not none %}
+                <div id="button_pushed">
+                  <a href="{{scheme}}">{{name}}</a>
+                </div>
+              {% else %}
+                <div class="button_text">
+                  <a>{{name}}</a>
+                </div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
       <div class="back_button">
         <a href="#" onclick="history.back(); return false;">戻る</a>
       </div>
@@ -324,6 +348,7 @@
             <div class="cash_label">{{ cash["name"] }}</div>
           </a> 
         {% endfor %}
+        <!-- クレジットカード -->
         <input id="fold_tag-check1" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check1">クレジットカード</label>
         <div class="fold_tag-content_credit">
@@ -332,8 +357,8 @@
               <div class="tag_content">{{ credit_name["name"] }}</div>
             </a> 
           {% endfor %}
-        </div>
-      
+        </div>    
+        <!-- バーコード・QRコード決済 -->
         <input id="fold_tag-check2" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check2">バーコード・QRコード決済</label>
         <div class="fold_tag-content_barcode">
@@ -343,7 +368,7 @@
             </a> 
           {% endfor %}
         </div>
-      
+        <!-- 電子マネー -->
         <input id="fold_tag-check3" class="fold_tag-check" type="checkbox">
         <label class="fold_tag-label" for="fold_tag-check3">電子マネー</label>
         <div class="fold_tag-content_electronic_money">
