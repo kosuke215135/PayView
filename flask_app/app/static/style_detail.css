@@ -1561,16 +1561,10 @@
     .not_login_aleart_add_pay{
         top: 230px;
     }
-   
-    .add_pay_popup-content input[type="text"]{
-        position: relative;
-        border: 1px solid #696969;
-        font-size: 20px;
-        height: 10%;
-        width: 90%;
-        left: 50px;
-        padding: 5px;
-        font-family:'M PLUS Rounded 1c';
+    .add_pay_popup-content input[type="checkbox"]{
+        cursor: pointer; 
+        width: 15px;
+        height: 15px;
     }
     .add_pay_popup-content input[type="submit"] {
         position: absolute;
