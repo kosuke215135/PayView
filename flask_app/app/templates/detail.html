@@ -238,7 +238,7 @@
       <div class="shopName_mapButton">
         <h1 class="shopName">{{ shop_name }}</h1>
         <div class="map_button">
-          <a href="https://maps.google.co.jp/maps?q={{ shop_name }}">Google Map
+          <a href="https://maps.google.co.jp/maps?q={{ shop_name }}" target="_blank" rel="noopener noreferrer">Google Map
             <img src="{{ url_for('static', filename='pin.png')}}" alt="payview" class="map_button_img">
           </a>
         </div>
@@ -249,7 +249,13 @@
         <div class="credit_text">現金</div>
         <div class="cash_image"></div>
       </div>
-      <p class="cash_p">使用可</p>
+      {% if cash_payment|length == 0 %}
+        <div class="content_credit_is_none">
+          &times; <!-- バツの表示 -->
+        </div>
+      {% else %}
+        <p class="cash_p">使用可</p>
+      {% endif %}
       {# クレジットカード #}
       <div class="credit_flex">
         <div class="credit_text">クレジットカード</div>
