@@ -480,10 +480,6 @@
         letter-spacing: 1px;
         color: #696969;
     }
-    /* web版のお店のスライド非表示 */
-    .shop_frame_box{
-        display: none;
-    }
     /* お店の名前 */
     .storeName{
         font-size: 18px;
@@ -547,6 +543,167 @@
         display: inline-block;
         position: relative;
         margin-top: -5px;
+    }
+    .map_detail_button2 a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_detail_button2_img {
+        position: absolute;
+        top: -20px;
+        left: 85%;
+        transform: translateX(-50%);
+        width: 70px;
+        pointer-events: none;
+    }
+    .sidebar {
+        width: 0;
+        height: 88vh;
+        position: fixed;
+        z-index: 1;
+        top: 61px;
+        left: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+        transition: 0.5s;
+        padding-top: 20px;
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    .sidebar a {
+        padding: 8px 8px 8px 32px;
+        text-decoration: none;
+        font-size: 25px;
+        color: #818181;
+        display: block;
+        transition: 0.3s;
+    }
+    .sidebar a:active {
+        color: #f1f1f1;
+    }
+    .open-btn {
+        position: fixed;
+        top: 247px;
+        left: -5px;
+        width: 90px;
+        height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        background-color: #ffcb65;
+        border-radius: 10px;
+        color: #FFF;
+        border: none;
+        transition: box-shadow 0.2s ease;
+        transition: left 0.5s, background-color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    }
+    .open-btn:active {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+        transform: translateY(2px);
+    }
+    #main-content {
+        transition: margin-left .5s;
+        padding: 16px;
+        background-color: #fffaf7;
+    }
+    .body-pushed-right {
+        margin-left: 250px;
+    }
+    .shop_frame_box{
+        width: 100%;
+        height: 100%;
+    }
+    /* お店のスライド枠の装飾 */
+    .shop_frame {
+        background-color: #fffaf7;
+        margin: 10px;
+        max-width: 150px;
+        min-height: 200px;
+        text-decoration: none;
+        border: solid 3px #FED121;
+        float: left;
+        position: relative;
+        padding: 0.25em 1em;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    .shop_frame:hover {
+        background-color: #f0e8e6;
+        border: solid 3px #FED121;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .active {
+        background-color: #e8e0dd;
+        border: solid 3px #FABD70;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+    /* お店の名前 */
+    .storeName{
+        font-size: 16px;
+        font-weight: 700;
+        line-height : 1.8;
+        border-bottom: dashed 2px #d3d3d3;
+        text-transform: uppercase;
+        word-wrap: break-word;
+        margin-top: 5px;
+        color: #333333;
+    }
+    /* お店の距離テキスト */
+    .located{
+        font-size: 14px;
+        font-family: Inter;
+        font-weight: 600;
+        word-wrap: break-word;
+        color: #333333;
+    }
+    .payments{
+        margin: -5px 0;
+        font-size: 12px;
+        color: #333333;
+    }
+    .map_detail_button{
+        margin-top: 8px;
+        display: flex;
+        justify-content: left;
+    }
+    .map_detail_button1{
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button1 a{
+        width: 72px;
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 13px;
+        margin-top: -4px;
+        transition: 0.3s ease-in-out;
+    }
+    .map_detail_button1 a:active {
+        color: #FFF;
+        background-color: #333333;
+    }
+    .map_detail_button2 {
+        position: relative;
+        display: inline-block;
+        margin: 10px 15px 10px 0px;
+    }
+    .map_detail_button2 a {
+        width: 72px;
+        color: #333333;
+        background: #f1f1f1;
+        font-size: 12px;
+        font-family: Inter;
+        border-radius: 10px;
+        word-wrap: break-word;
+        text-decoration: none;
+        padding: 5px 40px 5px 13px;
+        transition: 0.3s ease-in-out;
+        display: inline-block;
+        position: relative;
+        margin-right: -20px;
     }
     .map_detail_button2 a:active {
         color: #FFF;
@@ -1133,6 +1290,9 @@
         font-size: 16px;
         letter-spacing: 1px;
         color: #696969;
+    }
+    .sidebar_phone{
+        display: none;
     }
     /* お店のスライド枠の装飾 */
     .shop_frame {

@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>店舗情報サイト</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #fffaf7;
         }
-        
         .sidebar {
-            height: 100%;
             width: 0;
+            height: 88vh;
             position: fixed;
             z-index: 1;
-            top: 0;
+            top: 61px;
             left: 0;
-            background-color: #111;
             overflow-x: hidden;
             transition: 0.5s;
-            padding-top: 60px;
+            padding-top: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
         }
-        
         .sidebar a {
             padding: 8px 8px 8px 32px;
             text-decoration: none;
@@ -30,52 +30,49 @@
             display: block;
             transition: 0.3s;
         }
-        
-        .sidebar a:hover {
+        .sidebar a:active {
             color: #f1f1f1;
         }
-        
-        .sidebar .close-btn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-        
         .open-btn {
-            font-size: 20px;
+            position: fixed;
+            top: 247px;
+            left: -5px;
+            width: 90px;
+            height: 30px;
+            font-size: 14px;
             cursor: pointer;
-            background-color: #555;
-            color: white;
-            padding: 10px 15px;
+            background-color: #ffcb65;
+            border-radius: 10px;
+            color: #FFF;
             border: none;
+            transition: box-shadow 0.2s ease;
+            transition: left 0.5s, background-color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
-        
-        .open-btn:hover {
-            background-color: #444;
+        .open-btn:active {
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+            transform: translateY(2px);
         }
-        
         #main-content {
             transition: margin-left .5s;
             padding: 16px;
+            background-color: #fffaf7;
         }
-        
-        /* 画面が展開された時にメインコンテンツを押し出す */
         .body-pushed-right {
             margin-left: 250px;
-        }        
+        }
     </style>
 </head>
 <body>
     <div id="sidebar" class="sidebar">
-        <button class="close-btn" onclick="toggleSidebar()">×</button>
         <a href="#" onclick="loadStore('store1')">店舗1</a>
         <a href="#" onclick="loadStore('store2')">店舗2</a>
         <a href="#" onclick="loadStore('store3')">店舗3</a>
         <!-- 他の店舗リンクを追加 -->
     </div>
-    <button class="open-btn" onclick="toggleSidebar()">探す</button>
+    <button class="open-btn" onclick="toggleSidebar()">
+        <i class="fas fa-search"></i> <span>探す</span>
+    </button>
     <div id="main-content">
         <!-- 店舗情報がここに表示されます -->
     </div>
@@ -83,19 +80,25 @@
         function toggleSidebar() {
             var sidebar = document.getElementById("sidebar");
             var mainContent = document.getElementById("main-content");
+            var openButton = document.querySelector(".open-btn");
+            var openButtonText = openButton.querySelector("span");
             
-            if (sidebar.style.width === '250px') {
+            var desiredWidth = '70%'; // サイドバーの幅
+        
+            var openButtonWidth = openButton.offsetWidth;
+            var sidebarWidth = window.innerWidth * 0.7;
+        
+            if (sidebar.style.width === desiredWidth) {
                 sidebar.style.width = '0';
                 mainContent.style.marginLeft = '0';
+                openButton.style.left = `-5px`;
+                openButtonText.textContent = '探す';
             } else {
-                sidebar.style.width = '250px';
-                mainContent.style.marginLeft = '250px';
+                sidebar.style.width = desiredWidth;
+                mainContent.style.marginLeft = desiredWidth;
+                openButton.style.left = `${sidebarWidth - 5}px`;
+                openButtonText.textContent = '閉じる';
             }
-        }
-        
-        function loadStore(storeId) {
-            // ここで店舗情報をロードするコードを追加
-            console.log("Loading store information for:", storeId);
         }
         
     </script>
