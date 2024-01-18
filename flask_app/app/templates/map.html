@@ -599,14 +599,18 @@
         <div class="add_shop_closeBtn">
           <span  onclick="close_add_shop_Popup()">&times;</span>
         </div>
-          <p>追加したいお店の名前と住所を入力してください。</p>
-          <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
-            <p>店名</p>
-            <input type="text" name="shop_name" placeholder="お店の正式名称を入力してください">
-            <p>住所</p>
-            <input type="text" name="address" placeholder="住所を入力してください">
-            <input class="confirm_button" type="submit"  value="確定">
-          </form>
+          {% if g.user %}
+            <p>追加したいお店の名前と住所を入力してください。</p>
+            <form action="{{ url_for("insert_shop_data.add_shop")}}" method="POST">
+              <p>店名</p>
+              <input type="text" name="shop_name" placeholder="お店の正式名称を入力してください">
+              <p>住所</p>
+              <input type="text" name="address" placeholder="住所を入力してください">
+              <input class="confirm_button" type="submit"  value="確定">
+            </form>
+          {% else %}
+            <p class="not_login_aleart_add_shop">ログインするとお店を追加できます。</p>
+          {% endif %}
       </div>
     </div>
     {# ====フッター==== #}

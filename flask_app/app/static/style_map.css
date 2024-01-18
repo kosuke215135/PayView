@@ -687,6 +687,12 @@
         font-family: 'M PLUS Rounded 1c';
         font-family:'M PLUS Rounded 1c';
     }
+    .not_login_aleart_add_shop{
+        width: 60%;
+        left: 20%;
+        top: 30%;
+        word-break: break-all;
+    }
     .add_shop_popup-content input[type="text"]{
         position: relative;
         border: 1px solid #696969;
@@ -1489,6 +1495,10 @@
         position: relative; 
         font-size: 30px;
         font-family: 'M PLUS Rounded 1c';
+    }
+    .not_login_aleart_add_shop{
+        left: 20%;
+        top: 150px;
     }
    
     .add_shop_popup-content input[type="text"]{
