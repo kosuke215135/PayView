@@ -48,6 +48,9 @@ def create_app():
     import search_shop
     app.register_blueprint(search_shop.bp)
 
+    import user_add_data
+    app.register_blueprint(user_add_data.bp)
+
     import external_access
     app.register_blueprint(external_access.bp) 
 

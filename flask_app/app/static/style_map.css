@@ -617,6 +617,137 @@
     #closeBtn:hover {
         color: #FFF;
     }
+    .add_shop_messsage{
+        margin: 15px 0 15px 20px;
+        width: 90%;
+        font-family:'M PLUS Rounded 1c'; 
+    }
+    .user_add_data{
+        position: fixed; /* 固定位置で配置 */
+        width: 100px;
+        height: 100px;
+        margin:0;
+        bottom: 0;
+        left: 0;
+        border-radius: 50%;
+    }
+    .user_add_data_btn{
+        cursor:pointer;
+        position: absolute;
+        left: 10px;
+        top: 30px;
+        width: 50px;
+        height: 50px;
+    }
+    .addpopup{
+        display: none;
+        position: absolute;
+        bottom: 40px;
+        left: 35px;
+        background: #fffaf7;
+        width: 100px;
+        height: 150px;
+        border: 3px solid #FED121;
+        border-radius: 10px;
+        padding: 10px; 
+        z-index: -1;
+    }
+    .add_shop_btn{
+        position: relative;
+    }
+    .add_shop_btn a{
+        position: absolute;
+        left: 10px;
+        text-decoration: none;
+        color: #000000;
+        font-weight:bold;
+        font-size: 12px;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        font-family:'M PLUS Rounded 1c';
+    }
+    #add_shop_Popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 100001; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        height: 400px;
+        z-index: 100002; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content p {
+        color: #696969;
+        position: relative; 
+        font-size: 15px;
+        font-family: 'M PLUS Rounded 1c';
+        font-family:'M PLUS Rounded 1c';
+    }
+    .not_login_aleart_add_shop{
+        width: 60%;
+        left: 20%;
+        top: 30%;
+        word-break: break-all;
+    }
+    .add_shop_popup-content input[type="text"]{
+        position: relative;
+        border: 1px solid #696969;
+        font-size: 15px;
+        height: 30px;
+        width: 90%;
+        left: 10%;
+        padding: 5px;
+        font-family:'M PLUS Rounded 1c';
+    }
+    .add_shop_popup-content input[type="submit"] {
+        position: absolute; 
+        border: 1px solid #696969;
+        border-radius: 10px;
+        top: 85%;
+        left: 25%;
+        width: 100px;
+        height: 35px;
+        font-size: 15px;
+        color: #696969;
+        cursor: pointer;
+        padding: 5px;
+        
+    }
+
+    .add_shop_closeBtn {
+        position: absolute;
+        display:block;
+        color: #696969;
+        right: 5%;
+        top: 0;
+        width: 30px;
+        height:  30px;
+        font-size: 30px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .add_shop_closeBtn span {
+        position: absolute;
+        display:block; 
+    }
+
+    .add_shop_closeBtn span:hover {
+        color: #a9a9a9;
+    }
 
     footer{
         width: 100%;
@@ -1302,6 +1433,134 @@
 
     #closeBtn:hover {
         color: #FFF;
+    }
+    .add_shop_messsage{
+        margin: 20px 0 0px 80px;
+        font-family:'M PLUS Rounded 1c'; 
+    }
+    .user_add_data{
+        position: fixed; /* 固定位置で配置 */
+        width: 100px;
+        height: 100px;
+        margin:0;
+        bottom: 0;
+        left: 0;
+        border-radius: 50%;
+    }
+    .user_add_data_btn{
+        cursor:pointer;
+        position: absolute;
+        left: 10px;
+        top: 20px;
+        width: 60px;
+        height: 60px;
+    }
+    .addpopup{
+        display: none;
+        position: absolute;
+        bottom: 40px;
+        left: 35px;
+        background: #fffaf7;
+        width: 200px;
+        height: 300px;
+        border: 5px solid #FED121;
+        border-radius: 10px;
+        padding: 10px; 
+        z-index: -1;
+    }
+    .add_shop_btn{
+        position: relative;
+    }
+    .add_shop_btn a{
+        position: absolute;
+        left: 25px;
+        text-decoration: none;
+        color: #000000;
+        font-weight:bold;
+        font-size: 20px;
+        line-height : 1.8 ;
+        border-bottom: dashed 2px #d3d3d3;
+        font-family:'M PLUS Rounded 1c';
+    }
+    #add_shop_Popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 100001; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content {
+        background-color: #ffffff;
+        padding: 50px;
+        border-radius: 10px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 750px;
+        height: 600px;
+        z-index: 100002; /* 他の要素よりも前に表示されるように高い値を指定 */
+    }
+
+    .add_shop_popup-content p {
+        color: #696969;
+        position: relative; 
+        font-size: 30px;
+        font-family: 'M PLUS Rounded 1c';
+    }
+    .not_login_aleart_add_shop{
+        left: 100px;
+        top: 230px;
+    }
+   
+    .add_shop_popup-content input[type="text"]{
+        position: relative;
+        border: 1px solid #696969;
+        font-size: 20px;
+        height: 10%;
+        width: 90%;
+        left: 50px;
+        padding: 5px;
+        font-family:'M PLUS Rounded 1c';
+    }
+    .add_shop_popup-content input[type="submit"] {
+        position: absolute; 
+        border: 1px solid #696969;
+        border-radius: 10px;
+        top: 85%;
+        left: 45%;
+        width: 10%;
+        height: 10%;
+        font-size: 20px;
+        color: #696969;
+        cursor: pointer;
+        padding: 10px;
+        font-family:'M PLUS Rounded 1c';
+    }
+
+    .add_shop_closeBtn {
+        position: relative;
+        display:block;
+        color: #696969;
+        float: right;
+        width: 50px;
+        height:  60px;
+        font-size: 40px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    .add_shop_closeBtn span {
+        position: absolute;
+        display:block; 
+        bottom: 20px;
+    }
+
+    .add_shop_closeBtn span:hover {
+        color: #a9a9a9;
     }
 
     footer{

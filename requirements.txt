@@ -5,3 +5,4 @@ gunicorn
 mecab-python3
 oauthlib
 neologdn
+googlemaps
