@@ -6,7 +6,6 @@ function toggleSidebar() {
     
     var desiredWidth = '210px'; // サイドバーの幅
 
-    var openButtonWidth = openButton.offsetWidth;
     var sidebarWidth = 210;
 
     if (sidebar.style.width === desiredWidth) {
