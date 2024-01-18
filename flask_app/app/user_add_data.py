@@ -100,6 +100,11 @@ def add_payment(shop_id):
 
     user_name = session.get('user_name')
     add_pay =request.form.getlist("payment")
+
+    # チェックされた決済サービスが一つもなければそのままリダイレクトする
+    if len(add_pay) == 0:
+        return redirect(from_url)
+
     for i in add_pay:
         cur.execute("insert into can_use_services values (%s, %s);", (shop_id, i))
         cur.execute("insert into user_add_pay_queries (user_id, user_name, payment_id, shop_id, exe_time) values (%s, %s, %s, %s, %s)",
