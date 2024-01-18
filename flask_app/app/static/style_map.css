@@ -1270,8 +1270,8 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 80%;
-        height: 60%;
+        width: 60%;
+        height: 80%;
         box-shadow: 0px 10px #c4b28d;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
         overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
