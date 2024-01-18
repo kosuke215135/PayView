@@ -405,18 +405,6 @@
       <span> ></span>
       <span>{{ web_hierarchy_search }}</span>
     </div>
-    <!-- お店を追加する際に不備があった場合フラッシュを表示する -->
-    {% with messages = get_flashed_messages() %}
-        {% for message in messages %}
-          <div class="add_shop_messsage" >
-            {% if message == "お店を追加できました" %}
-              <font color="green">{{ message }}</font> 
-            {% else %}
-              <font color="red">{{ message }}</font>
-            {% endif %}
-          </div>
-        {% endfor %}
-    {% endwith %}
     <div class="map_shop_frame_box">
       <div id="map"></div>
       <!-- Google MapのJavascript設定 -->
@@ -499,7 +487,6 @@
               '<p class="located">' + shop_and_pay[2] + '先<br></p>' +
               '<p class="payments">' + shop_and_pay[5] + '</p>' +
               '<div class="map_detail_button1"><a style="text-decoration: none;" onclick="getMobileOS(' + shop_and_pay[0] + ');return false;" href="#">決済情報詳細</a></div>' +
-
               '<div class="map_detail_button2">' +
                 '<a href="https://maps.google.co.jp/maps?q=' + shop_and_pay[1] + '">Google Map' +
                     '<img src="' + '{{ url_for('static', filename='pin.png') }}' + '" alt="payview" class="map_detail_button2_img">' +
@@ -578,86 +565,33 @@
           });
         };
       </script>
-      <div class="sidebar_phone">
-        <div id="sidebar" class="sidebar">
-          <!-- お店のスライドを入れる欄 -->
-          <div class="shop_frame_box">
-            {% for shop_and_pay in shops_and_payments %}
-                <div class="shop_frame" data-shop-id="{{ shop_and_pay[0] }}">
-                  <p class="storeName">{{ shop_and_pay[1] }}<br></p>
-                  <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
-                  <p class="payments">{{ shop_and_pay[5] }}</p>
-                  <div class="map_detail_button">
-                    <div class="map_detail_button1"><a onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">決済情報詳細</a></div>
-                    <div class="map_detail_button2">
-                      <a href="https://maps.google.co.jp/maps?q={{ shop_and_pay[1] }}">Google Map
-                        <img src="{{ url_for('static', filename='pin.png')}}" alt="payview" class="map_detail_button2_img">
-                      </a>
-                    </div>
+      <div id="sidebar" class="sidebar">
+        <!-- お店のスライドを入れる欄 -->
+        <div class="shop_frame_box">
+          {% for shop_and_pay in shops_and_payments %}
+              <div class="shop_frame" data-shop-id="{{ shop_and_pay[0] }}">
+                <p class="storeName">{{ shop_and_pay[1] }}<br></p>
+                <p class="located">{{ shop_and_pay[2]+" 先" }}<br></p>
+                <p class="payments">{{ shop_and_pay[5] }}</p>
+                <div class="detail_button">
+                  <div class="detail_button1"><a onclick="getMobileOS({{ shop_and_pay[0] }});return false;" href="#">決済情報詳細</a></div>
+                  <div class="detail_button2">
+                    <a href="https://maps.google.co.jp/maps?q={{ shop_and_pay[1] }}">Google Map
+                      <img src="{{ url_for('static', filename='pin.png')}}" alt="payview" class="map_detail_button2_img">
+                    </a>
                   </div>
                 </div>
-            {% endfor %}
-          </div>
+              </div>
+          {% endfor %}
         </div>
-        <button class="open-btn" onclick="toggleSidebar()">
-            <i class="fas fa-search"></i> <span>探す</span>
-        </button>
-        <div id="main-content">
-            <!-- 店舗情報がここに表示されます -->
-        </div>
-        <script>
-            function toggleSidebar() {
-                var sidebar = document.getElementById("sidebar");
-                var mainContent = document.getElementById("main-content");
-                var openButton = document.querySelector(".open-btn");
-                var openButtonText = openButton.querySelector("span");
-                
-                var desiredWidth = '210px'; // サイドバーの幅
-            
-                var openButtonWidth = openButton.offsetWidth;
-                var sidebarWidth = 210;
-            
-                if (sidebar.style.width === desiredWidth) {
-                    sidebar.style.width = '0';
-                    mainContent.style.marginLeft = '0';
-                    openButton.style.left = `-5px`;
-                    openButtonText.textContent = '探す';
-                } else {
-                    sidebar.style.width = desiredWidth;
-                    mainContent.style.marginLeft = desiredWidth;
-                    openButton.style.left = `${sidebarWidth - 5}px`;
-                    openButtonText.textContent = '閉じる';
-                }
-            }
-        </script>
       </div>
-    </div>
-    <div class="user_add_data">
-      <img id="addPopupButton" class="user_add_data_btn" src="{{ url_for('static', filename='plus.png') }}"> 
-      <div id="addpopupContainer" class="addpopup" >
-          <div class="add_shop_btn">
-            <a type="button" href="#" onclick="open_add_shop_Popup(); return false;">お店を追加する</a>
-          </div>
+      <button class="open-btn" onclick="toggleSidebar()">
+          <i class="fas fa-search"></i> <span>探す</span>
+      </button>
+      <div id="main-content">
+          <!-- 店舗情報がここに表示されます -->
       </div>
-    </div>
-    <div id=add_shop_Popup class="add_shop_popup">
-      <div class="add_shop_popup-content">
-        <div class="add_shop_closeBtn">
-          <span  onclick="close_add_shop_Popup()">&times;</span>
-        </div>
-          {% if g.user %}
-            <p>追加したいお店の名前と住所を入力してください。店名はGoogleMap等で確認できる正式名称を記入してください。</p>
-            <form action="{{ url_for('user_add.add_shop')}}" method="POST">
-              <p>店名</p>
-              <input type="text" name="shop_name" placeholder="GoogleMap等で確認できる店名の正式名称を記入してください">
-              <p>住所</p>
-              <input type="text" name="address" placeholder="例) 〇〇県✗✗市△△町□丁目□-□">
-              <input class="confirm_button" type="submit"  value="確定">
-            </form>
-          {% else %}
-            <p class="not_login_aleart_add_shop">ログインするとお店を追加できます。</p>
-          {% endif %}
-      </div>
+      <script src="{{ url_for('static', filename='javascript/store_slide.js') }}"></script>
     </div>
     {# ====フッター==== #}
     <footer>
@@ -665,7 +599,5 @@
     </footer>
     <!-- ログインのpopup表示のスクリプト読み込み -->
     <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
-    <!--  ユーザーが情報を追加する際のポップアップを出す -->
-    <script src="{{ url_for('static', filename='javascript/user_add_data_popup.js') }}"></script>
 </body>
 </html>
