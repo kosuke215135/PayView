@@ -1699,11 +1699,11 @@
         height: 15px;
     }
     .add_pay_popup-content input[type="submit"] {
-        position: absolute;
+        position: relative;
         border: 1px solid #696969;
         border-radius: 10px;
-        top: 800px;
-        left: 360px;
+        /* top: 800px; */
+        left: 300px;
         width: 10%;
         height: 10%;
         color: #696969;
@@ -1711,7 +1711,7 @@
         padding: 10px;
         font-family: 'M PLUS Rounded 1c';
         font-size: 20px;
-        margin: 20px;
+        margin: 30px;
     }
 
     .add_pay_closeBtn {
