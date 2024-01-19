@@ -10,7 +10,8 @@ from datetime import datetime
 # .envファイルの内容を読み込見込む
 load_dotenv()
 
-LIMIT_EXE_USER_QUERY_NUM = 5
+LIMIT_USER_ADD_SHOP_NUM = 5
+LIMIT_USER_ADD_PAY_NUM = 50
 
 bp = Blueprint('user_add', __name__, url_prefix='/user-add')
 
@@ -32,7 +33,7 @@ def add_shop():
     num_exe_user_query_today = cur.fetchall()[0]['count(*)']
     print(num_exe_user_query_today)
 
-    if num_exe_user_query_today >= LIMIT_EXE_USER_QUERY_NUM:
+    if num_exe_user_query_today >= LIMIT_USER_ADD_SHOP_NUM:
         flash("1日にお店を追加できる件数を越えています")
         return redirect(url_for("render_map"))
 
@@ -77,3 +78,42 @@ def add_shop():
 
     flash("お店を追加できました") 
     return redirect(url_for("render_map"))
+
+
+@bp.route("/add-payment/<int:shop_id>", methods=['POST'])
+def add_payment(shop_id):
+    db = get_db()
+    cur = db.cursor(dictionary=True)
+    from_url = request.referrer
+
+    # ユーザーの1日に追加できる数を制限する
+    current_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    # google以外の認証も今後追加されるかもしれないのでuser_idはstr型でDB上に管理しておく
+    user_id = str(session.get('user_id'))
+    cur.execute("select count(*) from user_add_pay_queries where (user_id=%s) and (%s >= DATE_SUB(NOW(),INTERVAL 24 HOUR)) ",
+                (user_id, current_date))
+    num_user_add_pay_today = cur.fetchall()[0]['count(*)']
+
+    if num_user_add_pay_today >= LIMIT_USER_ADD_PAY_NUM:
+        flash("1日に追加できる決済サービスの件数を越えています")
+        return redirect(from_url)
+
+    user_name = session.get('user_name')
+    add_pay =request.form.getlist("payment")
+
+    # チェックされた決済サービスが一つもなければそのままリダイレクトする
+    if len(add_pay) == 0:
+        return redirect(from_url)
+
+    for i in add_pay:
+        cur.execute("insert into can_use_services values (%s, %s);", (shop_id, i))
+        cur.execute("insert into user_add_pay_queries (user_id, user_name, payment_id, shop_id, exe_time) values (%s, %s, %s, %s, %s)",
+                (user_id, user_name, i, shop_id, current_date))
+    db.commit()
+
+    flash("決済サービスを追加できました！") 
+    return redirect(from_url)
+
+    
+        
+

@@ -242,6 +242,18 @@
           <span>{{ web_hierarchy_list[1] }}</span>
         {% endif %}
       </div>
+      <!-- 決済サービスを追加する際に不備があった場合フラッシュを表示する -->
+      {% with messages = get_flashed_messages() %}
+          {% for message in messages %}
+            <div class="add_pay_messsage" >
+              {% if message == "決済サービスを追加できました！" %}
+                <font color="green">{{ message }}</font> 
+              {% else %}
+                <font color="red">{{ message }}</font>
+              {% endif %}
+            </div>
+          {% endfor %}
+      {% endwith %}
       <div class="shopName_mapButton">
         <h1 class="shopName">{{ shop_name }}</h1>
         <div class="map_button">
@@ -410,6 +422,47 @@
         {% endfor %}
     </div>
   </div>
+  <!-- ユーザーが情報を追加するボタン -->
+  <div class="user_add_data">
+    <img id="addPopupButton" class="user_add_data_btn" src="{{ url_for('static', filename='plus.png') }}"> 
+    <div id="addpopupContainer" class="addpopup" >
+        <div class="add_pay_btn">
+          <a type="button" href="#" onclick="open_add_pay_Popup(); return false;">このお店で使える決済を追加する</a>
+        </div>
+    </div>
+  </div>
+  <!-- 使用できる決済サービスを追加する -->
+  <div id=add_pay_Popup class="add_pay_popup">
+    <div class="add_pay_popup-content">
+      <div class="add_pay_closeBtn">
+        <span  onclick="close_pay_shop_Popup()">&times;</span>
+      </div>
+      {% if g.user %}
+        <p>今登録されていない決済サービスの中から"{{ shop_name }}"で使えるものがあればチェックしてください。</p>
+        <form action="{{ url_for('user_add.add_payment', shop_id=shop_id )}}" method="POST">
+          {% if not_can_use_cash_payment_names | length == 1 %}
+            <p>現金が登録されていません</p>
+            <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ not_can_use_cash_payment_names[0]['payment_id']}}" >{{ not_can_use_cash_payment_names[0]["name"] }}を追加する</label>
+          {% endif %}
+          <p>登録されていないクレジットカード</p>
+          {% for credit_name in not_can_use_credit_payment_names %}
+            <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ credit_name['payment_id']}}" >{{ credit_name["name"]}}</label>
+          {% endfor %}
+          <p>登録されていないバーコード・QRコード決済</p>
+          {% for barcode_name in not_can_use_barcode_payment_names %}
+            <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ barcode_name['payment_id']}}" >{{ barcode_name["name"]}}</label>
+          {% endfor %}
+          <p>登録されていない電子マネー</p>
+          {% for electronic_money_name in not_can_use_electronic_money_payment_names %}
+            <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ electronic_money_name['payment_id']}}" >{{ electronic_money_name["name"]}}</label>
+          {% endfor %}
+          <input class="confirm_button" type="submit"  value="確定">
+        </form>
+      {% else %}
+        <p class="not_login_aleart_add_pay">ログインするとこのお店で使える決済サービスを追加できるようになります。</p>
+      {% endif %}
+    </div>
+  </div>
   {# ====フッター==== #}
   <footer>
     <p>©PayView All Rights Reserved.</p>
@@ -479,6 +532,8 @@
     });
   </script>
   <!-- ログインのpopup表示のスクリプト読み込み -->
-    <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
+  <script src="{{ url_for('static', filename='javascript/login_user.js') }}"></script>
+  <!--  ユーザーが情報を追加する際のポップアップを出す -->
+  <script src="{{ url_for('static', filename='javascript/user_add_data_popup.js') }}"></script>
 </body>
 </html>

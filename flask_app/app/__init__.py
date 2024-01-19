@@ -30,6 +30,18 @@ def get_random_string(length):
     random_str = ''.join(secrets.choice(pass_chars) for x in range(length))
     return random_str
 
+
+# 店で使用できない決済サービスを取得
+def get_not_can_use_payment(all_payments, can_use_payments):
+    get_not_can_use_payment_names = [] 
+    can_use_payment_names = [x[0] for x in can_use_payments]
+    for payment in all_payments:
+        if payment["name"] in can_use_payment_names:
+            continue
+        get_not_can_use_payment_names.append(payment)
+
+    return get_not_can_use_payment_names
+
 SECRET_KEY = get_random_string(12)
 
 def create_app():
@@ -85,7 +97,10 @@ def create_app():
         cur = db.cursor(dictionary=True)
         query = "select * from shops where shop_id = %s;"
         cur.execute(query, (shop_id,)) 
-        shop_name = cur.fetchall()[0]["name"]
+        shop = cur.fetchall()[0]
+        shop_name = shop["name"]
+        shop_id = shop["shop_id"]
+
         join_query = """
             select 
             payment_services.payment_id,
@@ -141,6 +156,16 @@ def create_app():
         # カテゴリ欄のデータを取得する
         tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
+        # 決済サービスを追加する機能のために店で使用できない決済をまとめる
+        not_can_use_cash_payment_names = get_not_can_use_payment(all_payments=cash_group,
+                                                                 can_use_payments=cash_payment)
+        not_can_use_barcode_payment_names = get_not_can_use_payment(all_payments=barcode_names, 
+                                                                    can_use_payments=barcode_payments) 
+        not_can_use_credit_payment_names = get_not_can_use_payment(all_payments=credit_names, 
+                                                                   can_use_payments=credit_payments)
+        not_can_use_electronic_money_payment_names = get_not_can_use_payment(all_payments=electronic_money_names, 
+                                                                             can_use_payments=electronic_money_payments)
+        
         # 遷移前のURLを取得
         url = request.referrer
         parsed_url = urlparse(url)
@@ -155,7 +180,8 @@ def create_app():
 
         
         return render_template(
-            "detail.html", 
+            "detail.html",
+            shop_id=shop_id, 
             shop_name=shop_name, 
             barcode_payments=barcode_payments, 
             credit_payments=credit_payments, 
@@ -168,7 +194,11 @@ def create_app():
             electronic_money_names=electronic_money_names, 
             tag_commonly_used_list=tag_commonly_used_list, 
             DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE,
-            web_hierarchy_list=web_hierarchy_list)
+            web_hierarchy_list=web_hierarchy_list,
+            not_can_use_cash_payment_names=not_can_use_cash_payment_names,
+            not_can_use_barcode_payment_names=not_can_use_barcode_payment_names,
+            not_can_use_credit_payment_names=not_can_use_credit_payment_names,
+            not_can_use_electronic_money_payment_names=not_can_use_electronic_money_payment_names)
         
     @app.route("/map")
     def render_map():
