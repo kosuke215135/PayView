@@ -725,17 +725,19 @@
         overflow-y:scroll;; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
-    .popup-content p {
+    .popup_phone {
         color: #B38F00;
         position:fixed;
         top: 40%;
         left: 50%;
         width: 80%;
-        max-height: 80%;
         transform: translate(-50%, -50%);
         font-size: 20px;
         font-family: 'M PLUS Rounded 1c';
         max-height: 80%;
+    }
+    .popup_pc {
+        display:none;
     }
 
     #closeBtn {
@@ -1609,7 +1611,7 @@
         overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
-    .popup-content p {
+    .popup_pc {
         color: #B38F00;
         position:relative;
         top: 40%;
@@ -1619,6 +1621,9 @@
         font-size: 25px;
         font-family: 'M PLUS Rounded 1c';
         max-height: 80%;
+    }
+    .popup_phone {
+        display:none;
     }
 
     #closeBtn {
