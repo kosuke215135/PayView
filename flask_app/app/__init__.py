@@ -157,6 +157,8 @@ def create_app():
         tag_id_name_dict_every_gyou, cash_group, barcode_names, credit_names, electronic_money_names, tag_commonly_used_list = get_category_data()
 
         # 決済サービスを追加する機能のために店で使用できない決済をまとめる
+        not_can_use_cash_payment_names = get_not_can_use_payment(all_payments=cash_group,
+                                                                 can_use_payments=cash_payment)
         not_can_use_barcode_payment_names = get_not_can_use_payment(all_payments=barcode_names, 
                                                                     can_use_payments=barcode_payments) 
         not_can_use_credit_payment_names = get_not_can_use_payment(all_payments=credit_names, 
@@ -193,6 +195,7 @@ def create_app():
             tag_commonly_used_list=tag_commonly_used_list, 
             DROP_DOWN_DISTANCE=DROP_DOWN_DISTANCE,
             web_hierarchy_list=web_hierarchy_list,
+            not_can_use_cash_payment_names=not_can_use_cash_payment_names,
             not_can_use_barcode_payment_names=not_can_use_barcode_payment_names,
             not_can_use_credit_payment_names=not_can_use_credit_payment_names,
             not_can_use_electronic_money_payment_names=not_can_use_electronic_money_payment_names)

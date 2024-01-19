@@ -440,6 +440,10 @@
       {% if g.user %}
         <p>今登録されていない決済サービスの中から"{{ shop_name }}"で使えるものがあればチェックしてください。</p>
         <form action="{{ url_for('user_add.add_payment', shop_id=shop_id )}}" method="POST">
+          {% if not_can_use_cash_payment_names | length == 1 %}
+            <p>現金が登録されていません</p>
+            <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ not_can_use_cash_payment_names[0]['payment_id']}}" >{{ not_can_use_cash_payment_names[0]["name"] }}を追加する</label>
+          {% endif %}
           <p>登録されていないクレジットカード</p>
           {% for credit_name in not_can_use_credit_payment_names %}
             <label><input type="checkbox" class="pay_checkbox"name="payment" value="{{ credit_name['payment_id']}}" >{{ credit_name["name"]}}</label>
