@@ -722,7 +722,7 @@
         height: 60%;
         box-shadow: 0px 5px #dab367;
         z-index: 10000; /* 他の要素よりも前に表示されるように高い値を指定 */
-        overflow-y: auto; /* コンテンツがはみ出した場合にスクロールバーを表示 */
+        overflow-y:scroll;; /* コンテンツがはみ出した場合にスクロールバーを表示 */
     }
 
     .popup-content p {
