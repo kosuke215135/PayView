@@ -141,7 +141,18 @@
         position: relative;
         margin: 10px 10px 0px 10px;
     }
-
+    .select-box::after {
+        content: "";
+        position: absolute;
+        top: 19px;
+        left: 17%;
+        width: 3px;
+        height: 3px;
+        border-top: 2px solid #696969;
+        border-left: 2px solid #696969;
+        transform: translateY(-50%) rotate(-135deg);
+        pointer-events: none; 
+    }
     .select_distance{
         height: 30px;
         width: 20%;
@@ -149,7 +160,11 @@
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
         color: #696969;
-        font-size: 80%;
+        padding: 2px;
+        font-size: 70%;
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0px;
     }
     .search_container{
         position: relative;
@@ -164,6 +179,7 @@
         border: none;
         height: 30px;
         width: 70%;
+        font-size: 80%;
         background-color: #fffaf7
     }
     .search_container input[type="text"]:focus {
@@ -181,6 +197,7 @@
         right:0px;
         top: -5px;
         outline : none;
+        border-radius: 0px;
     } 
     /* ハンバーガーメニュー */
     .hamburger_menu {
