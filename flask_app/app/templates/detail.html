@@ -49,15 +49,17 @@
     <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
-        <select class="select_distance" name="select_distance">
-          {% for i in DROP_DOWN_DISTANCE %}
-            {% if i == -1%}
-              <option value="{{ i }}">すべて</option>
-            {% else %}
-              <option value="{{ i }}" >{{ i }} km</option>
-            {% endif %}
-          {% endfor %}
-        </select>
+        <div class="select-box">
+          <select class="select_distance" name="select_distance">
+            {% for i in DROP_DOWN_DISTANCE %}
+              {% if i == -1%}
+                <option value="{{ i }}">すべて</option>
+              {% else %}
+                <option value="{{ i }}" >{{ i }} km</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
         <div class="search_container">
           <input type="text" name="search_strings" placeholder="キーワードを入力">
           <input type="submit" value="&#xf002">
