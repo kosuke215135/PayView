@@ -39,6 +39,7 @@
     <!-- 検索窓 -->
     <div class="search_div">
       <form action="{{ url_for('search_shop.text_search_map')}}" method="POST">
+      <div class="select-box">
         <select class="select_distance" name="select_distance">
           {% for i in DROP_DOWN_DISTANCE %}
             {% if i == selected_distance%}
@@ -53,6 +54,7 @@
             {% endif %}
           {% endfor %}
         </select>
+      </div>
         <div class="search_container">
           {% if searched_strings == ""%}
             <input type="text" name="search_strings" placeholder="キーワードを入力">

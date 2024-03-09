@@ -1043,9 +1043,22 @@
         top: 70px;
         right: 260px;
     }
+    .select-box::after {
+        content: "";
+        position: absolute;
+        top: 28px;
+        left: 55px;
+        width: 5px;
+        height: 5px;
+        border-top: 2px solid #696969;
+        border-left: 2px solid #696969;
+        transform: translateY(-50%) rotate(-135deg);
+        font-size: 10px;
+        pointer-events: none; 
+    }
     .select_distance{
         height: 38px;
-        width: 50px;
+        width: 60px;
         float: left;
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
