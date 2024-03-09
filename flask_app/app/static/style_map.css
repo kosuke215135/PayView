@@ -151,7 +151,19 @@
         position: relative;
         margin: 10px 10px 0px 10px;
     }
-
+    .select-box::after {
+        content: "";
+        position: absolute;
+        top: 18px;
+        left: 15%;
+        width: 5px;
+        height: 5px;
+        border-top: 2px solid #696969;
+        border-left: 2px solid #696969;
+        transform: translateY(-50%) rotate(-135deg);
+        font-size: 80%;
+        pointer-events: none; 
+    }
     .select_distance{
         height: 30px;
         width: 20%;
@@ -159,7 +171,12 @@
         border: 2px solid #dcdcdc;
         background: #dcdcdc;
         color: #696969;
+        padding: 3px;
         font-size: 80%;
+        appearance: none;
+        -webkit-appearance: none;
+        border-radius: 0px;
+        font-size: 12px;
     }
     .search_container{
         position: relative;
@@ -191,6 +208,7 @@
         right:0px;
         top: -5px;
         outline : none;
+        border-radius: 0px;
     }
 
     /* ハンバーガーメニュー */
