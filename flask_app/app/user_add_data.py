@@ -46,26 +46,16 @@ def add_shop():
     try:
         gm = googlemaps.Client(key=os.environ['ADD_SHOP_API_KEY'])
 
-        res_shop_name = gm.geocode(shop_name)
         res_shop_address = gm.geocode(shop_address)
 
-        lat_lnb_from_shop_name = res_shop_name[0]['geometry']['location']
         lat_lnb_from_shop_address = res_shop_address[0]['geometry']['location']
     except:
         flash("このお店はgoogle mapに登録されていません")
         return redirect(url_for("render_map"))
 
-
-    #存在する店かどうか確認するため、店名と住所で取得した緯度経度を比較する
-    if (round(lat_lnb_from_shop_name['lat'],3) != round(lat_lnb_from_shop_address['lat'],3) 
-        or round(lat_lnb_from_shop_name['lng'],3) != round(lat_lnb_from_shop_address['lng'],3)):
-        flash("このお店はgoogle mapに登録されていません")
-
-        return redirect(url_for("render_map"))
-    
     try:
         cur.execute("insert into shops (name, latitude, longitude) values (%s, %s, %s);",
-                    (shop_name, lat_lnb_from_shop_name['lat'], lat_lnb_from_shop_name['lng']))
+                    (shop_name, lat_lnb_from_shop_address['lat'], lat_lnb_from_shop_address['lng']))
 
         user_name = session.get('user_name')
         cur.execute("insert into user_add_shop_queries (user_id, user_name, shop_name, exe_time) values (%s, %s, %s, %s)",
