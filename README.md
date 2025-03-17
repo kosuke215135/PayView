@@ -40,7 +40,7 @@ enpitで開発したwebアプリ
    pip install -r requirements.txt
    ```
 
-## データベース設定
+### データベース設定
 1. ローカルの MySQL でデータベースを用意する。
 2. mysql_query.sql を用いてテーブルを作成:
    ```bash
@@ -48,7 +48,7 @@ enpitで開発したwebアプリ
    ```
    ※ /path/to/mysql_query.sql の部分を実際のファイルパスに置き換える。
 
-## 環境変数ファイルの準備
+### 環境変数ファイルの準備
 1. ./flask_app/app/.env_template を参考にしながら、同ディレクトリに .env を作成。
 3. .env 内で MySQL の接続先や必要な設定を行う。
 
